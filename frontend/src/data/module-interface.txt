@@ -1,0 +1,52 @@
+unitId: ias-module-01
+moduleId: 01
+title: 
+description:
+objectives: []
+lessons: [
+    {
+        Id: ias-m01-l01
+        lessonNo.: 1.1
+        title: 
+        description:
+        keyTerms: [
+            {
+                word:
+                definition:
+                source:
+            }
+        ]
+        durationMinutes:
+        video: [
+            title:
+            url:
+            provider:
+        ]
+        sections: [
+            {
+                sectionNo.: 01
+                header:
+                imageUrl:
+                imageSource:
+                textContent:
+            }
+        ]
+    }
+]
+references:
+createdAt:
+updatedAt:
+
+
+id, moduleNo, unitId	Identify the module and its parent unit
+title, slug, description	Display the module and support navigation
+learningObjectives	State what students should learn
+estimatedDurationMinutes	Estimate study time
+lessons	Store the ordered lessons in the module
+sections	Divide a lesson into presentable topics
+blocks	Define the content component rendered on screen
+keyTerms	Supply a glossary for the lesson
+knowledgeCheck	Define practice questions
+references	Record learning sources
+status	Control draft, published, or archived state
+createdAt, updatedAt	Track module creation and updates

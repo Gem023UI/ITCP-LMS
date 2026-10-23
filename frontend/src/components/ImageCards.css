@@ -1,0 +1,93 @@
+.image-cards {
+  --card-w: min(39vw, 70svh);
+  position: relative;
+  width: 100%;
+  height: calc(var(--card-w) * 0.82);
+}
+
+/* Reveal wrapper: fills the box, never blocks hover on other cards */
+.image-card-slot {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.image-card-slot[data-slot="left"] {
+  z-index: 1;
+}
+.image-card-slot[data-slot="right"] {
+  z-index: 2;
+}
+.image-card-slot[data-slot="center"] {
+  z-index: 3;
+}
+
+.image-card {
+  --tx: 0%;
+  --ty: 0%;
+  --ry: 0deg;
+  --rz: 0deg;
+  --sc: 1;
+  --hover: 1;
+
+  position: relative;
+  width: var(--card-w);
+  aspect-ratio: 10 / 7;
+  overflow: hidden;
+  pointer-events: auto;
+  border-radius: clamp(14px, 1.8vw, 26px);
+  border: 1px solid rgba(120, 140, 255, 0.7);
+  background: #0a1233;
+  box-shadow:
+    0 0 0 1px rgba(80, 110, 255, 0.12),
+    0 24px 60px rgba(0, 0, 0, 0.6);
+  transform: perspective(1400px) translate(var(--tx), var(--ty))
+    rotateY(var(--ry)) rotateZ(var(--rz)) scale(calc(var(--sc) * var(--hover)));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.image-card:hover {
+  --hover: 1.05;
+}
+
+.image-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.image-card[data-slot="left"] {
+  --tx: -58%;
+  --ty: 8%;
+  --ry: -25deg;
+  --rz: -7deg;
+  --sc: 0.8;
+}
+
+.image-card[data-slot="center"] {
+  --rz: -1.25deg;
+}
+
+.image-card[data-slot="right"] {
+  --tx: 58%;
+  --ty: 8%;
+  --ry: 25deg;
+  --rz: 7deg;
+  --sc: 0.8;
+}
+
+@media (max-width: 720px) {
+  .image-cards {
+    --card-w: min(64vw, 62svh);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-card {
+    transition: none;
+  }
+}
