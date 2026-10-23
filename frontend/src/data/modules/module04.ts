@@ -1,26 +1,40 @@
 
 import type { IASModule } from "../../types/modules";
 
-const VIDEO_URL =
-  "https://www.youtube.com/embed/X-O1-l0gP5Q?si=HTjUXXk8qQ7PmpQm";
+const placeholderImageUrl =
+  "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5p/c3RvY2twaG90/by5jb20vaWQvMjIxNjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ";
 
-const IMAGE_URL =
-  "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ";
+const placeholderVideo = {
+  title: "Introduction to Information Security",
+  url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=WwjFU_8f0WSKrE5_",
+  provider: "YouTube",
+};
 
-const iasModule04: IASModule = {
+const createSection = (
+  sectionNo: string,
+  header: string,
+  textContent: string,
+) => ({
+  sectionNo,
+  header,
+  imageUrl: placeholderImageUrl,
+  imageSource: "User-provided placeholder image URL.",
+  textContent,
+});
+
+const module4: IASModule = {
   unitId: "ias-module-02",
   moduleId: "04",
-  moduleNo: 4,
   title: "Security Governance, Policies, and Compliance",
   description:
     "Covers the management structures, policies, standards, and compliance practices used to direct an information security program.",
   objectives: [
-    "Explain the purpose of security governance and its role in organizational accountability.",
+    "Explain the purpose of security governance and organizational accountability.",
     "Differentiate information security policies, standards, procedures, and guidelines.",
-    "Identify the responsibilities of key stakeholders in an information security program.",
-    "Explain the importance of security awareness, audits, and compliance.",
-    "Describe how security metrics, program management, and maturity assessments support continuous improvement.",
-    "Recognize the role of security frameworks and supply-chain governance in managing organizational risk.",
+    "Identify the responsibilities of key information security stakeholders.",
+    "Explain how awareness training, audits, and compliance activities support security.",
+    "Describe how metrics, frameworks, and maturity assessments guide security improvements.",
+    "Explain how organizations establish security expectations for suppliers and service providers.",
   ],
   lessons: [
     {
@@ -33,89 +47,35 @@ const iasModule04: IASModule = {
         {
           word: "Security Governance",
           definition:
-            "The leadership structures and processes used to direct, oversee, and evaluate information security.",
-          source: "NIST Cybersecurity Framework 2.0",
+            "The leadership structures and processes used to direct and oversee information security.",
+          source: "NIST Cybersecurity Framework",
         },
         {
           word: "Accountability",
           definition:
-            "The obligation of an individual or organization to explain and take responsibility for decisions and outcomes.",
+            "The obligation to explain decisions, actions, and outcomes to the appropriate authority.",
+          source: "NIST SP 800-53",
         },
         {
           word: "Risk Appetite",
           definition:
             "The amount and type of risk an organization is willing to accept while pursuing its objectives.",
+          source: "NIST SP 800-39",
         },
       ],
-      durationMinutes: 25,
-      video: [
-        {
-          title: "Information Security Governance",
-          url: VIDEO_URL,
-          provider: "youtube",
-        },
-      ],
+      durationMinutes: 20,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.1.1",
-          header: "Understanding Security Governance",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Security governance establishes how an organization directs and oversees the protection of its information, systems, and technology resources. It connects security decisions to business objectives, legal obligations, and organizational risk.",
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Core Governance Activities",
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Establishing security objectives and organizational priorities.",
-                "Assigning authority, responsibilities, and accountability.",
-                "Approving policies, risk decisions, and security investments.",
-                "Monitoring security performance and reporting significant risks.",
-                "Reviewing the effectiveness of the security program.",
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Governance and Management",
-            },
-            {
-              type: "table",
-              headers: ["Aspect", "Governance", "Management"],
-              rows: [
-                [
-                  "Primary concern",
-                  "Direction and oversight",
-                  "Execution and coordination",
-                ],
-                [
-                  "Typical activities",
-                  "Approving strategy and risk appetite",
-                  "Implementing controls and plans",
-                ],
-                [
-                  "Example",
-                  "Leadership approves a security policy",
-                  "IT implements the policy's access controls",
-                ],
-              ],
-            },
-            {
-              type: "callout",
-              variant: "important",
-              title: "Key Principle",
-              text:
-                "Information security is an organizational responsibility. It should be supported by leadership rather than treated solely as a technical task assigned to IT.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "Purpose of Security Governance",
+          "Security governance connects information security with an organization's mission, objectives, and risk tolerance. It establishes who makes security decisions, who oversees implementation, and how performance is evaluated. Effective governance ensures that security is treated as an organizational responsibility rather than solely an IT concern.",
+        ),
+        createSection(
+          "02",
+          "Leadership and Oversight",
+          "Senior leaders establish priorities, approve policies, allocate resources, and review significant risks. Security managers coordinate the program, while system owners and operational teams implement safeguards. Governance also establishes reporting and escalation channels so that important security issues reach the appropriate decision-makers.",
+        ),
       ],
     },
     {
@@ -128,80 +88,35 @@ const iasModule04: IASModule = {
         {
           word: "Security Policy",
           definition:
-            "An approved statement of management intent, requirements, and expectations for protecting organizational information and resources.",
+            "An approved statement of management intent, rules, and requirements for protecting information and systems.",
+          source: "NIST SP 800-12",
         },
         {
-          word: "Acceptable Use Policy",
+          word: "Acceptable Use",
           definition:
-            "A policy defining permitted and prohibited uses of organizational systems, networks, and information.",
+            "Rules describing the permitted and prohibited use of organizational technology and information.",
+          source: "NIST SP 800-12",
         },
         {
           word: "Policy Enforcement",
           definition:
-            "The mechanisms used to ensure that established policy requirements are followed.",
+            "The processes used to communicate, apply, monitor, and address violations of established policies.",
+          source: "NIST SP 800-12",
         },
       ],
-      durationMinutes: 25,
-      video: [
-        {
-          title: "Information Security Policies",
-          url: VIDEO_URL,
-          provider: "youtube",
-        },
-      ],
+      durationMinutes: 20,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.2.1",
-          header: "Purpose and Scope of Security Policies",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "An information security policy communicates management's expectations for protecting information assets. It establishes requirements that guide employee behavior, technical decisions, and organizational security activities.",
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Common Security Policies",
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Access Control Policy: defines how access to systems and information is authorized.",
-                "Password and Authentication Policy: establishes authentication requirements.",
-                "Acceptable Use Policy: defines appropriate use of organizational technology.",
-                "Data Classification Policy: establishes categories for handling information.",
-                "Incident Response Policy: defines high-level expectations for handling security incidents.",
-                "Remote Access Policy: establishes requirements for accessing systems outside approved facilities.",
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Characteristics of an Effective Policy",
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Clearly defines its purpose and scope.",
-                "Uses understandable and unambiguous language.",
-                "Assigns responsibility for compliance and enforcement.",
-                "Receives approval from the appropriate authority.",
-                "Is communicated to affected personnel.",
-                "Is reviewed and updated when risks or requirements change.",
-              ],
-            },
-            {
-              type: "callout",
-              variant: "tip",
-              title: "Practical Example",
-              text:
-                "A university policy may require staff to use approved storage services for student records instead of saving sensitive information in personal cloud accounts.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "Purpose and Scope of Security Policies",
+          "An information security policy communicates management's expectations for protecting organizational information. It may cover access to systems, password management, data classification, remote work, incident reporting, and acceptable technology use. A clear policy identifies its scope, responsible parties, required behavior, and approval authority.",
+        ),
+        createSection(
+          "02",
+          "Policy Development and Maintenance",
+          "Policies should reflect organizational objectives, business risks, legal obligations, and operational needs. They require formal approval, accessible documentation, communication to affected personnel, and periodic review. Organizations should update policies when systems, threats, regulations, or business requirements change and address violations through established procedures.",
+        ),
       ],
     },
     {
@@ -214,101 +129,35 @@ const iasModule04: IASModule = {
         {
           word: "Standard",
           definition:
-            "A specific, consistent requirement that supports and implements a policy.",
+            "A mandatory, specific requirement that supports a policy and promotes consistent implementation.",
+          source: "NIST SP 800-12",
         },
         {
           word: "Procedure",
           definition:
-            "A documented sequence of steps for completing a task or process consistently.",
+            "A documented sequence of steps for completing a task consistently and correctly.",
+          source: "NIST SP 800-12",
         },
         {
           word: "Guideline",
           definition:
-            "Recommended practices that help people make appropriate decisions without necessarily imposing mandatory requirements.",
+            "A recommended practice that provides direction while allowing appropriate flexibility.",
+          source: "NIST SP 800-12",
         },
       ],
-      durationMinutes: 25,
-      video: [
-        {
-          title: "Policies, Standards, Procedures, and Guidelines",
-          url: VIDEO_URL,
-          provider: "youtube",
-        },
-      ],
+      durationMinutes: 20,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.3.1",
-          header: "Turning Policy into Practice",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Policies establish what an organization expects. Standards define specific requirements, procedures explain how to perform activities, and guidelines provide recommendations for applying sound practices.",
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Comparison of Governance Documents",
-            },
-            {
-              type: "table",
-              headers: [
-                "Document",
-                "Purpose",
-                "Example",
-                "Typical status",
-              ],
-              rows: [
-                [
-                  "Policy",
-                  "States organizational intent and rules",
-                  "Sensitive data must be protected",
-                  "Mandatory organizational requirement",
-                ],
-                [
-                  "Standard",
-                  "Defines specific requirements",
-                  "Approved systems must use a specified encryption standard",
-                  "Mandatory within its scope",
-                ],
-                [
-                  "Procedure",
-                  "Provides step-by-step instructions",
-                  "Steps for granting a new employee system access",
-                  "Followed when performing the process",
-                ],
-                [
-                  "Guideline",
-                  "Recommends good practices",
-                  "Recommendations for secure remote work",
-                  "Generally advisory",
-                ],
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "How They Work Together",
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "A policy requires that access to sensitive data be restricted.",
-                "A standard specifies approved authentication and access requirements.",
-                "A procedure explains how administrators grant, review, and revoke access.",
-                "A guideline recommends additional practices for reducing account compromise.",
-              ],
-            },
-            {
-              type: "callout",
-              variant: "info",
-              title: "Remember",
-              text:
-                "The exact mandatory status of a standard or procedure depends on the organization's governance rules and the document's approved scope.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "From Policy to Implementation",
+          "Policies establish what an organization requires, while standards define specific mandatory criteria. For example, a password policy may require strong authentication, while a technical standard specifies approved password settings or multi-factor authentication requirements. These documents help translate management expectations into consistent security controls.",
+        ),
+        createSection(
+          "02",
+          "Procedures and Guidelines in Practice",
+          "Procedures explain how personnel perform recurring activities, such as creating user accounts, reviewing access, or responding to incidents. Guidelines recommend effective practices without necessarily imposing mandatory requirements. Together, these documents help employees apply policies consistently and provide operational teams with clear instructions.",
+        ),
       ],
     },
     {
@@ -322,89 +171,34 @@ const iasModule04: IASModule = {
           word: "Chief Information Security Officer (CISO)",
           definition:
             "A senior leader responsible for directing or overseeing an organization's information security program.",
+          source: "NIST SP 800-12",
         },
         {
           word: "System Owner",
           definition:
-            "The individual accountable for a system's operation, business purpose, and associated risk decisions within their authority.",
+            "The individual accountable for a system's operation, requirements, and associated security responsibilities.",
+          source: "NIST SP 800-37",
         },
         {
           word: "Separation of Duties",
           definition:
-            "A control that divides sensitive responsibilities among multiple people to reduce errors, misuse, and fraud.",
+            "A control that divides critical responsibilities among multiple people to reduce errors, misuse, and fraud.",
+          source: "NIST SP 800-53",
         },
       ],
-      durationMinutes: 25,
-      video: [
-        {
-          title: "Information Security Roles and Responsibilities",
-          url: VIDEO_URL,
-          provider: "youtube",
-        },
-      ],
+      durationMinutes: 20,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.4.1",
-          header: "Assigning Security Responsibilities",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Clearly assigned responsibilities help ensure that security tasks are performed, risks are escalated, and decisions are made by authorized individuals. Role assignments vary by organizational size, structure, and regulatory requirements.",
-            },
-            {
-              type: "table",
-              headers: ["Role", "Typical responsibilities"],
-              rows: [
-                [
-                  "Executive leadership",
-                  "Approves security direction, resources, and significant risk decisions.",
-                ],
-                [
-                  "CISO or security manager",
-                  "Coordinates the security program, policies, risk reporting, and security initiatives.",
-                ],
-                [
-                  "System owner",
-                  "Defines system requirements, approves appropriate access, and addresses system risks.",
-                ],
-                [
-                  "System administrator",
-                  "Configures, maintains, and monitors systems according to approved requirements.",
-                ],
-                [
-                  "Data owner or steward",
-                  "Defines data classification, handling requirements, and authorized use within assigned responsibilities.",
-                ],
-                [
-                  "Internal auditor",
-                  "Independently evaluates controls and reports findings.",
-                ],
-                [
-                  "End user",
-                  "Follows policies, protects credentials, and reports suspicious activity.",
-                ],
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Separation of Duties",
-            },
-            {
-              type: "paragraph",
-              text:
-                "Separation of duties reduces the chance that one person can perform an entire sensitive process without oversight. For example, the employee who requests a payment should not be the only person who approves and executes it.",
-            },
-            {
-              type: "callout",
-              variant: "warning",
-              title: "Avoid Unclear Ownership",
-              text:
-                "When no individual is accountable for a control or risk, security issues can remain unresolved. Document ownership and escalation paths clearly.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "Key Security Stakeholders",
+          "Information security depends on clearly assigned responsibilities. Security officers coordinate security strategy and risk management. System owners oversee system-specific requirements, administrators configure and maintain technical safeguards, auditors independently evaluate controls, and ordinary users follow policies and report suspicious activity. Management remains responsible for providing oversight and resources.",
+        ),
+        createSection(
+          "02",
+          "Responsibility, Authorization, and Separation of Duties",
+          "Organizations should document who approves access, implements controls, reviews evidence, and accepts risk. Separation of duties prevents one person from controlling every stage of a sensitive process. For example, one employee may request a payment while another approves it. Clear responsibility assignments reduce ambiguity and strengthen accountability.",
+        ),
       ],
     },
     {
@@ -417,89 +211,35 @@ const iasModule04: IASModule = {
         {
           word: "Security Awareness",
           definition:
-            "Activities that help people recognize security risks and understand their responsibilities.",
+            "Activities that help people recognize security risks and understand their individual responsibilities.",
+          source: "NIST SP 800-50 Rev. 1",
         },
         {
           word: "Security Training",
           definition:
-            "Instruction that develops the knowledge and practical skills needed to perform security-related tasks.",
+            "Instruction designed to develop the knowledge and skills needed to perform security-related responsibilities.",
+          source: "NIST SP 800-50 Rev. 1",
         },
         {
-          word: "Phishing",
+          word: "Phishing Simulation",
           definition:
-            "A deceptive attempt to obtain information or induce an action by impersonating a trusted person or organization.",
+            "A controlled exercise that evaluates how participants recognize and respond to simulated phishing attempts.",
+          source: "NIST SP 800-50 Rev. 1",
         },
       ],
-      durationMinutes: 25,
-      video: [
-        {
-          title: "Security Awareness and Training",
-          url: VIDEO_URL,
-          provider: "youtube",
-        },
-      ],
+      durationMinutes: 20,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.5.1",
-          header: "Building a Security-Aware Organization",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "People are an important part of an organization's security defenses. Awareness and training programs help personnel recognize threats, understand policies, and respond appropriately to suspicious activity.",
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Awareness, Training, and Education",
-            },
-            {
-              type: "table",
-              headers: ["Activity", "Main goal", "Example"],
-              rows: [
-                [
-                  "Awareness",
-                  "Recognize risks and responsibilities",
-                  "A campaign about suspicious email attachments",
-                ],
-                [
-                  "Training",
-                  "Learn how to perform a task",
-                  "Practicing the process for reporting an incident",
-                ],
-                [
-                  "Education",
-                  "Develop broader knowledge and understanding",
-                  "Studying security management and risk analysis",
-                ],
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Recommended Program Activities",
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Provide security orientation for new personnel.",
-                "Teach employees to recognize phishing and social engineering.",
-                "Explain password, authentication, and data-handling requirements.",
-                "Conduct role-specific training for administrators and security personnel.",
-                "Practice incident reporting and response procedures.",
-                "Evaluate learning and update training based on observed risks.",
-              ],
-            },
-            {
-              type: "callout",
-              variant: "important",
-              title: "Measure Behavior, Not Just Attendance",
-              text:
-                "Training attendance alone does not prove effectiveness. Use assessments, incident trends, and other appropriate indicators to determine whether personnel understand and apply secure practices.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "Building a Security-Aware Workforce",
+          "Employees can unintentionally expose an organization to risk by clicking malicious links, sharing credentials, mishandling sensitive data, or ignoring updates. Awareness programs explain common threats and expected behavior. Topics may include phishing, social engineering, secure passwords, multi-factor authentication, privacy, physical security, and incident reporting.",
+        ),
+        createSection(
+          "02",
+          "Training Effectiveness and Improvement",
+          "Training should reflect participants' responsibilities and the risks they encounter. New employees may receive introductory training, while administrators and security personnel need role-specific instruction. Organizations can evaluate effectiveness through assessments, simulations, reporting behavior, and incident trends, then improve content based on identified knowledge gaps.",
+        ),
       ],
     },
     {
@@ -512,89 +252,35 @@ const iasModule04: IASModule = {
         {
           word: "Security Audit",
           definition:
-            "A systematic examination of security controls, records, and practices against defined criteria.",
+            "A structured examination of security practices, evidence, and controls against defined criteria.",
+          source: "NIST SP 800-53",
         },
         {
           word: "Audit Evidence",
           definition:
-            "Information collected to support audit observations, conclusions, and findings.",
+            "Records, observations, interviews, or other information used to support audit findings and conclusions.",
+          source: "NIST SP 800-53",
         },
         {
-          word: "Audit Finding",
+          word: "Finding",
           definition:
-            "A documented result identifying a condition, deficiency, or area of improvement against established criteria.",
+            "A documented result identifying a condition that meets or does not meet an audit criterion.",
+          source: "NIST SP 800-53",
         },
       ],
-      durationMinutes: 30,
-      video: [
-        {
-          title: "Information Security Auditing",
-          url: VIDEO_URL,
-          provider: "youtube",
-        },
-      ],
+      durationMinutes: 20,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.6.1",
-          header: "Purpose and Process of Security Audits",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Security audits provide evidence about whether an organization's controls meet established requirements. They can identify weaknesses, verify compliance, and support management decisions about remediation and improvement.",
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Common Audit Activities",
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Define the audit scope, objectives, criteria, and applicable systems.",
-                "Review relevant policies, procedures, and records.",
-                "Interview personnel and examine control configurations.",
-                "Collect and evaluate sufficient, appropriate evidence.",
-                "Document findings and assess their significance.",
-                "Report results and track corrective actions.",
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Design and Operating Effectiveness",
-            },
-            {
-              type: "table",
-              headers: ["Evaluation", "Key question", "Example"],
-              rows: [
-                [
-                  "Control design",
-                  "Would the control address the intended risk if implemented correctly?",
-                  "Does the access review process require an authorized reviewer?",
-                ],
-                [
-                  "Implementation",
-                  "Has the control been put in place?",
-                  "Is an access review process documented and configured?",
-                ],
-                [
-                  "Operating effectiveness",
-                  "Does the control work consistently in practice?",
-                  "Are reviews completed on schedule and exceptions resolved?",
-                ],
-              ],
-            },
-            {
-              type: "callout",
-              variant: "tip",
-              title: "Independence Matters",
-              text:
-                "Auditors should maintain appropriate objectivity and avoid evaluating their own work when doing so would impair independence.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "Purpose and Scope of Security Audits",
+          "Security audits help determine whether an organization follows its policies, meets applicable requirements, and maintains effective safeguards. Depending on the scope, an audit may examine access records, system configurations, incident reports, change management, backups, or vendor documentation. Audit criteria should be established before evidence is collected.",
+        ),
+        createSection(
+          "02",
+          "Audit Evidence and Corrective Actions",
+          "Auditors collect and evaluate evidence through document reviews, interviews, observations, and technical testing where authorized. Findings should explain the condition, supporting evidence, applicable criteria, and potential impact. Management then assigns corrective actions, responsible owners, and target dates, followed by verification to determine whether identified issues were addressed.",
+        ),
       ],
     },
     {
@@ -607,89 +293,35 @@ const iasModule04: IASModule = {
         {
           word: "Compliance",
           definition:
-            "Conformance with applicable legal, regulatory, contractual, and organizational requirements.",
+            "Conformance with applicable legal, regulatory, contractual, or organizational requirements.",
+          source: "NIST Cybersecurity Framework",
         },
         {
-          word: "Regulation",
+          word: "Regulatory Requirement",
           definition:
-            "A binding requirement issued by a government or authorized regulatory body.",
+            "An obligation established by an applicable law or regulation that an organization must follow.",
+          source: "Applicable laws and regulations",
         },
         {
-          word: "Noncompliance",
+          word: "Compliance Gap",
           definition:
-            "Failure to meet an applicable requirement or obligation.",
+            "A difference between a required condition and the organization's current practices or controls.",
+          source: "NIST Cybersecurity Framework",
         },
       ],
-      durationMinutes: 30,
-      video: [
-        {
-          title: "Information Security Compliance",
-          url: VIDEO_URL,
-          provider: "youtube",
-        },
-      ],
+      durationMinutes: 20,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.7.1",
-          header: "Understanding Compliance Obligations",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Organizations may have security obligations arising from laws, regulations, contracts, industry standards, and internal policies. Compliance activities identify applicable requirements, assign responsibility, implement controls, and maintain evidence that obligations are being met.",
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Common Sources of Requirements",
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Laws governing privacy, personal information, and records.",
-                "Sector-specific regulations and regulatory directives.",
-                "Customer and business-partner contractual obligations.",
-                "Security standards or certification requirements adopted by the organization.",
-                "Internal policies and approved governance documents.",
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Examples of Security-Related Frameworks and Laws",
-            },
-            {
-              type: "table",
-              headers: ["Requirement", "General relevance"],
-              rows: [
-                [
-                  "Philippines Data Privacy Act of 2012 (RA 10173)",
-                  "Establishes obligations relating to the processing and protection of personal information in the Philippines.",
-                ],
-                [
-                  "ISO/IEC 27001",
-                  "Specifies requirements for establishing, implementing, maintaining, and continually improving an information security management system.",
-                ],
-                [
-                  "PCI DSS",
-                  "Defines technical and operational requirements for protecting payment account data within its scope.",
-                ],
-                [
-                  "Contractual security clauses",
-                  "May require particular controls, reporting timelines, or evidence from a service provider.",
-                ],
-              ],
-            },
-            {
-              type: "callout",
-              variant: "warning",
-              title: "Compliance Depends on Scope",
-              text:
-                "Not every law, standard, or framework applies to every organization. Applicability depends on factors such as jurisdiction, data processed, industry, contracts, and the organization's activities.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "Sources of Compliance Requirements",
+          "Organizations may have obligations arising from privacy and data protection laws, sector-specific regulations, customer contracts, procurement terms, and adopted security standards. Applicable requirements depend on the organization's location, industry, activities, and the types of information it handles. A compliance inventory helps identify obligations and the teams responsible for addressing them.",
+        ),
+        createSection(
+          "02",
+          "Monitoring and Demonstrating Compliance",
+          "Organizations demonstrate compliance through documented policies, control records, assessments, audit reports, and other relevant evidence. Compliance reviews identify gaps that require remediation, while assigned owners track corrective actions to completion. Meeting a compliance requirement does not automatically eliminate risk; controls must also be appropriate and effective for the organization's circumstances.",
+        ),
       ],
     },
     {
@@ -702,98 +334,35 @@ const iasModule04: IASModule = {
         {
           word: "Security Metric",
           definition:
-            "A measurement used to evaluate a security activity, control, or outcome.",
+            "A measurable value used to evaluate a security activity, condition, or outcome.",
+          source: "NIST SP 800-55",
         },
         {
           word: "Key Performance Indicator (KPI)",
           definition:
             "A measure used to evaluate progress toward a defined performance objective.",
+          source: "NIST SP 800-55",
         },
         {
           word: "Key Risk Indicator (KRI)",
           definition:
-            "A measure used to monitor exposure to a particular risk or changes in risk conditions.",
+            "A measure used to signal changes in exposure to a particular risk.",
+          source: "NIST SP 800-55",
         },
       ],
-      durationMinutes: 25,
-      video: [
-        {
-          title: "Security Metrics and Reporting",
-          url: VIDEO_URL,
-          provider: "youtube",
-        },
-      ],
+      durationMinutes: 20,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.8.1",
-          header: "Measuring Security Performance",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Security metrics help organizations understand whether controls and security initiatives are achieving their intended outcomes. Useful reporting connects measurements to risks, objectives, thresholds, and decisions rather than simply counting activities.",
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Examples of Security Metrics",
-            },
-            {
-              type: "table",
-              headers: ["Metric", "What it measures", "Possible interpretation"],
-              rows: [
-                [
-                  "Patch compliance rate",
-                  "Percentage of applicable systems meeting patch requirements",
-                  "A low rate may indicate increased exposure to known vulnerabilities.",
-                ],
-                [
-                  "Mean time to detect",
-                  "Average time taken to identify an incident",
-                  "A rising value may indicate detection gaps.",
-                ],
-                [
-                  "Mean time to respond",
-                  "Average time taken to respond to an incident",
-                  "A high value may indicate response delays.",
-                ],
-                [
-                  "Training completion rate",
-                  "Percentage of assigned personnel completing training",
-                  "A low rate indicates incomplete program participation.",
-                ],
-                [
-                  "Open high-risk findings",
-                  "Number of unresolved high-risk issues",
-                  "A rising count may require escalation and remediation planning.",
-                ],
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Qualities of Useful Metrics",
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Relevant to a defined security objective or risk.",
-                "Clearly defined, consistently collected, and verifiable.",
-                "Reported with appropriate context and time periods.",
-                "Compared with suitable targets, baselines, or thresholds.",
-                "Used to guide action, resource allocation, and improvement.",
-              ],
-            },
-            {
-              type: "callout",
-              variant: "tip",
-              title: "Interpret Metrics Carefully",
-              text:
-                "A high number of reported incidents does not automatically mean security is getting worse. It may also reflect better detection and a stronger reporting culture.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "Measuring Security Performance",
+          "Security metrics provide evidence about whether security activities are achieving their intended outcomes. Examples include the percentage of systems receiving timely patches, completion rates for awareness training, time required to resolve vulnerabilities, and the proportion of critical assets covered by monitoring. Each metric should have a clear definition, data source, owner, and reporting frequency.",
+        ),
+        createSection(
+          "02",
+          "Reporting and Decision-Making",
+          "Security reports communicate trends, control weaknesses, incidents, and progress toward objectives. Technical teams may need detailed operational data, while executives generally need concise summaries of business impact, risk exposure, and decisions requiring approval. Metrics should be interpreted in context: a rising incident count, for example, may reflect increased attacks or improved detection and reporting.",
+        ),
       ],
     },
     {
@@ -806,99 +375,35 @@ const iasModule04: IASModule = {
         {
           word: "Security Program",
           definition:
-            "A coordinated set of governance activities, processes, people, and controls designed to manage information security across an organization.",
+            "A coordinated set of governance activities, policies, processes, personnel, and controls that manage security risks.",
+          source: "NIST SP 800-37",
         },
         {
           word: "Security Roadmap",
           definition:
-            "A planned sequence of security initiatives and milestones aligned with organizational priorities.",
+            "A planned sequence of initiatives and milestones for achieving security objectives over time.",
+          source: "NIST Cybersecurity Framework",
         },
         {
-          word: "Remediation",
+          word: "Continuous Improvement",
           definition:
-            "Action taken to correct a security weakness, deficiency, or noncompliant condition.",
+            "An ongoing process of evaluating results and making changes to improve program effectiveness.",
+          source: "NIST Cybersecurity Framework",
         },
       ],
-      durationMinutes: 30,
-      video: [
-        {
-          title: "Information Security Program Management",
-          url: VIDEO_URL,
-          provider: "youtube",
-        },
-      ],
+      durationMinutes: 20,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.9.1",
-          header: "Managing a Security Program",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Security program management coordinates security policies, risk management, people, technologies, and resources into a sustained organizational effort. It ensures that individual projects contribute to broader security objectives.",
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Core Program Management Activities",
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Assess current security capabilities, obligations, and risks.",
-                "Define objectives, priorities, and measurable outcomes.",
-                "Develop a roadmap, budget, schedule, and resource plan.",
-                "Assign owners and coordinate implementation across teams.",
-                "Monitor progress, risks, findings, and performance metrics.",
-                "Report results to leadership and revise plans as needed.",
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Prioritizing Security Initiatives",
-            },
-            {
-              type: "paragraph",
-              text:
-                "Organizations often have more security improvements to complete than available resources can support at once. Prioritization should consider risk severity, legal obligations, business impact, implementation effort, dependencies, and available resources.",
-            },
-            {
-              type: "table",
-              headers: ["Initiative", "Risk or objective", "Example priority factor"],
-              rows: [
-                [
-                  "Enable multifactor authentication",
-                  "Reduce account compromise risk",
-                  "Exposure of privileged or remote accounts",
-                ],
-                [
-                  "Improve backup recovery",
-                  "Reduce disruption and data loss",
-                  "Criticality of systems and recovery requirements",
-                ],
-                [
-                  "Update security policies",
-                  "Clarify requirements and accountability",
-                  "New obligations or significant policy gaps",
-                ],
-                [
-                  "Conduct staff training",
-                  "Reduce human-related security risks",
-                  "Observed phishing trends and role-specific exposure",
-                ],
-              ],
-            },
-            {
-              type: "callout",
-              variant: "important",
-              title: "Continuous Improvement",
-              text:
-                "A security program should be reviewed and adjusted as business objectives, technology, threats, incidents, and compliance obligations change.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "Planning and Coordinating Security Initiatives",
+          "Security program management aligns people, processes, technology, and funding with organizational priorities. Program activities may include risk assessments, policy development, security awareness, vulnerability management, incident response, and compliance monitoring. A roadmap organizes these initiatives into achievable milestones based on risk, available resources, and business needs.",
+        ),
+        createSection(
+          "02",
+          "Evaluating and Improving the Program",
+          "Program managers track project milestones, control effectiveness, resource use, and changes in the risk environment. Assessment findings, incident lessons, audit results, and performance metrics help identify areas for improvement. Management should periodically review priorities and adjust the roadmap so the program remains relevant as organizational objectives and threats evolve.",
+        ),
       ],
     },
     {
@@ -909,101 +414,37 @@ const iasModule04: IASModule = {
         "Introduces structured approaches such as NIST CSF, ISO/IEC 27001, and CIS Controls.",
       keyTerms: [
         {
-          word: "Security Framework",
-          definition:
-            "A structured set of concepts, practices, or requirements that helps organizations organize and improve information security.",
-        },
-        {
           word: "NIST Cybersecurity Framework (CSF)",
           definition:
-            "A framework that helps organizations understand, assess, prioritize, and communicate cybersecurity risks.",
+            "A framework that helps organizations understand, assess, prioritize, and communicate cybersecurity risk.",
           source: "NIST Cybersecurity Framework 2.0",
         },
         {
-          word: "Information Security Management System (ISMS)",
+          word: "ISO/IEC 27001",
           definition:
-            "A coordinated management system for establishing, operating, evaluating, and continually improving information security.",
-          source: "ISO/IEC 27001",
+            "An international standard specifying requirements for establishing, implementing, maintaining, and continually improving an information security management system.",
+          source: "ISO/IEC 27001:2022",
         },
-      ],
-      durationMinutes: 35,
-      video: [
         {
-          title: "Information Security Frameworks",
-          url: VIDEO_URL,
-          provider: "youtube",
+          word: "CIS Controls",
+          definition:
+            "A prioritized set of safeguards designed to help organizations defend against common cybersecurity threats.",
+          source: "Center for Internet Security",
         },
       ],
+      durationMinutes: 25,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.10.1",
-          header: "Why Organizations Use Security Frameworks",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Security frameworks provide a structured way to organize security activities, assess current capabilities, identify gaps, and prioritize improvements. They support consistent planning and communication but do not automatically guarantee that an organization is secure.",
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Common Frameworks",
-            },
-            {
-              type: "table",
-              headers: ["Framework", "Primary focus", "Typical use"],
-              rows: [
-                [
-                  "NIST Cybersecurity Framework 2.0",
-                  "Cybersecurity risk outcomes and organizational risk management",
-                  "Organizing and assessing cybersecurity activities",
-                ],
-                [
-                  "ISO/IEC 27001",
-                  "Requirements for an information security management system",
-                  "Establishing and continually improving an ISMS; certification may be pursued",
-                ],
-                [
-                  "CIS Critical Security Controls",
-                  "Prioritized safeguards against common cyber threats",
-                  "Selecting and implementing practical security safeguards",
-                ],
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "NIST CSF 2.0 Core Functions",
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Govern: establish and monitor cybersecurity risk strategy, expectations, and responsibilities.",
-                "Identify: understand assets, context, and cybersecurity risks.",
-                "Protect: implement safeguards to reduce cybersecurity risk.",
-                "Detect: identify possible cybersecurity events.",
-                "Respond: take action concerning detected cybersecurity incidents.",
-                "Recover: restore affected capabilities and services.",
-              ],
-            },
-            {
-              type: "image",
-              url: IMAGE_URL,
-              alt:
-                "IT professional reviewing information systems and security-related information",
-              caption:
-                "Security frameworks help organize technical controls and management activities into a coordinated program.",
-            },
-            {
-              type: "callout",
-              variant: "info",
-              title: "Choosing a Framework",
-              text:
-                "Framework selection depends on organizational objectives, risks, industry, regulatory obligations, resources, and customer expectations. Organizations may use more than one framework when appropriate.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "Purpose of Security Frameworks",
+          "Security frameworks organize security activities into recognizable practices, outcomes, or requirements. The NIST CSF 2.0 uses six functions: Govern, Identify, Protect, Detect, Respond, and Recover. ISO/IEC 27001 specifies requirements for an information security management system, while CIS Controls provides prioritized safeguards. These approaches can help organizations structure and communicate security work.",
+        ),
+        createSection(
+          "02",
+          "Selecting and Applying a Framework",
+          "Framework selection depends on organizational goals, risk exposure, customer expectations, regulatory obligations, resources, and existing processes. An organization can assess its current practices, identify gaps, prioritize improvements, and establish a target state. Frameworks are not interchangeable in every respect, and adopting one does not automatically guarantee security or legal compliance.",
+        ),
       ],
     },
     {
@@ -1016,99 +457,35 @@ const iasModule04: IASModule = {
         {
           word: "Security Maturity",
           definition:
-            "The extent to which security practices are established, repeatable, measured, managed, and improved.",
+            "The degree to which security practices are established, repeatable, measured, and continually improved.",
+          source: "NIST Cybersecurity Framework",
         },
         {
-          word: "Maturity Assessment",
+          word: "Current State",
           definition:
-            "An evaluation of an organization's practices and capabilities against defined criteria or maturity levels.",
+            "A documented view of the organization's existing security practices and capabilities.",
+          source: "NIST Cybersecurity Framework",
         },
         {
-          word: "Gap Analysis",
+          word: "Target State",
           definition:
-            "A comparison of current conditions with desired requirements or target capabilities.",
+            "A defined set of desired security outcomes that guide improvement priorities.",
+          source: "NIST Cybersecurity Framework",
         },
       ],
-      durationMinutes: 30,
-      video: [
-        {
-          title: "Security Maturity Assessment",
-          url: VIDEO_URL,
-          provider: "youtube",
-        },
-      ],
+      durationMinutes: 20,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.11.1",
-          header: "Evaluating Security Maturity",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "A security maturity assessment evaluates how consistently and effectively an organization performs security activities. It helps identify gaps, establish a baseline, and plan improvements based on business needs and risk.",
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Illustrative Maturity Levels",
-            },
-            {
-              type: "table",
-              headers: ["Level", "Description", "Example"],
-              rows: [
-                [
-                  "1 — Initial",
-                  "Practices are largely informal or reactive.",
-                  "Access reviews occur only after a problem is discovered.",
-                ],
-                [
-                  "2 — Developing",
-                  "Some practices are documented but inconsistently applied.",
-                  "Certain departments perform scheduled access reviews.",
-                ],
-                [
-                  "3 — Defined",
-                  "Standardized processes are documented and communicated.",
-                  "An organization-wide access review procedure exists.",
-                ],
-                [
-                  "4 — Managed",
-                  "Performance is measured and monitored against defined criteria.",
-                  "Review completion and overdue exceptions are tracked.",
-                ],
-                [
-                  "5 — Improving",
-                  "Practices are regularly evaluated and improved using evidence.",
-                  "Review processes are refined based on findings and changing risks.",
-                ],
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Assessment Process",
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Define the scope and assessment criteria.",
-                "Collect evidence from documents, interviews, observations, and system records.",
-                "Evaluate current practices against the selected criteria.",
-                "Identify gaps, strengths, dependencies, and improvement opportunities.",
-                "Set target maturity levels appropriate to organizational needs.",
-                "Create an improvement roadmap and reassess progress periodically.",
-              ],
-            },
-            {
-              type: "callout",
-              variant: "warning",
-              title: "Maturity Is Not the Same as Security",
-              text:
-                "A higher maturity score does not automatically mean lower risk. An organization must still assess whether its controls address the actual threats and business risks it faces.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "Understanding Security Maturity",
+          "A maturity assessment examines how consistently an organization performs and improves its security activities. Some practices may be informal and dependent on individual knowledge, while others may be documented, repeatable, measured, and continuously improved. The assessment should use defined criteria and evidence rather than relying only on subjective opinions.",
+        ),
+        createSection(
+          "02",
+          "Identifying Gaps and Planning Improvements",
+          "Organizations compare their current security practices with a target state based on business objectives, risks, and applicable requirements. The resulting gaps can be ranked by potential impact, urgency, effort, and available resources. A maturity assessment supports planning and progress tracking, but a higher maturity rating alone does not prove that every security risk is adequately controlled.",
+        ),
       ],
     },
     {
@@ -1119,183 +496,104 @@ const iasModule04: IASModule = {
         "Establishes security expectations for vendors, suppliers, and external service providers.",
       keyTerms: [
         {
-          word: "Third-Party Risk",
-          definition:
-            "Risk arising from an external organization that provides products, services, technology, or other resources.",
-        },
-        {
           word: "Supply-Chain Risk Management",
           definition:
-            "The process of identifying and managing risks associated with suppliers, service providers, products, and external dependencies.",
+            "The process of identifying, assessing, and managing risks arising from products, services, suppliers, and their associated processes.",
+          source: "NIST SP 800-161 Rev. 1",
+        },
+        {
+          word: "Third-Party Risk",
+          definition:
+            "Risk introduced through an external organization that provides products, services, access, or operational support.",
+          source: "NIST SP 800-161 Rev. 1",
         },
         {
           word: "Due Diligence",
           definition:
-            "Reasonable investigation and evaluation performed before or during a business relationship to understand relevant risks and obligations.",
+            "The process of gathering and evaluating relevant information before making or maintaining a business relationship.",
+          source: "NIST SP 800-161 Rev. 1",
         },
       ],
-      durationMinutes: 30,
-      video: [
-        {
-          title: "Supply-Chain Security and Third-Party Risk",
-          url: VIDEO_URL,
-          provider: "youtube",
-        },
-      ],
+      durationMinutes: 25,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "4.12.1",
-          header: "Governing External Security Relationships",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Organizations rely on external providers for cloud hosting, software, payment processing, technical support, and other services. These relationships can introduce risks when a provider has access to sensitive data, critical systems, or essential business processes.",
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Third-Party Security Risks",
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Unauthorized access to organizational information.",
-                "Exposure of personal or confidential data through a provider breach.",
-                "Service disruption caused by provider outages or cyberattacks.",
-                "Weak security practices in supplier software or infrastructure.",
-                "Insufficient incident notification or recovery capabilities.",
-                "Unclear responsibility for security controls and compliance obligations.",
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Third-Party Risk Management Lifecycle",
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Identify providers and the systems, data, and services they affect.",
-                "Classify providers based on criticality and potential impact.",
-                "Perform risk-based due diligence before engagement.",
-                "Establish security requirements in contracts and service agreements.",
-                "Monitor provider performance, security changes, and relevant incidents.",
-                "Reassess risks periodically and manage contract termination or provider transitions securely.",
-              ],
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example Security Contract Requirements",
-            },
-            {
-              type: "table",
-              headers: ["Requirement", "Purpose"],
-              rows: [
-                [
-                  "Access restrictions",
-                  "Limit provider access to authorized systems and information.",
-                ],
-                [
-                  "Incident notification",
-                  "Define how and when relevant security incidents must be reported.",
-                ],
-                [
-                  "Data protection",
-                  "Specify safeguards for storage, processing, transfer, and deletion of data.",
-                ],
-                [
-                  "Audit or assurance rights",
-                  "Provide appropriate evidence that agreed security requirements are met.",
-                ],
-                [
-                  "Business continuity",
-                  "Establish expectations for recovery, availability, and continuity.",
-                ],
-                [
-                  "Termination and data return",
-                  "Define secure data return, transfer, or deletion when the relationship ends.",
-                ],
-              ],
-            },
-            {
-              type: "callout",
-              variant: "important",
-              title: "Shared Responsibility Does Not Remove Accountability",
-              text:
-                "Using a third-party provider does not automatically remove the organization's own responsibilities. Contracts, oversight, risk assessments, and ongoing monitoring help manage risks associated with external dependencies.",
-            },
-          ],
-        },
+        createSection(
+          "01",
+          "Managing Supplier Security Risks",
+          "Organizations rely on vendors for cloud hosting, software, hardware, payment processing, support, and other services. A supplier may introduce risk through weak access controls, compromised software, inadequate incident response, or poor data handling. Risk-based supplier assessments should consider service criticality, information sensitivity, access privileges, dependencies, and the potential impact of a supplier disruption.",
+        ),
+        createSection(
+          "02",
+          "Contracts, Monitoring, and Supplier Offboarding",
+          "Organizations can establish supplier security expectations through contracts, service-level agreements, access restrictions, incident notification requirements, audit rights, and data protection terms. Monitoring and periodic reassessment help identify changes in supplier risk. When a relationship ends, organizations should revoke access, recover assets, address data return or deletion, and ensure that remaining obligations are fulfilled.",
+        ),
       ],
     },
   ],
   references: [
     {
-      title: "The NIST Cybersecurity Framework (CSF) 2.0",
+      title: "NIST Cybersecurity Framework (CSF) 2.0",
       url: "https://doi.org/10.6028/NIST.CSWP.29",
       author: "National Institute of Standards and Technology",
       organization: "NIST",
-      publishedYear: 2024,
-      accessedAt: "2026-10-23",
     },
     {
-      title:
-        "NIST SP 800-53 Rev. 5: Security and Privacy Controls for Information Systems and Organizations",
+      title: "SP 800-12 Rev. 1: An Introduction to Information Security",
+      url: "https://doi.org/10.6028/NIST.SP.800-12r1",
+      author: "National Institute of Standards and Technology",
+      organization: "NIST",
+    },
+    {
+      title: "SP 800-37 Rev. 2: Risk Management Framework for Information Systems and Organizations",
+      url: "https://doi.org/10.6028/NIST.SP.800-37r2",
+      author: "National Institute of Standards and Technology",
+      organization: "NIST",
+    },
+    {
+      title: "SP 800-39: Managing Information Security Risk",
+      url: "https://doi.org/10.6028/NIST.SP.800-39",
+      author: "National Institute of Standards and Technology",
+      organization: "NIST",
+    },
+    {
+      title: "SP 800-50 Rev. 1: Building a Cybersecurity and Privacy Learning Program",
+      url: "https://doi.org/10.6028/NIST.SP.800-50r1",
+      author: "National Institute of Standards and Technology",
+      organization: "NIST",
+    },
+    {
+      title: "SP 800-55 Vol. 1: Measurement Guide for Information Security",
+      url: "https://doi.org/10.6028/NIST.SP.800-55v1",
+      author: "National Institute of Standards and Technology",
+      organization: "NIST",
+    },
+    {
+      title: "SP 800-53 Rev. 5: Security and Privacy Controls for Information Systems and Organizations",
       url: "https://doi.org/10.6028/NIST.SP.800-53r5",
-      author: "Joint Task Force",
+      author: "National Institute of Standards and Technology",
       organization: "NIST",
-      publishedYear: 2020,
-      accessedAt: "2026-10-23",
     },
     {
-      title:
-        "NIST SP 800-100: Information Security Handbook: A Guide for Managers",
-      url: "https://doi.org/10.6028/NIST.SP.800-100",
-      author: "Karen Scarfone et al.",
+      title: "SP 800-161 Rev. 1: Cybersecurity Supply Chain Risk Management Practices for Systems and Organizations",
+      url: "https://doi.org/10.6028/NIST.SP.800-161r1",
+      author: "National Institute of Standards and Technology",
       organization: "NIST",
-      publishedYear: 2006,
-      accessedAt: "2026-10-23",
     },
     {
-      title: "ISO/IEC 27001 — Information Security Management Systems",
+      title: "ISO/IEC 27001:2022 — Information security management systems",
       url: "https://www.iso.org/standard/27001",
-      organization: "International Organization for Standardization",
-      accessedAt: "2026-10-23",
+      author: "International Organization for Standardization",
+      organization: "ISO/IEC",
     },
     {
       title: "CIS Critical Security Controls",
       url: "https://www.cisecurity.org/controls",
-      organization: "Center for Internet Security",
-      accessedAt: "2026-10-23",
-    },
-    {
-      title: "Republic Act No. 10173 — Data Privacy Act of 2012",
-      url: "https://privacy.gov.ph/data-privacy-act/",
-      organization: "National Privacy Commission, Philippines",
-      publishedYear: 2012,
-      accessedAt: "2026-10-23",
-    },
-    {
-      title: "NIST SP 800-161 Rev. 1: Cybersecurity Supply Chain Risk Management Practices for Systems and Organizations",
-      url: "https://doi.org/10.6028/NIST.SP.800-161r1",
-      author: "Jon Boyens et al.",
-      organization: "NIST",
-      publishedYear: 2022,
-      accessedAt: "2026-10-23",
-    },
-    {
-      title: "PCI Security Standards",
-      url: "https://www.pcisecuritystandards.org/standards/",
-      organization: "PCI Security Standards Council",
-      accessedAt: "2026-10-23",
+      author: "Center for Internet Security",
+      organization: "CIS",
     },
   ],
-  createdAt: "2026-10-23T00:00:00.000Z",
-  updatedAt: "2026-10-23T00:00:00.000Z",
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
 };
 
-export default iasModule04;
+export default module4;
