@@ -32,14 +32,16 @@
   --sc: 1;
   --hover: 1;
 
+  --radius: clamp(14px, 1.8vw, 26px);
+  --frame: 3px; /* thickness of the metallic blue border */
+
   position: relative;
   width: var(--card-w);
   aspect-ratio: 10 / 7;
+  padding: var(--frame);
   overflow: hidden;
   pointer-events: auto;
-  border-radius: clamp(14px, 1.8vw, 26px);
-  border: 1px solid rgba(120, 140, 255, 0.7);
-  background: #0a1233;
+  border-radius: var(--radius);
   box-shadow:
     0 0 0 1px rgba(80, 110, 255, 0.12),
     0 24px 60px rgba(0, 0, 0, 0.6);
@@ -58,6 +60,7 @@
   height: 100%;
   object-fit: cover;
   pointer-events: none;
+  border-radius: calc(var(--radius) - var(--frame));
 }
 
 .image-card[data-slot="left"] {

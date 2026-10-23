@@ -1,5 +1,8 @@
+import * as React from "react";
 import Reveal from "./Reveal";
+import { useCursorLight } from "./CursorLight";
 import type { CardImage } from "../data/cardImage";
+import "./MetallicBlue.css";
 import "./ImageCards.css";
 
 export type ImageCardsProps = {
@@ -8,7 +11,22 @@ export type ImageCardsProps = {
 };
 
 const SLOTS = ["left", "center", "right"] as const;
-const DELAYS = [200, 100, 300]; // center reveals first
+const DELAYS = [200, 100, 300];
+
+function Card({ image, slot }: { image: CardImage; slot: string }) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  useCursorLight(ref);
+
+  return (
+    <div
+      ref={ref}
+      className="image-card metallic-blue-surface"
+      data-slot={slot}
+    >
+      <img src={image.src} alt={image.alt} draggable={false} />
+    </div>
+  );
+}
 
 export default function ImageCards({ images }: ImageCardsProps) {
   return (
@@ -23,9 +41,7 @@ export default function ImageCards({ images }: ImageCardsProps) {
             data-slot={slot}
             delay={DELAYS[i]}
           >
-            <div className="image-card" data-slot={slot}>
-              <img src={image.src} alt={image.alt} draggable={false} />
-            </div>
+            <Card image={image} slot={slot} />
           </Reveal>
         );
       })}

@@ -1,0 +1,43 @@
+/* Cursor-lit metallic blue surface (variables come from useCursorLight) */
+.metallic-blue-surface {
+  background-color: #03406b;
+  background-image:
+    radial-gradient(
+      circle var(--r2, 14px) at var(--lx, 30%) var(--ly, 15%),
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(215, 244, 255, 0.55) 45%,
+      rgba(215, 244, 255, 0) 100%
+    ),
+    radial-gradient(
+      circle var(--r, 90px) at var(--lx, 30%) var(--ly, 15%),
+      rgba(150, 232, 255, 0.85) 0%,
+      rgba(70, 200, 255, 0.5) 28%,
+      rgba(60, 180, 255, 0.16) 58%,
+      rgba(60, 180, 255, 0) 80%
+    ),
+    radial-gradient(
+      circle var(--rf, 240px) at var(--lx, 30%) var(--ly, 15%),
+      rgba(0, 8, 40, 0) 0%,
+      rgba(0, 8, 40, 0.35) 100%
+    ),
+    linear-gradient(
+      var(--ang, 180deg),
+      #0a4a78 0%,
+      #1a7fb0 10%,
+      #43cfff 22%,
+      #1d8dbd 35%,
+      #03406b 48%,
+      #05497a 54%,
+      #2a78b8 64%,
+      #4aa0dc 76%,
+      #2f6fc0 88%,
+      #031a73 100%
+    );
+  background-size: 100% 100%, 100% 100%, 100% 100%, 160% 160%;
+  background-position:
+    0 0,
+    0 0,
+    0 0,
+    var(--bx, 50%) var(--by, 50%);
+  background-repeat: no-repeat;
+}

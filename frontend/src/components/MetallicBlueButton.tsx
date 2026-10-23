@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useCursorLight } from "./CursorLight";
 import "./MetallicBlueButton.css";
+import "./MetallicBlue.css";
 
 export type MetallicBlueButtonProps = React.HTMLAttributes<HTMLElement> & {
   /** Element to render. @default "button" */
@@ -21,7 +22,9 @@ export function MetallicBlueButton({
   useCursorLight(ref);
 
   const extra = Tag === "button" ? { type: type ?? "button" } : {};
-  const classes = ["metallic-blue-btn", className].filter(Boolean).join(" ");
+  const classes = ["metallic-blue-surface", "metallic-blue-btn", className]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <Tag ref={ref} className={classes} {...extra} {...props}>

@@ -1,0 +1,49 @@
+.trends {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  padding: clamp(48px, 8vh, 96px) 0 clamp(48px, 8vh, 96px)
+    clamp(24px, 5.6vw, 96px);
+  overflow: hidden; /* cards bleed off the right edge */
+  background: var(--page-bg, #050c2b);
+  color: #fff;
+}
+
+.trends__text {
+  max-width: 540px;
+}
+
+.trends__title {
+  margin: 0 0 20px;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 4.4vw, 4rem);
+  line-height: 1.25;
+  color: #fff;
+}
+
+.trends__body {
+  margin: 0;
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  line-height: 1.5;
+  color: #fff;
+}
+
+.trends__cards {
+  position: relative;
+  height: min(600px, 80svh);
+}
+
+@media (max-width: 900px) {
+  .trends {
+    grid-template-columns: 1fr;
+    padding: 64px 24px;
+  }
+  .trends__cards {
+    height: 440px;
+  }
+}
