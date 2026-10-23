@@ -1,0 +1,120 @@
+unitId: ias-module-01
+moduleId: 01
+title: 
+description:
+objectives: []
+lessons: [
+    {
+        Id: ias-m01-l01
+        lessonNo.: 1.1
+        title: 
+        description:
+        keyTerms: [
+            {
+                word:
+                definition:
+                source:
+            }
+        ]
+        durationMinutes:
+        video: [
+            title:
+            url:
+            provider:
+        ]
+        sections: [
+            {
+                sectionNo.: 01
+                header:
+                imageUrl:
+                imageSource:
+                textContent:
+            }
+        ]
+    }
+]
+references:
+createdAt:
+updatedAt:
+
+
+{
+  "unitId": "ias-unit-01",
+  "moduleId": "ias-module-01",
+  "moduleNo": 1,
+  "title": "Introduction to Information Assurance and Security",
+  "description": "An introduction to information security concepts, principles, and practices.",
+  "objectives": [
+    "Define information assurance and information security.",
+    "Explain the CIA triad.",
+    "Identify common information security threats and vulnerabilities."
+  ],
+  "lessons": [
+    {
+      "id": "ias-m01-l01",
+      "lessonNo": "1.1",
+      "title": "Information Security Fundamentals",
+      "description": "Understand the purpose and importance of information security.",
+      "durationMinutes": 30,
+      "keyTerms": [
+        {
+          "word": "Information Security",
+          "definition": "The protection of information and information systems against unauthorized access, use, disclosure, disruption, modification, or destruction.",
+          "source": "https://csrc.nist.gov/glossary"
+        },
+        {
+          "word": "Confidentiality",
+          "definition": "The property that information is not disclosed to unauthorized individuals, entities, or processes.",
+          "source": "https://csrc.nist.gov/glossary"
+        }
+      ],
+      "video": [
+        {
+          "title": "Introduction to Information Security",
+          "url": "https://www.youtube.com/watch?v=VIDEO_ID",
+          "provider": "youtube"
+        }
+      ],
+      "sections": [
+        {
+          "sectionNo": "1.1.1",
+          "header": "What Is Information Security?",
+          "imageUrl": "/images/ias/information-security.png",
+          "imageSource": "https://example.com/source-page",
+          "textContent": "Information security protects information from unauthorized access, disclosure, modification, disruption, and destruction."
+        },
+        {
+          "sectionNo": "1.1.2",
+          "header": "Importance of Information Security",
+          "imageUrl": "",
+          "imageSource": "",
+          "textContent": "Information security helps protect sensitive data, preserve trust, reduce risks, and support the reliable operation of organizations."
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "title": "Computer Security Resource Center Glossary",
+      "organization": "National Institute of Standards and Technology",
+      "url": "https://csrc.nist.gov/glossary"
+    }
+  ],
+  "createdAt": "2026-10-23T09:00:00Z",
+  "updatedAt": "2026-10-23T09:00:00Z"
+}
+
+
+
+id, moduleNo, unitId	Identify the module and its parent unit
+title, slug, description	Display the module and support navigation
+learningObjectives	State what students should learn
+estimatedDurationMinutes	Estimate study time
+lessons	Store the ordered lessons in the module
+sections	Divide a lesson into presentable topics
+blocks	Define the content component rendered on screen
+keyTerms	Supply a glossary for the lesson
+knowledgeCheck	Define practice questions
+references	Record learning sources
+status	Control draft, published, or archived state
+createdAt, updatedAt	Track module creation and updates

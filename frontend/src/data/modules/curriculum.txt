@@ -1,0 +1,435 @@
+Unit I — Foundations of Information Security ----------------------------------------------------------------------------------------------------------------------------------------------
+Purpose: Establish the essential concepts, terminology, and principles needed before studying technical security controls.
+
+Module 1. Introduction to Information Assurance and Security
+Module description: Introduces information assurance, information security, cybersecurity, and the principles used to protect information assets.
+Lesson / subtopic	Description
+1.1 Information Security Fundamentals	Defines information security, cybersecurity, information assets, and the basic concepts used to protect systems and information.
+1.2 Information Assurance Principles	Explains how security controls, validation, risk management, and recovery help maintain trustworthy information.
+1.3 Confidentiality, Integrity, and Availability	Introduces the CIA triad and its role in preventing disclosure, unauthorized modification, and service disruption.
+1.4 Authenticity	Explains how to verify that information, users, devices, and communications are genuine.
+1.5 Accountability	Describes how actions are recorded and attributed to responsible users or systems.
+1.6 Non-repudiation	Explains how evidence can establish that an action or transaction occurred and help prevent its denial.
+1.7 Privacy	Introduces the protection of personal information and responsible data handling.
+1.8 Security Objectives and Trade-offs	Explores how organizations balance security, usability, cost, and performance.
+
+Module 2. Security Threats, Vulnerabilities, and Attacks
+Module description: Explains how security incidents occur, what weaknesses attackers exploit, and how common attack methods affect information systems.
+Lesson / subtopic	Description
+2.1 Threats, Vulnerabilities, and Risk	Differentiates potential sources of harm, system weaknesses, and the risks resulting from their interaction.
+2.2 Malware	Introduces viruses, worms, Trojans, spyware, ransomware, and other malicious software.
+2.3 Phishing and Social Engineering	Explains how attackers manipulate people into disclosing information or performing unsafe actions.
+2.4 Password and Credential Attacks	Covers brute-force attacks, credential stuffing, password spraying, and credential theft.
+2.5 Denial-of-Service Attacks	Explains how DoS and DDoS attacks disrupt the availability of services.
+2.6 Man-in-the-Middle Attacks	Describes how attackers intercept or manipulate communications between parties.
+2.7 Spoofing and Impersonation	Explains the falsification of identities, email addresses, websites, and communications.
+2.8 Insider Threats	Examines security risks caused by malicious, negligent, or compromised authorized users.
+2.9 Zero-Day Vulnerabilities	Introduces flaws exploited before an effective patch or fix is available.
+2.10 Advanced Persistent Threats	Examines targeted, sustained intrusions intended to maintain access or achieve long-term objectives.
+2.11 Web Application Attacks	Introduces SQL injection, XSS, CSRF, and other common application-level attack techniques.
+2.12 Supply-Chain Attacks	Explains how compromised vendors, dependencies, or software delivery processes can affect downstream organizations.
+2.13 Physical Security Threats	Covers theft, unauthorized entry, tampering, and environmental events that threaten information assets.
+
+Module 3. Information Security Risk Management
+Module description: Teaches learners to identify, analyze, prioritize, treat, and monitor risks to organizational information systems.
+Lesson / subtopic	Description
+3.1 Risk Identification	Identifies assets, threats, vulnerabilities, and conditions that could affect organizational objectives.
+3.2 Risk Analysis	Estimates the likelihood and consequences of security incidents.
+3.3 Qualitative Risk Assessment	Uses descriptive ratings, such as low, medium, and high, to evaluate risks.
+3.4 Quantitative Risk Assessment	Uses numerical estimates to express risk exposure and potential financial impact.
+3.5 Risk Evaluation and Prioritization	Ranks risks according to severity, likelihood, impact, and organizational priorities.
+3.6 Risk Treatment	Explores risk avoidance, mitigation, transfer, and acceptance.
+3.7 Vulnerability Assessment	Identifies, evaluates, and prioritizes weaknesses in systems and configurations.
+3.8 Threat Modeling	Analyzes how attackers might compromise a system and identifies appropriate defenses.
+3.9 Business Impact Analysis	Evaluates how disruptions affect critical business functions and resources.
+3.10 Residual Risk	Explains the risk remaining after security controls are applied.
+3.11 Risk Monitoring	Tracks changing threats, vulnerabilities, control effectiveness, and risk levels.
+3.12 Third-Party Risk Management	Assesses security risks associated with vendors, contractors, and service providers.
+
+
+Unit II — Governance, Frameworks, and Access Management ----------------------------------------------------------------------------------------------------------------------------------------------
+Purpose: Understand how organizations establish security policies, choose controls, manage identities, and demonstrate accountability.
+
+Module 4. Security Governance, Policies, and Compliance
+Module description: Covers the management structures, policies, standards, and compliance practices used to direct an information security program.
+Lesson / subtopic	Description
+4.1 Security Governance	Defines leadership, oversight, decision-making, and accountability for information security.
+4.2 Information Security Policies	Establishes organizational rules and requirements for protecting information.
+4.3 Standards, Procedures, and Guidelines	Explains how policies are translated into technical requirements and repeatable activities.
+4.4 Security Roles and Responsibilities	Defines the responsibilities of security officers, system owners, administrators, auditors, and users.
+4.5 Security Awareness and Training	Teaches users how to recognize threats and follow secure practices.
+4.6 Security Audits	Examines whether controls are appropriately designed, implemented, and maintained.
+4.7 Security Compliance	Covers adherence to applicable laws, regulations, contractual obligations, and standards.
+4.8 Security Metrics and Reporting	Uses measurable indicators and reports to evaluate security performance.
+4.9 Security Program Management	Covers the planning, implementation, coordination, and improvement of security initiatives.
+4.10 Security Frameworks	Introduces structured approaches such as NIST CSF, ISO/IEC 27001, and CIS Controls.
+4.11 Security Maturity Assessment	Evaluates the consistency and effectiveness of organizational security practices.
+4.12 Supply-Chain Security Governance	Establishes security expectations for vendors, suppliers, and external service providers.
+
+Module 5. Risk Management Framework (RMF)
+Module description: Introduces the NIST Risk Management Framework and its lifecycle for managing security and privacy risks in information systems.
+Lesson / subtopic	Description
+5.1 RMF Overview	Explains the purpose, principles, stakeholders, and lifecycle of the NIST RMF.
+5.2 Prepare	Establishes organizational context, responsibilities, priorities, and readiness for risk management.
+5.3 Categorize	Classifies information and systems according to the impact of a potential compromise.
+5.4 Select	Chooses security and privacy controls appropriate to the system's risks and requirements.
+5.5 Implement	Deploys selected controls and documents their implementation.
+5.6 Assess	Evaluates whether controls are correctly implemented and operating effectively.
+5.7 Authorize	Supports an authorized official's decision about whether the remaining risk is acceptable.
+5.8 Monitor	Continuously reviews control effectiveness, system changes, vulnerabilities, and risks.
+5.9 Security Control Documentation	Records control implementations, assessment results, weaknesses, and remediation activities.
+5.10 RMF Case Study	Applies the seven RMF steps to a hypothetical information system and documents the decisions.
+
+Module 6. Identity and Access Management
+Module description: Teaches how systems identify users, verify their identities, enforce permissions, and record access-related activities.
+Lesson / subtopic	Description
+6.1 Identification	Explains how users or devices claim an identity, such as through a username or device identifier.
+6.2 Authentication	Verifies identity using passwords, security keys, biometrics, or other credentials.
+6.3 Authorization	Determines which resources and actions an authenticated entity is permitted to use.
+6.4 Accounting and Auditing	Records user activities to support accountability and investigation.
+6.5 Access Control Models	Introduces discretionary, mandatory, role-based, and attribute-based access control.
+6.6 Identity and Access Management	Covers the creation, modification, review, and removal of digital identities and permissions.
+6.7 Multi-Factor Authentication	Requires multiple independent authentication factors to strengthen identity verification.
+6.8 Single Sign-On	Allows users to access multiple applications through a shared authentication process.
+6.9 Privileged Access Management	Secures administrator accounts and other identities with elevated permissions.
+6.10 Principle of Least Privilege	Limits permissions to those necessary for assigned responsibilities.
+6.11 Separation of Duties	Divides sensitive responsibilities to reduce errors, fraud, and misuse.
+6.12 Zero Trust	Applies explicit verification, least privilege, and ongoing evaluation rather than implicit trust.
+6.13 Biometric Authentication	Uses characteristics such as fingerprints or facial features for identity verification.
+6.14 Password Management	Covers secure password creation, storage, handling, and authentication practices.
+
+
+Unit III — Core Technical Security ----------------------------------------------------------------------------------------------------------------------------------------------
+Purpose: Develop foundational knowledge of cryptography, networks, endpoints, software, and data protection.
+
+Module 7. Cryptography and Encryption
+Module description: Introduces mathematical techniques that protect information and support secure communication, integrity verification, and identity assurance.
+Lesson / subtopic	Description
+7.1 Cryptographic Fundamentals	Explains plaintext, ciphertext, keys, algorithms, and cryptographic operations.
+7.2 Symmetric Encryption	Uses a shared secret key to encrypt and decrypt information.
+7.3 Asymmetric Cryptography	Uses public-private key pairs for functions such as key establishment and digital signatures.
+7.4 Cryptographic Hash Functions	Produces fixed-length digests for integrity verification and other security purposes.
+7.5 Digital Signatures	Provides cryptographic evidence of message integrity and possession of a signing key.
+7.6 Digital Certificates	Associates a public key with an identity through a certificate and its trust mechanism.
+7.7 Public Key Infrastructure	Manages certificates, public keys, certificate authorities, and trust relationships.
+7.8 Key Management	Covers key generation, distribution, storage, rotation, revocation, and destruction.
+7.9 Transport Layer Security	Explains how TLS protects communications, including HTTPS connections.
+7.10 Encryption at Rest	Protects stored information on disks, databases, backups, and other storage media.
+7.11 Encryption in Transit	Protects information as it travels between systems.
+7.12 Password Hashing and Salting	Explains how purpose-built password-hashing algorithms and unique salts protect stored passwords.
+7.13 Steganography	Covers techniques for concealing information within images, audio, or other media.
+7.14 Cryptanalysis	Studies methods used to analyze cryptographic systems and their weaknesses.
+7.15 Post-Quantum Cryptography	Introduces cryptographic algorithms designed to resist attacks from quantum computers.
+
+Module 8. Network Security
+Module description: Explains the methods used to secure network infrastructure, communications, connected devices, and network traffic.
+Lesson / subtopic	Description
+8.1 Network Security Fundamentals	Introduces network-based threats, trust boundaries, and common defensive principles.
+8.2 Firewalls	Filters traffic according to defined network security rules.
+8.3 Intrusion Detection Systems	Detects suspicious activity in network or host events.
+8.4 Intrusion Prevention Systems	Detects and blocks certain malicious network activities.
+8.5 Virtual Private Networks	Creates protected network connections across untrusted networks.
+8.6 Network Segmentation	Divides a network into separate zones to restrict unauthorized movement.
+8.7 Secure Network Protocols	Covers secure protocols such as SSH, HTTPS, and SFTP.
+8.8 Wireless Network Security	Protects Wi-Fi networks, access points, wireless authentication, and communications.
+8.9 DNS Security	Protects domain-name resolution against manipulation and other attacks.
+8.10 Network Access Control	Enforces requirements for users and devices before granting network access.
+8.11 Network Monitoring	Examines network traffic and device activity for suspicious behavior.
+8.12 Network Hardening	Applies secure configurations and disables unnecessary services.
+8.13 Remote Access Security	Protects remote connections using authentication, access policies, and monitoring.
+8.14 Cloud and Software-Defined Network Security	Secures virtual networks, programmable network controls, and cloud connectivity.
+
+Module 9. Operating System and Endpoint Security
+Module description: Covers techniques for protecting computers, operating systems, mobile devices, and other endpoints against compromise.
+Lesson / subtopic	Description
+9.1 Operating System Security	Explains security mechanisms in Windows, Linux, macOS, and other operating systems.
+9.2 System Hardening	Removes unnecessary services, software, accounts, and insecure settings.
+9.3 Patch Management	Applies and tracks security updates to address known vulnerabilities.
+9.4 Endpoint Protection	Introduces antivirus, anti-malware, endpoint detection, and response tools.
+9.5 Host-Based Firewalls	Controls traffic entering and leaving individual computers.
+9.6 Secure Boot	Verifies trusted software components during system startup.
+9.7 Application Control	Restricts which programs can execute on a system.
+9.8 Device Encryption	Protects information stored on laptops, desktops, and mobile devices.
+9.9 Mobile Device Security	Covers smartphone and tablet security, mobile applications, and device management.
+9.10 Configuration Management	Maintains consistent, approved, and secure system settings.
+9.11 Account and Privilege Management	Restricts administrative access and secures local and system accounts.
+9.12 Virtualization Security	Protects virtual machines, hypervisors, containers, and isolated environments.
+
+Module 10. Application and Software Security
+Module description: Teaches how to design, develop, test, deploy, and maintain applications with security built into the software lifecycle.
+Lesson / subtopic	Description
+10.1 Secure Software Development Life Cycle	Integrates security activities into planning, development, testing, deployment, and maintenance.
+10.2 Security Requirements Engineering	Identifies security needs and constraints before implementation.
+10.3 Secure Coding	Applies programming practices that prevent common software vulnerabilities.
+10.4 Input Validation	Checks incoming data to prevent unsafe processing and injection attacks.
+10.5 SQL Injection	Explains how malicious input can manipulate database queries and how to prevent it.
+10.6 Cross-Site Scripting	Covers attacks that inject scripts into web pages and defenses such as contextual output encoding.
+10.7 Cross-Site Request Forgery	Explains how attackers induce unintended authenticated actions and how to defend against them.
+10.8 API Security	Protects APIs through authentication, authorization, input validation, and rate limiting.
+10.9 Session Management	Secures authentication sessions, cookies, tokens, and session expiration.
+10.10 Dependency Security	Manages vulnerabilities in third-party libraries, packages, and frameworks.
+10.11 Static Application Security Testing	Analyzes code without executing the application to identify potential security weaknesses.
+10.12 Dynamic Application Security Testing	Tests a running application to identify exploitable vulnerabilities.
+10.13 Software Composition Analysis	Identifies third-party components, dependency risks, and known vulnerabilities.
+10.14 Penetration Testing for Applications	Conducts authorized tests to discover and validate application weaknesses.
+10.15 DevSecOps	Integrates security checks and practices into automated development and deployment workflows.
+10.16 Secure Web and API Architecture	Designs trust boundaries, authentication flows, and defensive controls into applications.
+
+Module 11. Database and Data Security
+Module description: Focuses on protecting stored information against unauthorized access, alteration, exposure, and destruction.
+Lesson / subtopic	Description
+11.1 Database Access Control	Restricts database operations according to user responsibilities and permissions.
+11.2 Database Encryption	Protects sensitive database information using encryption.
+11.3 Data Classification	Categorizes information according to sensitivity and protection requirements.
+11.4 Data Masking	Hides sensitive values in displays, reports, and development environments.
+11.5 Data Anonymization and Pseudonymization	Reduces the direct or indirect identification of individuals in datasets.
+11.6 Data Loss Prevention	Detects or prevents unauthorized disclosure of sensitive information.
+11.7 Data Integrity Controls	Helps preserve the accuracy, completeness, and consistency of information.
+11.8 Database Auditing	Records database access, administrative actions, and activity involving sensitive records.
+11.9 Secure Backups	Protects backup copies against unauthorized access, alteration, and destruction.
+11.10 Data Retention and Disposal	Defines how long information should be retained and how it should be securely destroyed.
+11.11 Data Lifecycle Management	Protects data throughout creation, storage, use, transfer, archiving, and deletion.
+11.12 Data Governance	Defines data ownership, quality requirements, access policies, and accountability.
+
+Module 12. Cloud Security
+Module description: Introduces security practices for cloud-hosted infrastructure, applications, identities, and data.
+Lesson / subtopic	Description
+12.1 Cloud Security Fundamentals	Introduces cloud security concepts, service models, deployment models, and common risks.
+12.2 Shared Responsibility Model	Explains how cloud security responsibilities are divided between the provider and customer.
+12.3 Cloud Identity and Access Management	Controls permissions and access to cloud resources and administrative functions.
+12.4 Cloud Configuration Security	Prevents insecure configurations, exposed storage, and overly permissive access policies.
+12.5 Virtual Machine Security	Hardens and monitors cloud-hosted operating systems and virtual machines.
+12.6 Container and Kubernetes Security	Protects container images, workloads, orchestration systems, and cluster permissions.
+12.7 Cloud Network Security	Secures virtual networks, routing, connectivity, and network access rules.
+12.8 Cloud Data Protection	Protects cloud-hosted information through encryption, access controls, and data governance.
+12.9 Cloud Logging and Monitoring	Collects and analyzes cloud activity to detect security events.
+12.10 Cloud Incident Response	Investigates and contains incidents involving cloud services and infrastructure.
+12.11 Serverless Security	Protects cloud functions, execution permissions, dependencies, and event-driven workloads.
+12.12 Multi-Cloud Security	Coordinates security policies and monitoring across multiple cloud providers.
+12.13 Cloud Compliance	Assesses cloud environments against relevant security standards and regulatory obligations.
+
+
+Unit IV — Security Operations and Incident Handling ----------------------------------------------------------------------------------------------------------------------------------------------
+Purpose: Teach learners how to monitor systems, detect threats, investigate incidents, and restore secure operations.
+
+Module 13. Security Operations and Monitoring
+Module description: Introduces operational tools and processes for identifying suspicious activity, investigating alerts, and maintaining ongoing security visibility.
+Lesson / subtopic	Description
+13.1 Security Operations Center	Explains the roles and responsibilities of a security operations team.
+13.2 Security Information and Event Management	Collects and correlates logs to identify suspicious activity.
+13.3 Extended Detection and Response	Correlates security signals across endpoints, networks, email, and other sources.
+13.4 Log Management	Covers the collection, storage, protection, and review of system logs.
+13.5 Threat Intelligence	Uses information about threat actors, tactics, indicators, and campaigns to improve defense.
+13.6 Threat Hunting	Proactively searches for signs of malicious activity that may not trigger existing alerts.
+13.7 Security Alert Triage	Evaluates alerts to determine validity, severity, and priority.
+13.8 Security Analytics	Analyzes system and network activity to identify unusual patterns.
+13.9 User and Entity Behavior Analytics	Detects anomalous behavior involving users, devices, and other entities.
+13.10 Security Orchestration and Automation	Automates repetitive tasks and coordinates incident-response workflows.
+13.11 Continuous Security Monitoring	Tracks security events, configurations, vulnerabilities, and control effectiveness over time.
+13.12 Vulnerability Management	Discovers, prioritizes, remediates, and tracks security weaknesses.
+
+Module 14. Incident Response and Digital Forensics
+Module description: Teaches the procedures for handling security incidents, preserving evidence, investigating attacks, and preventing recurrence.
+Lesson / subtopic	Description
+14.1 Incident Identification	Determines whether a security event qualifies as an incident.
+14.2 Incident Classification and Prioritization	Categorizes incidents according to severity, scope, and business impact.
+14.3 Incident Response Planning	Establishes procedures, responsibilities, escalation paths, and communication protocols.
+14.4 Containment	Limits the spread and impact of a security incident.
+14.5 Eradication	Removes malware, unauthorized access, and other causes of compromise.
+14.6 Recovery	Restores affected systems and services to secure operation.
+14.7 Post-Incident Review	Documents lessons learned and identifies improvements.
+14.8 Digital Evidence Preservation	Preserves electronic evidence and maintains its integrity.
+14.9 Disk and File-System Forensics	Examines storage devices, files, metadata, and file-system artifacts.
+14.10 Memory Forensics	Analyzes volatile memory to identify processes, malware, and other evidence.
+14.11 Network Forensics	Examines network traffic and logs to reconstruct suspicious communications.
+14.12 Malware Analysis	Studies malicious software to understand its behavior and capabilities.
+14.13 Chain of Custody	Documents evidence collection, handling, transfer, and storage.
+14.14 Root-Cause Analysis	Identifies the underlying conditions that enabled an incident.
+14.15 Threat Attribution	Evaluates evidence about the likely source of an attack while accounting for uncertainty.
+
+Module 15. Business Continuity and Disaster Recovery
+Module description: Covers strategies for maintaining essential operations and restoring information systems following cyberattacks, failures, and disasters.
+Lesson / subtopic	Description
+15.1 Business Continuity Planning	Prepares an organization to maintain essential activities during disruptions.
+15.2 Disaster Recovery Planning	Defines procedures for restoring IT infrastructure, systems, and data.
+15.3 Backup and Restoration	Creates protected data copies and verifies that they can be restored.
+15.4 Recovery Time Objective	Defines the target time within which a system or service should be restored.
+15.5 Recovery Point Objective	Defines the targeted maximum amount of data loss measured in time.
+15.6 High Availability	Designs services to remain operational despite certain component failures.
+15.7 Redundancy and Failover	Uses backup components or systems when primary components become unavailable.
+15.8 Disaster Recovery Sites	Provides alternative facilities or environments for restoring operations.
+15.9 Resilience Testing	Tests whether systems can withstand disruptions and recover effectively.
+15.10 Crisis Management	Coordinates decisions, resources, and communications during major disruptions.
+15.11 Ransomware Recovery	Restores affected systems while containing the incident and preventing reinfection.
+15.12 Recovery Exercises	Tests restoration procedures to identify weaknesses before an actual disaster.
+
+Module 16. Physical and Environmental Security
+Module description: Explains how to protect physical facilities, equipment, and infrastructure that support information systems.
+Lesson / subtopic	Description
+16.1 Physical Access Control	Restricts entry through locks, access cards, biometrics, and security personnel.
+16.2 Facility Security	Protects offices, server rooms, data centers, and equipment storage areas.
+16.3 Surveillance and Monitoring	Uses cameras, alarms, and related controls to detect unauthorized activity.
+16.4 Environmental Protection	Manages risks from fire, heat, humidity, flooding, and other environmental hazards.
+16.5 Power Protection	Uses uninterruptible power supplies and backup generators to reduce power-related disruptions.
+16.6 Hardware Asset Protection	Prevents equipment theft, tampering, and unauthorized removal.
+16.7 Secure Equipment Disposal	Ensures sensitive information is removed before devices are reused or discarded.
+16.8 Clear Desk and Clear Screen Policies	Reduces exposure of sensitive information in physical and digital workspaces.
+16.9 Visitor Management	Controls and records visitors entering restricted facilities.
+16.10 Physical Security Incident Response	Defines procedures for break-ins, theft, tampering, and facility emergencies.
+
+
+Unit V — Privacy, Law, and Professional Practice ----------------------------------------------------------------------------------------------------------------------------------------------
+Purpose: Explain the legal, ethical, and privacy responsibilities involved in protecting information and operating secure systems.
+
+Module 17. Privacy and Personal Data Protection
+Module description: Covers privacy principles and controls for responsible collection, processing, storage, sharing, and disposal of personal information.
+Lesson / subtopic	Description
+17.1 Privacy Principles	Introduces transparency, legitimate purpose, proportionality, and responsible data handling.
+17.2 Personally Identifiable Information	Explains information that can identify or distinguish an individual.
+17.3 Privacy Impact Assessment	Evaluates privacy risks associated with systems, projects, and data processing.
+17.4 Consent and Lawful Processing	Explores appropriate legal grounds and requirements for collecting and using personal data.
+17.5 Data Minimization	Limits data collection to what is necessary for a defined purpose.
+17.6 Data Subject Rights	Covers applicable rights to access, correct, erase, or otherwise exercise control over personal information.
+17.7 Privacy by Design	Incorporates privacy safeguards into systems from the beginning.
+17.8 Privacy Breach Management	Covers identifying, containing, investigating, and reporting personal-data breaches when required.
+17.9 Cross-Border Data Transfers	Examines requirements for transferring personal information between jurisdictions.
+17.10 Privacy-Enhancing Technologies	Introduces techniques such as differential privacy, encryption, and secure computation.
+17.11 Philippine Data Privacy Act	Introduces Republic Act No. 10173 and its requirements for personal-data protection in the Philippines.
+
+Module 18. Cybersecurity Laws, Ethics, and Legal Issues
+Module description: Examines the legal and ethical responsibilities associated with protecting systems, conducting security tests, and handling digital evidence.
+Lesson / subtopic	Description
+18.1 Cybercrime Laws	Introduces laws addressing unauthorized access, data interference, computer-related fraud, and other cyber offenses.
+18.2 Data Protection Regulations	Examines legal obligations for handling personal and sensitive information.
+18.3 Intellectual Property	Covers the protection of software, digital content, trademarks, and other intellectual property.
+18.4 Digital Evidence and Admissibility	Explains the collection, preservation, and presentation of electronic evidence under applicable legal rules.
+18.5 Ethical Hacking	Covers authorized security testing, agreed scope, responsible conduct, and reporting.
+18.6 Responsible Vulnerability Disclosure	Explains how security weaknesses can be reported to affected organizations responsibly.
+18.7 Cybersecurity Ethics	Applies professional responsibility, privacy, proportionality, and harm prevention to security decisions.
+18.8 Legal and Regulatory Compliance	Covers the process of meeting applicable laws, standards, and contractual requirements.
+18.9 Cybercrime Investigation	Introduces the investigation of computer-related offenses within legal authority.
+18.10 Security Incident Reporting	Explains reporting obligations, escalation procedures, and applicable notification deadlines.
+
+
+Unit VI — Security Architecture, Testing, and Assurance ----------------------------------------------------------------------------------------------------------------------------------------------
+Purpose: Apply security principles to system design, assess control effectiveness, and validate security requirements.
+
+Module 19. Security Architecture and Engineering
+Module description: Teaches learners to design systems with integrated security controls, defined trust boundaries, and risk-appropriate protections.
+Lesson / subtopic	Description
+19.1 Security Architecture	Defines the structure of security controls and services across an organization or system.
+19.2 Defense in Depth	Uses multiple protective layers so that one failed control does not compromise the entire system.
+19.3 Secure-by-Design Principles	Incorporates security into system design from the earliest stages.
+19.4 Security Engineering	Applies engineering methods to develop, evaluate, and maintain secure systems.
+19.5 Trust Boundaries	Identifies where access permissions, trust assumptions, or security requirements change.
+19.6 Security Control Selection	Chooses controls based on risk, system requirements, and applicable standards.
+19.7 Security Architecture Review	Evaluates system designs for weaknesses, exposure, and missing safeguards.
+19.8 Zero Trust Architecture	Designs access around explicit verification, least privilege, and ongoing evaluation.
+19.9 Hardware Security	Protects processors, firmware, hardware security modules, and trusted execution environments.
+19.10 Systems Security Engineering	Manages security requirements and risks throughout a system's lifecycle.
+19.11 Secure Configuration Baselines	Establishes approved configurations that reduce unnecessary exposure.
+19.12 Security Testing and Validation	Verifies whether system designs and controls satisfy intended security requirements.
+
+Module 20. Security Testing and Assessment
+Module description: Introduces the methods used to evaluate security controls, discover weaknesses, simulate attacks, and verify remediation.
+Lesson / subtopic	Description
+20.1 Vulnerability Scanning	Uses automated tools to identify known weaknesses and insecure configurations.
+20.2 Penetration Testing	Conducts authorized tests to determine whether weaknesses can be exploited.
+20.3 Security Audits	Reviews security controls, policies, documentation, and practices against defined criteria.
+20.4 Configuration Assessments	Compares system settings against approved security baselines.
+20.5 Web Application Testing	Assesses applications for common vulnerabilities and implementation weaknesses.
+20.6 Network Security Testing	Evaluates network devices, services, exposure, and defensive controls.
+20.7 Wireless Security Testing	Assesses wireless configurations, authentication, and communication security.
+20.8 Red Teaming	Simulates realistic adversary behavior to evaluate organizational defenses.
+20.9 Blue Teaming	Defends systems, monitors activity, and responds to threats.
+20.10 Purple Teaming	Improves coordination between offensive testing and defensive security teams.
+20.11 Security Control Assessment	Determines whether safeguards are implemented correctly and operate effectively.
+20.12 Compliance Testing	Verifies that required controls and procedures meet applicable requirements.
+20.13 Remediation Validation	Retests systems after fixes to confirm that identified weaknesses have been addressed.
+
+
+Unit VII — Standards, Frameworks, and Organizational Assurance ----------------------------------------------------------------------------------------------------------------------------------------------
+Purpose: Connect technical security knowledge to established standards, management frameworks, and organizational operations.
+
+Module 21. Security Standards, Frameworks, and Best Practices
+Module description: Introduces recognized security standards, frameworks, and guidance used to structure security programs and assess organizational performance.
+Lesson / subtopic	Description
+21.1 NIST Cybersecurity Framework	Organizes cybersecurity risk management around Govern, Identify, Protect, Detect, Respond, and Recover.
+21.2 ISO/IEC 27001	Specifies requirements for establishing and continually improving an Information Security Management System.
+21.3 NIST Risk Management Framework	Provides a lifecycle for categorizing systems, selecting controls, assessing risk, authorizing operations, and monitoring systems.
+21.4 CIS Critical Security Controls	Presents prioritized safeguards to defend against common cyberattacks.
+21.5 NIST SP 800-53	Provides a catalog of security and privacy controls for systems and organizations.
+21.6 NIST SP 800-61	Provides guidance on cybersecurity incident response.
+21.7 NIST SP 800-30	Provides guidance for conducting information security risk assessments.
+21.8 ISO/IEC 27002	Provides guidance on information security controls.
+21.9 ISO 22301	Specifies requirements for business continuity management systems.
+21.10 CIS Benchmarks	Provides secure configuration recommendations for specific technologies.
+21.11 COBIT	Supports enterprise IT governance and management.
+21.12 PCI DSS	Establishes security requirements for environments that store, process, or transmit payment card data.
+21.13 OWASP Top 10	Raises awareness of major web application security risks.
+21.14 MITRE ATT&CK	Describes adversary tactics and techniques to support detection, analysis, and defense.
+
+Module 22. Human Factors and Security Awareness
+Module description: Examines how human behavior, usability, organizational culture, and training influence security outcomes.
+Lesson / subtopic	Description
+22.1 Security Awareness	Teaches users to recognize security threats and follow protective practices.
+22.2 Social Engineering Defense	Helps users identify manipulation and verify suspicious requests.
+22.3 Insider Threat Prevention	Reduces risks arising from malicious, negligent, or compromised insiders.
+22.4 Human Error Management	Prevents accidental disclosure, misconfiguration, and data loss.
+22.5 Security Culture	Encourages shared responsibility for information security.
+22.6 Security Usability	Designs security measures that people can use correctly and consistently.
+22.7 Security Training Evaluation	Measures whether training improves security knowledge and behavior.
+22.8 Phishing Simulations	Helps learners practice identifying and reporting suspicious messages.
+22.9 Acceptable Use Policies	Defines appropriate use of organizational devices, networks, and information.
+22.10 Security Communication	Communicates security policies, threats, incidents, and protective actions clearly.
+
+Module 23. Information Assurance in Organizational Operations
+Module description: Explains how organizations maintain information quality, availability, accountability, and security throughout day-to-day operations.
+Lesson / subtopic	Description
+23.1 Information Asset Management	Maintains an inventory of valuable information and supporting systems.
+23.2 Information Classification and Handling	Defines how information of different sensitivity levels should be protected and shared.
+23.3 Change Management	Evaluates and controls changes that could affect system security.
+23.4 Configuration Management	Tracks and controls system configurations and modifications.
+23.5 Security Service Management	Coordinates security services, responsibilities, and service expectations.
+23.6 Vendor and Third-Party Assurance	Evaluates whether external organizations satisfy required security expectations.
+23.7 Information Integrity Assurance	Maintains the accuracy, completeness, and protection of information against unauthorized changes.
+23.8 Information Availability Assurance	Ensures authorized users can access information when needed.
+23.9 Information Authenticity Assurance	Verifies the origin and legitimacy of information and communications.
+23.10 Continuous Improvement	Uses audits, incidents, metrics, and assessments to improve security practices.
+23.11 Security Resource Management	Allocates budgets, personnel, tools, and time to prioritized security needs.
+23.12 Security Program Evaluation	Evaluates whether security activities reduce risk and support organizational objectives.
+Unit VIII — Emerging Technologies and Specialized Security
+Purpose: Introduce modern and specialized security challenges after learners understand the foundational concepts and controls.
+
+Module 24. Artificial Intelligence and Emerging Technology Security
+Module description: Examines security and privacy risks associated with AI, connected devices, distributed technologies, and emerging computing environments.
+Lesson / subtopic	Description
+24.1 Artificial Intelligence Security	Protects AI systems, models, training data, and inference processes.
+24.2 Machine Learning Security	Addresses adversarial inputs, data poisoning, model theft, and model manipulation.
+24.3 Generative AI Security	Covers prompt injection, sensitive-data leakage, unsafe tool use, and AI application misuse.
+24.4 Internet of Things Security	Protects connected devices, sensors, firmware, and device communications.
+24.5 Operational Technology Security	Protects industrial equipment and systems used in physical operations.
+24.6 Industrial Control Systems Security	Secures supervisory control systems, programmable logic controllers, and industrial networks.
+24.7 Blockchain Security	Protects cryptographic keys, smart contracts, consensus mechanisms, and distributed applications.
+24.8 Quantum Computing Security	Examines the potential impact of quantum computing on current cryptographic systems.
+24.9 Post-Quantum Migration	Prepares systems to transition to quantum-resistant cryptographic algorithms.
+24.10 Container and Microservices Security	Protects distributed applications, service-to-service communication, and deployment pipelines.
+24.11 Edge Computing Security	Secures computing and storage performed close to connected devices or users.
+24.12 Mobile Application Security	Protects mobile application data, authentication, storage, and communications.
+24.13 Automotive Cybersecurity	Protects vehicle software, connected systems, and electronic control units.
+24.14 Cyber-Physical Systems Security	Protects systems in which computing and communications interact with physical processes.
+24.15 Satellite and Space Systems Security	Protects satellite communications, ground stations, and space-based infrastructure.
+
+Module 25. Applied Information Assurance and Security Capstone
+Module description: Integrates knowledge from previous modules into a practical project demonstrating the ability to assess risks, select controls, evaluate security, and recommend improvements.
+Lesson / subtopic	Description
+25.1 Security Assessment Project Planning	Defines the project scope, objectives, assets, stakeholders, and assessment requirements.
+25.2 Asset Inventory and Classification	Identifies the system's assets and classifies its information according to sensitivity.
+25.3 Threat and Vulnerability Analysis	Identifies relevant threats, vulnerabilities, and potential attack paths.
+25.4 Risk Assessment and Prioritization	Evaluates risks and prioritizes them according to likelihood, impact, and business needs.
+25.5 Security Control Selection	Selects appropriate safeguards based on risk and applicable standards.
+25.6 Security Policy and Architecture Design	Develops security policies and recommends a protective system architecture.
+25.7 Security Testing and Validation	Conducts approved tests or reviews to evaluate the effectiveness of selected controls.
+25.8 Incident Response and Recovery Planning	Develops response and recovery procedures for likely security incidents.
+25.9 Compliance and Assurance Documentation	Produces assessment records, control documentation, findings, and recommendations.
+25.10 Final Presentation and Evaluation	Presents findings, demonstrates the proposed solution, and justifies recommendations using evidence.

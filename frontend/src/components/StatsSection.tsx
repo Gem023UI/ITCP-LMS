@@ -7,8 +7,8 @@ type Stat = { value: number; suffix?: string; label: string };
 
 /* EDIT THESE: values and labels ("\n" = line break) */
 const STATS: Stat[] = [
-  { value: 6, label: "Units to\nLearn From" },
-  { value: 24, label: "Modules to\nPractice" },
+  { value: 7, label: "Units to\nLearn From" },
+  { value: 25, label: "Modules to\nPractice" },
   { value: 100, label: "Students\nEducated" },
 ];
 
