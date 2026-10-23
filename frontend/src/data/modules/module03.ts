@@ -1,1281 +1,596 @@
 
 import type { IASModule } from "../../types/modules";
 
-const VIDEO_URL =
-  "https://www.youtube.com/embed/X-O1-l0gP5Q?si=HTjUXXk8qQ7PmpQm";
+const placeholderImageUrl =
+  "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5p/c3RvY2twaG90/by5jb20vaWQvMjIxNjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ";
 
-const IMAGE_URL =
-  "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ";
+const placeholderVideo = {
+  title: "Introduction to Information Security",
+  url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=WwjFU_8f0WSKrE5_",
+  provider: "YouTube",
+};
 
-const iasModule03: IASModule = {
+const createSection = (
+  sectionNo: string,
+  header: string,
+  textContent: string,
+) => ({
+  sectionNo,
+  header,
+  imageUrl: placeholderImageUrl,
+  imageSource: "User-provided placeholder image URL.",
+  textContent,
+});
+
+const module3: IASModule = {
   unitId: "ias-module-01",
   moduleId: "03",
-  moduleNo: 3,
   title: "Information Security Risk Management",
   description:
-    "Teaches learners to identify, analyze, prioritize, treat, and monitor risks to organizational information systems.",
-
+    "Teaches learners to identify, analyze, prioritize, treat, and monitor risks to organizational information systems. The module introduces practical risk assessment methods, vulnerability analysis, threat modeling, business impact analysis, residual risk, and third-party risk management to support informed security decisions.",
   objectives: [
-    "Identify information assets, threats, vulnerabilities, and risk conditions.",
-    "Explain qualitative and quantitative risk assessment methods.",
-    "Evaluate and prioritize risks based on likelihood, impact, and organizational objectives.",
+    "Identify information assets, threats, vulnerabilities, and conditions that may affect organizational objectives.",
+    "Explain how likelihood and impact contribute to information security risk analysis.",
+    "Distinguish qualitative and quantitative risk assessment methods.",
+    "Evaluate and prioritize risks according to severity and organizational priorities.",
     "Compare risk avoidance, mitigation, transfer, and acceptance.",
-    "Explain vulnerability assessment, threat modeling, and business impact analysis.",
-    "Distinguish inherent risk, control effectiveness, and residual risk.",
-    "Describe continuous risk monitoring and third-party risk management."
+    "Explain how vulnerability assessments and threat modeling support risk reduction.",
+    "Describe the purpose of business impact analysis and residual risk evaluation.",
+    "Explain how continuous risk monitoring supports effective security management.",
+    "Identify methods for assessing and managing third-party security risks.",
   ],
-
   lessons: [
-    // ==========================================
-    // LESSON 3.1
-    // ==========================================
     {
       id: "ias-m03-l01",
       lessonNo: "3.1",
       title: "Risk Identification",
       description:
-        "Identifies assets, threats, vulnerabilities, and conditions that could affect organizational objectives.",
-      durationMinutes: 15,
-
+        "Identifies information assets, potential threats, vulnerabilities, and operating conditions that could affect organizational objectives and information security.",
       keyTerms: [
         {
           word: "Risk Identification",
           definition:
-            "The process of identifying and documenting risks that could affect an organization's objectives."
+            "The process of recognizing and documenting potential sources of risk, their causes, and the assets or objectives they may affect.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
         {
-          word: "Asset",
+          word: "Asset Inventory",
           definition:
-            "Anything of value that an organization needs to protect, including information, systems, people, and services."
+            "A documented record of organizational resources, such as information, hardware, software, systems, and services that require protection.",
+          source: "NIST SP 800-53 Rev. 5 — https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
         },
         {
-          word: "Threat Source",
+          word: "Risk Register",
           definition:
-            "The person, group, condition, or event that may cause harm to an information system or organization."
+            "A record of identified risks and their relevant details, which may include causes, impacts, owners, responses, and current status.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
-        {
-          word: "Vulnerability",
-          definition:
-            "A weakness in a system, process, or control that a threat could exploit or trigger."
-        }
       ],
-
-      video: [
-        {
-          title: "Risk Identification (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
-      ],
-
+      durationMinutes: 15,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Identifying What Could Go Wrong",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Risk identification establishes what an organization needs to protect and what circumstances could prevent it from achieving its objectives. It considers assets, threats, vulnerabilities, existing controls, and operational dependencies."
-            },
-            {
-              type: "image",
-              url: IMAGE_URL,
-              alt: "Administrator reviewing computer systems and backup data",
-              source: "Provided placeholder image URL",
-              caption:
-                "Identifying assets and protection requirements is an important starting point for risk management."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "What Should Be Identified?"
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Assets: databases, applications, devices, records, and services.",
-                "Threats: malware, human error, unauthorized access, and equipment failure.",
-                "Vulnerabilities: weak configurations, missing updates, and inadequate procedures.",
-                "Existing controls: safeguards already in place.",
-                "Consequences: possible financial, operational, legal, or reputational harm."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example: Student Information System"
-            },
-            {
-              type: "paragraph",
-              text:
-                "A school identifies its student database as a critical asset. An outdated database server is a vulnerability, while an attacker attempting to exploit it is a threat scenario. The resulting risk could involve unauthorized disclosure or modification of student records."
-            },
-            {
-              type: "callout",
-              variant: "tip",
-              title: "Practical technique",
-              text:
-                "Use asset inventories, interviews, system documentation, incident records, and vulnerability reports to discover risks. Record each risk clearly enough that it can be analyzed and assigned for treatment."
-            }
-          ]
-        }
-      ]
+        createSection(
+          "01",
+          "Identifying Assets and Potential Risks",
+          "Risk identification begins by understanding what an organization needs to protect and what could interfere with its objectives. Assets may include databases, applications, networks, devices, personnel, facilities, and essential services. After identifying assets, analysts examine possible threats, existing vulnerabilities, dependencies, and operational conditions. For example, a university enrollment system may face risks from stolen credentials, outdated software, accidental deletion, and power interruptions. Identifying these possibilities provides the foundation for determining which risks require further analysis.",
+        ),
+        createSection(
+          "02",
+          "Documenting Risk Scenarios",
+          "A useful risk scenario connects a potential cause with an event and its consequences. For example, an attacker could exploit an unpatched server vulnerability to access confidential student records, resulting in privacy violations and operational disruption. Risk documentation should identify the affected asset, relevant threat, vulnerability, possible consequences, and existing safeguards. A risk register helps teams maintain a consistent record, assign responsibility, and track progress. Risk identification should be revisited when systems change, new threats emerge, or organizational priorities are updated.",
+        ),
+      ],
     },
-
-    // ==========================================
-    // LESSON 3.2
-    // ==========================================
     {
       id: "ias-m03-l02",
       lessonNo: "3.2",
       title: "Risk Analysis",
       description:
-        "Estimates the likelihood and consequences of security incidents.",
-      durationMinutes: 15,
-
+        "Explains how analysts estimate the likelihood and consequences of security incidents to understand the level of risk facing information systems and organizational operations.",
       keyTerms: [
         {
           word: "Risk Analysis",
           definition:
-            "The process of examining a risk scenario to understand its likelihood, consequences, and contributing conditions."
+            "The process of examining identified risks to understand their likelihood, consequences, and other characteristics relevant to decision-making.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
         {
           word: "Likelihood",
           definition:
-            "An estimate of how probable or plausible a specified event or outcome is within a defined context."
+            "An estimate of the chance that a particular threat event will occur or successfully produce an adverse outcome within a specified context.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
         {
           word: "Impact",
           definition:
-            "The magnitude of harm or consequences that could result if a risk scenario occurs."
+            "The magnitude of harm or adverse consequences that an event could cause to an organization, its operations, assets, or individuals.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
-        {
-          word: "Risk Scenario",
-          definition:
-            "A description of a potential event, its causes, the affected assets, and its possible consequences."
-        }
       ],
-
-      video: [
-        {
-          title: "Risk Analysis (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
-      ],
-
+      durationMinutes: 15,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Estimating Likelihood and Impact",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Risk analysis examines how a harmful event could occur and what its consequences might be. Organizations consider factors such as threat capability, exposure, existing safeguards, incident history, and the value of affected assets."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Steps in Risk Analysis"
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Define the risk scenario and affected assets.",
-                "Identify relevant threats and vulnerabilities.",
-                "Review existing controls and their effectiveness.",
-                "Estimate the likelihood of the scenario occurring.",
-                "Estimate the operational, financial, legal, and other impacts.",
-                "Document assumptions, evidence, and uncertainty."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example"
-            },
-            {
-              type: "paragraph",
-              text:
-                "An organization evaluates the possibility of a server outage. Its analysis considers previous outages, server age, redundancy, recovery procedures, and the cost of interrupted operations. These factors inform its assessment of likelihood and impact."
-            },
-            {
-              type: "callout",
-              variant: "important",
-              title: "Key distinction",
-              text:
-                "Likelihood and impact are different dimensions. An event can be unlikely but extremely damaging, or frequent but relatively easy to recover from."
-            }
-          ]
-        }
-      ]
+        createSection(
+          "01",
+          "Estimating Likelihood and Impact",
+          "Risk analysis examines how likely a security incident is and how serious its consequences could be. Likelihood may depend on the presence of exploitable vulnerabilities, attacker capability, exposure, and the effectiveness of existing controls. Impact may involve financial losses, data exposure, service disruption, legal consequences, or reputational damage. Analysts should consider both direct and indirect consequences. For instance, a compromised student database could require incident investigation, system restoration, affected-person notifications, and additional protective measures.",
+        ),
+        createSection(
+          "02",
+          "Using Evidence to Analyze Risk",
+          "Risk estimates should be based on available evidence rather than assumptions alone. Useful evidence includes incident history, vulnerability reports, system configurations, threat intelligence, audit findings, and interviews with system owners. Analysts should document assumptions, uncertainty, and limitations because information about future events is rarely complete. Existing security controls must also be considered when estimating how likely an incident is to succeed and how much harm it could cause. A well-documented analysis allows decision-makers to understand why a risk receives a particular rating.",
+        ),
+      ],
     },
-
-    // ==========================================
-    // LESSON 3.3
-    // ==========================================
     {
       id: "ias-m03-l03",
       lessonNo: "3.3",
       title: "Qualitative Risk Assessment",
       description:
-        "Uses descriptive ratings, such as low, medium, and high, to evaluate risks.",
-      durationMinutes: 12,
-
+        "Uses descriptive categories such as low, medium, high, and critical to evaluate and communicate risk when precise numerical estimates are unavailable or unnecessary.",
       keyTerms: [
         {
-          word: "Qualitative Assessment",
+          word: "Qualitative Risk Assessment",
           definition:
-            "An assessment that uses descriptive categories or informed judgments to characterize risk."
+            "A risk assessment approach that uses descriptive categories, expert judgment, and defined criteria to characterize likelihood, impact, or overall risk.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
         {
           word: "Risk Matrix",
           definition:
-            "A tool that combines likelihood and impact categories to support risk rating and prioritization."
+            "A visual tool that combines likelihood and impact ratings to classify risks according to an established rating scheme.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
         {
           word: "Risk Rating",
           definition:
-            "A category or score assigned to a risk based on defined assessment criteria."
+            "A classification representing the assessed significance of a risk according to defined organizational criteria.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
-        {
-          word: "Risk Criteria",
-          definition:
-            "The standards an organization uses to determine the significance and acceptability of risks."
-        }
       ],
-
-      video: [
-        {
-          title: "Qualitative Risk Assessment (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
-      ],
-
+      durationMinutes: 15,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Using Descriptive Risk Ratings",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Qualitative risk assessment classifies risks using descriptive scales rather than requiring precise numerical probabilities or financial estimates. It is useful when detailed statistical data is unavailable or when an organization needs an accessible initial assessment."
-            },
-            {
-              type: "table",
-              headers: ["Likelihood / Impact", "Low Impact", "Medium Impact", "High Impact"],
-              rows: [
-                ["High likelihood", "Medium", "High", "High"],
-                ["Medium likelihood", "Low", "Medium", "High"],
-                ["Low likelihood", "Low", "Low", "Medium"]
-              ],
-              caption:
-                "Illustrative risk matrix. Actual ratings depend on the organization's approved criteria."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Assessment Process"
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Define consistent likelihood and impact categories.",
-                "Gather evidence and consult relevant stakeholders.",
-                "Assign ratings using the established criteria.",
-                "Document the reasons for each rating.",
-                "Compare risks and identify those requiring attention."
-              ]
-            },
-            {
-              type: "callout",
-              variant: "warning",
-              title: "Avoid false precision",
-              text:
-                "Qualitative labels can mean different things to different teams. Define each category clearly and apply the same criteria consistently."
-            }
-          ]
-        }
-      ]
+        createSection(
+          "01",
+          "Assigning Descriptive Risk Ratings",
+          "Qualitative assessment describes likelihood and impact using categories such as low, medium, high, and critical. Organizations define what each category means so different analysts can evaluate risks consistently. For example, a high-impact event might expose thousands of confidential records or interrupt a critical service for an extended period. A likelihood rating may consider exposure, known exploitation activity, and current safeguards. These descriptive ratings are especially useful when detailed financial data is unavailable or when an organization needs an initial assessment of many risks.",
+        ),
+        createSection(
+          "02",
+          "Using a Risk Matrix",
+          "A risk matrix combines likelihood and impact ratings to assign an overall risk level. A scenario with high likelihood and high impact would generally receive greater attention than one with low likelihood and low impact, subject to the organization's defined criteria. The matrix helps teams communicate priorities and identify risks requiring additional treatment. However, qualitative ratings can be subjective, and different teams may interpret categories differently. Documented rating definitions, consistent assessment procedures, and periodic reviews improve reliability. A matrix supports judgment; it does not replace careful analysis.",
+        ),
+      ],
     },
-
-    // ==========================================
-    // LESSON 3.4
-    // ==========================================
     {
       id: "ias-m03-l04",
       lessonNo: "3.4",
       title: "Quantitative Risk Assessment",
       description:
-        "Uses numerical estimates to express risk exposure and potential financial impact.",
-      durationMinutes: 15,
-
+        "Uses numerical estimates, probabilities, frequencies, and financial values to estimate risk exposure and support decisions about security investments.",
       keyTerms: [
         {
-          word: "Quantitative Assessment",
+          word: "Quantitative Risk Assessment",
           definition:
-            "An assessment that uses numerical data or estimates to characterize risk, such as probabilities, losses, and financial exposure."
+            "A risk assessment approach that uses numerical values to estimate likelihood, consequences, or potential losses associated with risk scenarios.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
         {
           word: "Single Loss Expectancy (SLE)",
           definition:
-            "The estimated loss from one occurrence of a specified adverse event."
-        },
-        {
-          word: "Annual Rate of Occurrence (ARO)",
-          definition:
-            "An estimate of how many times a specified event occurs per year, expressed as an expected rate."
+            "An estimate of the financial loss associated with one occurrence of a specific risk event.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
         {
           word: "Annualized Loss Expectancy (ALE)",
           definition:
-            "An estimate of expected annual loss, traditionally calculated as single loss expectancy multiplied by annual rate of occurrence."
-        }
+            "An estimate of expected annual financial loss for a risk scenario, often calculated as single loss expectancy multiplied by annualized rate of occurrence.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+        },
       ],
-
-      video: [
-        {
-          title: "Quantitative Risk Assessment (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
-      ],
-
+      durationMinutes: 18,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Expressing Risk Numerically",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Quantitative risk assessment uses numerical estimates to help compare potential losses and evaluate the financial implications of security decisions. Estimates may use incident records, business data, expert judgment, or statistical models."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Traditional Annual Loss Calculation"
-            },
-            {
-              type: "paragraph",
-              text:
-                "A traditional quantitative method estimates the loss from one incident and multiplies it by the expected number of occurrences per year."
-            },
-            {
-              type: "code",
-              language: "text",
-              code:
-                "SLE = Asset Value × Exposure Factor\nALE = SLE × Annual Rate of Occurrence",
-              caption:
-                "Illustrative traditional risk formulas. Values are estimates, not guarantees."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Worked Example"
-            },
-            {
-              type: "paragraph",
-              text:
-                "Suppose an incident could cause an estimated loss of ₱100,000 and is expected to occur 0.2 times per year. The estimated annual loss is ₱100,000 × 0.2 = ₱20,000."
-            },
-            {
-              type: "table",
-              headers: ["Measure", "Example Value"],
-              rows: [
-                ["Single loss expectancy", "₱100,000"],
-                ["Annual rate of occurrence", "0.2"],
-                ["Annualized loss expectancy", "₱20,000"]
-              ]
-            },
-            {
-              type: "callout",
-              variant: "important",
-              title: "Interpret results carefully",
-              text:
-                "An expected annual loss is a planning estimate, not a prediction that the organization will lose exactly that amount each year. Results depend on the quality of the assumptions and data."
-            }
-          ]
-        }
-      ]
+        createSection(
+          "01",
+          "Expressing Risk in Numerical Terms",
+          "Quantitative assessment expresses risk using numbers, such as estimated annual incident frequency, recovery costs, or financial losses. One commonly taught model calculates single loss expectancy (SLE) by multiplying asset value by the estimated exposure factor. Annualized loss expectancy (ALE) can then be estimated by multiplying SLE by the annualized rate of occurrence. For example, if an incident could cause an estimated ₱100,000 loss and is expected to occur 0.2 times per year, the modeled annualized loss expectancy is ₱20,000. These are estimates, not guaranteed future losses.",
+        ),
+        createSection(
+          "02",
+          "Interpreting Quantitative Estimates",
+          "Numerical estimates can help compare risks and evaluate whether a proposed safeguard is financially justified. However, results depend on the quality of the input data, assumptions about incident frequency, and estimates of direct and indirect costs. Rare events may have limited historical data, while privacy or reputational consequences can be difficult to express in money. Analysts should communicate uncertainty and avoid presenting estimated losses as precise predictions. Quantitative analysis is most useful when its assumptions are transparent and the results are considered alongside operational, legal, and human consequences.",
+        ),
+      ],
     },
-
-    // ==========================================
-    // LESSON 3.5
-    // ==========================================
     {
       id: "ias-m03-l05",
       lessonNo: "3.5",
       title: "Risk Evaluation and Prioritization",
       description:
-        "Ranks risks according to severity, likelihood, impact, and organizational priorities.",
-      durationMinutes: 12,
-
+        "Ranks identified risks according to severity, likelihood, business impact, and organizational priorities so resources can be directed toward the most significant exposures.",
       keyTerms: [
         {
           word: "Risk Evaluation",
           definition:
-            "The process of comparing analyzed risks against established risk criteria to determine their significance and whether further action is needed."
-        },
-        {
-          word: "Risk Prioritization",
-          definition:
-            "Ordering risks according to their urgency, severity, potential consequences, and organizational needs."
+            "The process of comparing analyzed risk results against established criteria to determine whether risks require treatment or further action.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
         {
           word: "Risk Appetite",
           definition:
-            "The amount and type of risk an organization is willing to pursue or retain in achieving its objectives."
+            "The broad amount and type of risk an organization is willing to pursue or retain in achieving its objectives.",
+          source: "NIST IR 8286 Series — https://csrc.nist.gov/projects/risk-management/about-rmf",
         },
         {
           word: "Risk Tolerance",
           definition:
-            "The acceptable variation in risk exposure or outcomes around organizational objectives."
-        }
+            "The acceptable variation in risk exposure around organizational objectives or established risk limits.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+        },
       ],
-
-      video: [
-        {
-          title: "Risk Evaluation and Prioritization (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
-      ],
-
+      durationMinutes: 15,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Deciding Which Risks Need Attention First",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "After analyzing risks, an organization compares the results against its risk criteria, legal obligations, business objectives, and available resources. Prioritization helps direct attention toward the risks that matter most."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Factors That Influence Priority"
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Likelihood of the risk scenario occurring.",
-                "Severity of the potential consequences.",
-                "Criticality of the affected asset or business service.",
-                "Legal, regulatory, and contractual obligations.",
-                "Effectiveness of existing controls.",
-                "Time required to reduce exposure and available resources."
-              ]
-            },
-            {
-              type: "table",
-              headers: ["Risk Scenario", "Illustrative Rating", "Possible Priority"],
-              rows: [
-                [
-                  "Public exposure of sensitive records",
-                  "High",
-                  "Urgent remediation"
-                ],
-                [
-                  "Outdated software on an isolated test device",
-                  "Low",
-                  "Schedule remediation"
-                ],
-                [
-                  "Failure of a critical service without tested recovery",
-                  "High",
-                  "Urgent continuity planning"
-                ]
-              ],
-              caption:
-                "Illustrative priorities. Actual decisions depend on context and approved criteria."
-            },
-            {
-              type: "callout",
-              variant: "tip",
-              title: "Prioritization principle",
-              text:
-                "Do not rank risks by technical severity alone. Consider business context, exposure, existing safeguards, and the consequences of leaving the risk untreated."
-            }
-          ]
-        }
-      ]
+        createSection(
+          "01",
+          "Evaluating Risks Against Organizational Criteria",
+          "After analysis, risks are compared against criteria such as impact thresholds, legal requirements, service criticality, and approved risk limits. A risk with a moderate likelihood may still require immediate attention if it could expose highly sensitive data or interrupt an essential service. Conversely, a low-impact issue may be scheduled for later treatment if more serious exposures exist. Evaluation determines whether a risk is acceptable, requires additional controls, or needs escalation to management. Decisions should reflect the organization's objectives and obligations, not just technical severity scores.",
+        ),
+        createSection(
+          "02",
+          "Prioritizing Limited Security Resources",
+          "Organizations rarely have unlimited time and funding to address every risk simultaneously. Prioritization helps allocate resources to the exposures that could cause the greatest harm or violate critical requirements. Teams may consider exploitability, affected assets, exposure to external threats, existing safeguards, recovery difficulty, and the cost of treatment. A documented priority list should identify risk owners, planned actions, deadlines, and escalation requirements. Priorities must be reviewed as conditions change, because a newly exploited vulnerability or critical service dependency can quickly make a previously moderate risk urgent.",
+        ),
+      ],
     },
-
-    // ==========================================
-    // LESSON 3.6
-    // ==========================================
     {
       id: "ias-m03-l06",
       lessonNo: "3.6",
       title: "Risk Treatment",
       description:
-        "Explores risk avoidance, mitigation, transfer, and acceptance.",
-      durationMinutes: 15,
-
+        "Explores the main strategies for responding to identified risks: avoidance, mitigation, transfer, and acceptance, including how organizations select and document appropriate responses.",
       keyTerms: [
-        {
-          word: "Risk Treatment",
-          definition:
-            "The process of selecting and implementing options for modifying risk."
-        },
         {
           word: "Risk Avoidance",
           definition:
-            "Changing or discontinuing an activity so that a particular risk is no longer taken."
+            "A risk response that stops or does not undertake an activity when the associated risk is considered unacceptable.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
         {
           word: "Risk Mitigation",
           definition:
-            "Taking measures to reduce the likelihood or consequences of a risk."
+            "A response that introduces or improves safeguards to reduce the likelihood or impact of a risk.",
+          source: "NIST SP 800-53 Rev. 5 — https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
         },
         {
           word: "Risk Transfer",
           definition:
-            "Sharing or shifting some financial or other consequences of risk to another party, such as through insurance or contractual arrangements."
+            "A response that shifts or shares specified financial or operational consequences with another party through arrangements such as insurance or contracts, without necessarily eliminating the underlying risk.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
-        {
-          word: "Risk Acceptance",
-          definition:
-            "An informed decision to retain a risk under defined conditions and within appropriate authority."
-        }
       ],
-
-      video: [
-        {
-          title: "Risk Treatment Strategies (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
-      ],
-
+      durationMinutes: 18,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Choosing a Risk Response",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Risk treatment determines what an organization will do about an identified risk. The choice depends on risk severity, legal obligations, cost, available controls, business objectives, and the organization's authority to accept exposure."
-            },
-            {
-              type: "table",
-              headers: ["Strategy", "Approach", "Example"],
-              rows: [
-                [
-                  "Avoidance",
-                  "Stop or change the risky activity.",
-                  "Discontinue an unsupported application."
-                ],
-                [
-                  "Mitigation",
-                  "Reduce likelihood or impact.",
-                  "Patch a vulnerable server and restrict access."
-                ],
-                [
-                  "Transfer or sharing",
-                  "Allocate some consequences to another party.",
-                  "Purchase suitable cyber insurance."
-                ],
-                [
-                  "Acceptance",
-                  "Retain the risk through an informed decision.",
-                  "Accept a minor risk with documented approval."
-                ]
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Documenting Treatment"
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Select the treatment option or combination of options.",
-                "Identify the required controls and responsible owners.",
-                "Estimate implementation costs and expected benefits.",
-                "Set deadlines and success criteria.",
-                "Record approvals and any remaining exposure.",
-                "Monitor implementation and reassess the risk."
-              ]
-            },
-            {
-              type: "callout",
-              variant: "warning",
-              title: "Important",
-              text:
-                "Risk transfer does not eliminate every consequence of an incident. Insurance and contracts may have exclusions, limits, and conditions, while legal and operational responsibilities may remain with the organization."
-            }
-          ]
-        }
-      ]
+        createSection(
+          "01",
+          "Four Common Risk Treatment Strategies",
+          "Risk avoidance eliminates exposure by stopping an activity or choosing a safer alternative. Risk mitigation reduces risk through safeguards such as patching, encryption, monitoring, or access restrictions. Risk transfer shifts or shares some consequences through insurance, contracts, or service arrangements, although responsibility and residual exposure may remain. Risk acceptance means knowingly retaining a risk within approved limits. For example, an organization may mitigate a database vulnerability through patching, transfer certain financial consequences through insurance, or accept a low-level residual risk after evaluation and approval.",
+        ),
+        createSection(
+          "02",
+          "Selecting and Documenting a Risk Response",
+          "The appropriate response depends on the potential consequences, treatment cost, legal obligations, operational requirements, and organizational risk tolerance. Some situations require multiple strategies. A company may mitigate a cloud service risk through access controls while transferring specified financial losses through insurance and accepting a remaining low-level exposure. Risk owners should document the selected response, supporting rationale, responsible parties, deadlines, and expected residual risk. Acceptance should be authorized by an appropriate decision-maker and should never be used to bypass mandatory security or legal requirements.",
+        ),
+      ],
     },
-
-    // ==========================================
-    // LESSON 3.7
-    // ==========================================
     {
       id: "ias-m03-l07",
       lessonNo: "3.7",
       title: "Vulnerability Assessment",
       description:
-        "Identifies, evaluates, and prioritizes weaknesses in systems and configurations.",
-      durationMinutes: 15,
-
+        "Explains how organizations identify, evaluate, validate, and prioritize technical weaknesses in systems, applications, networks, and configurations.",
       keyTerms: [
         {
           word: "Vulnerability Assessment",
           definition:
-            "A systematic process for identifying, analyzing, and prioritizing security weaknesses in systems, applications, and configurations."
+            "A systematic process for identifying, analyzing, and prioritizing weaknesses that could be exploited to compromise systems or information.",
+          source: "NIST SP 800-115 — https://csrc.nist.gov/pubs/sp/800/115/final",
         },
         {
           word: "Vulnerability Scanner",
           definition:
-            "A tool that checks systems or applications for known weaknesses and configuration problems."
+            "A tool that examines systems or applications for known weaknesses, insecure configurations, missing updates, or other detectable security issues.",
+          source: "NIST SP 800-115 — https://csrc.nist.gov/pubs/sp/800/115/final",
         },
         {
-          word: "Misconfiguration",
+          word: "Common Vulnerability Scoring System (CVSS)",
           definition:
-            "A system or service setting that is incorrect or insecure for its intended use."
+            "A standardized framework for describing the characteristics and severity of software vulnerabilities through numerical scores and related metrics.",
+          source: "FIRST CVSS — https://www.first.org/cvss/",
         },
-        {
-          word: "Remediation",
-          definition:
-            "An action taken to correct a vulnerability or otherwise resolve a security weakness."
-        }
       ],
-
-      video: [
-        {
-          title: "Vulnerability Assessment (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
-      ],
-
+      durationMinutes: 18,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Finding and Prioritizing Weaknesses",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Vulnerability assessment helps organizations discover weaknesses before they lead to incidents. Assessments may combine automated scanning, configuration reviews, dependency checks, and manual verification."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Assessment Workflow"
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Define the authorized assessment scope.",
-                "Inventory the systems, applications, and assets to examine.",
-                "Scan for known vulnerabilities and insecure configurations.",
-                "Validate important findings and investigate false positives.",
-                "Prioritize findings according to severity and actual exposure.",
-                "Remediate, verify fixes, and document accepted exceptions."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Severity Is Not the Only Factor"
-            },
-            {
-              type: "paragraph",
-              text:
-                "A vulnerability's priority depends on more than its technical severity. Whether it is exposed to the internet, whether exploitation is known, the value of the affected asset, and the effectiveness of existing controls also matter."
-            },
-            {
-              type: "callout",
-              variant: "important",
-              title: "Authorized testing only",
-              text:
-                "Assess systems only with appropriate authorization and within an agreed scope. Scanning can disrupt services or expose sensitive information if performed carelessly."
-            }
-          ]
-        }
-      ]
+        createSection(
+          "01",
+          "Identifying and Evaluating Vulnerabilities",
+          "Vulnerability assessments examine systems for weaknesses such as outdated software, insecure configurations, unnecessary services, weak access controls, and known software flaws. Assessments may use automated scanning, manual configuration reviews, dependency analysis, and interviews with system administrators. Results should be validated because automated tools can produce false positives or miss issues that require contextual investigation. Testing must be authorized and scoped appropriately to avoid disrupting production systems. An assessment provides a view of known weaknesses, but it cannot guarantee that every vulnerability has been discovered.",
+        ),
+        createSection(
+          "02",
+          "Prioritizing Remediation",
+          "Vulnerability severity scores provide useful technical context, but remediation priorities should also consider exploit availability, active exploitation, system exposure, asset criticality, and potential impact. A moderately scored vulnerability on a public-facing system containing sensitive records may deserve urgent attention. Remediation can include applying patches, changing configurations, removing unnecessary services, or introducing compensating controls when a fix is unavailable. After remediation, teams should verify that the weakness has been addressed and update their records. Continuous vulnerability management helps prevent known weaknesses from remaining unaddressed.",
+        ),
+      ],
     },
-
-    // ==========================================
-    // LESSON 3.8
-    // ==========================================
     {
       id: "ias-m03-l08",
       lessonNo: "3.8",
       title: "Threat Modeling",
       description:
-        "Analyzes how attackers might compromise a system and identifies appropriate defenses.",
-      durationMinutes: 15,
-
+        "Analyzes how attackers or other adverse events could compromise a system by examining assets, trust boundaries, entry points, attack paths, and suitable defensive measures.",
       keyTerms: [
         {
           word: "Threat Modeling",
           definition:
-            "A structured process for identifying potential threats, attack paths, and security requirements for a system."
+            "A structured process for identifying potential threats to a system, analyzing attack scenarios, and determining appropriate security requirements or mitigations.",
+          source: "OWASP Threat Modeling — https://owasp.org/www-community/Threat_Modeling",
         },
         {
           word: "Attack Surface",
           definition:
-            "The set of points through which a system could be accessed, influenced, or attacked."
+            "The set of points through which an attacker could attempt to enter, interact with, or affect a system.",
+          source: "NIST CSRC Glossary — https://csrc.nist.gov/glossary",
         },
         {
           word: "Trust Boundary",
           definition:
-            "A boundary across which data or operations move between components with different trust levels."
+            "A boundary between components or environments with different security assumptions, privileges, or levels of trust.",
+          source: "OWASP Threat Modeling — https://owasp.org/www-community/Threat_Modeling",
         },
-        {
-          word: "Attack Tree",
-          definition:
-            "A diagram that organizes possible ways an attacker could achieve a particular objective."
-        }
       ],
-
-      video: [
-        {
-          title: "Threat Modeling (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
-      ],
-
+      durationMinutes: 18,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Thinking Through Potential Attacks",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Threat modeling examines how a system could be attacked and which defenses would best reduce the resulting risks. It is most effective when considered during system design and repeated as architecture, dependencies, and threats change."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "A Basic Threat Modeling Process"
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Define the system, scope, and security objectives.",
-                "Map components, data flows, entry points, and trust boundaries.",
-                "Identify valuable assets and potential threat actors.",
-                "Consider plausible attack scenarios and weaknesses.",
-                "Select safeguards to prevent, detect, or limit attacks.",
-                "Review the model as the system evolves."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example: Online Shopping Application"
-            },
-            {
-              type: "paragraph",
-              text:
-                "A threat model for an online store examines customer accounts, product records, payment integrations, and administrative functions. Potential threats include account takeover, unauthorized price changes, and exposure of customer information. Appropriate defenses include strong authentication, server-side authorization, input handling, and monitoring."
-            },
-            {
-              type: "callout",
-              variant: "tip",
-              title: "Design for security",
-              text:
-                "Threat modeling helps identify security requirements before weaknesses become expensive to correct. It complements, rather than replaces, testing and ongoing monitoring."
-            }
-          ]
-        }
-      ]
+        createSection(
+          "01",
+          "Modeling Assets, Entry Points, and Threats",
+          "Threat modeling examines how a system could be attacked or otherwise harmed before or during development. Analysts identify important assets, system components, data flows, external interfaces, and trust boundaries. They then consider threats such as unauthorized access, data tampering, service disruption, and misuse of privileges. Frameworks such as STRIDE provide a structured way to consider categories of threats, including spoofing, tampering, repudiation, information disclosure, denial of service, and elevation of privilege. A diagram of system components and data flows can help teams discover risks that may be difficult to see from individual components alone.",
+        ),
+        createSection(
+          "02",
+          "Turning Threat Models into Defenses",
+          "Once threats are identified, teams select controls that address the relevant attack paths and security requirements. For example, a public-facing application may need strong authentication, server-side authorization, input validation, encrypted communications, secure session handling, and audit logging. Threat models should be updated when architecture, dependencies, or business requirements change. The process is most effective when developers, security specialists, operators, and product owners contribute their knowledge. Threat modeling does not predict every possible attack; it provides a systematic way to identify plausible risks and design proportionate defenses.",
+        ),
+      ],
     },
-
-    // ==========================================
-    // LESSON 3.9
-    // ==========================================
     {
       id: "ias-m03-l09",
       lessonNo: "3.9",
       title: "Business Impact Analysis",
       description:
-        "Evaluates how disruptions affect critical business functions and resources.",
-      durationMinutes: 15,
-
+        "Evaluates how disruptions affect critical business functions, information resources, dependencies, and service recovery requirements to support continuity planning.",
       keyTerms: [
         {
-          word: "Business Impact Analysis",
+          word: "Business Impact Analysis (BIA)",
           definition:
-            "A process for determining the effects of disruptions on business functions and identifying recovery requirements."
+            "A process for determining the effects of disruptions on organizational activities and identifying the resources and recovery priorities needed to sustain or restore them.",
+          source: "NIST SP 800-34 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final",
         },
         {
           word: "Recovery Time Objective (RTO)",
           definition:
-            "The target time within which a disrupted service or activity should be restored."
+            "The target time within which a business process or system should be restored after a disruption.",
+          source: "NIST SP 800-34 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final",
         },
         {
           word: "Recovery Point Objective (RPO)",
           definition:
-            "The point in time to which data must be recovered after a disruption, expressed as the maximum targeted period of data loss."
+            "The point in time to which data must be recoverable after a disruption, indicating the maximum tolerable amount of data loss measured in time.",
+          source: "NIST SP 800-34 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final",
         },
-        {
-          word: "Critical Business Function",
-          definition:
-            "An activity that must be maintained or restored within an acceptable period to meet essential organizational needs."
-        }
       ],
-
-      video: [
-        {
-          title: "Business Impact Analysis (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
-      ],
-
+      durationMinutes: 18,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Understanding the Consequences of Disruption",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Business impact analysis, or BIA, identifies critical activities and evaluates what happens when they are disrupted. It helps organizations establish recovery priorities, resource requirements, and acceptable restoration targets."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Key BIA Activities"
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Identify critical business functions and services.",
-                "Determine which systems, people, data, and suppliers they depend on.",
-                "Assess operational, financial, legal, and reputational impacts over time.",
-                "Establish recovery time and recovery point objectives.",
-                "Identify resource requirements and recovery priorities.",
-                "Use the results to inform continuity and disaster recovery plans."
-              ]
-            },
-            {
-              type: "table",
-              headers: ["Measure", "Example Target", "Meaning"],
-              rows: [
-                [
-                  "RTO",
-                  "4 hours",
-                  "Target to restore the affected service within four hours."
-                ],
-                [
-                  "RPO",
-                  "1 hour",
-                  "Target to recover data to a point no more than one hour before the disruption."
-                ]
-              ],
-              caption:
-                "Illustrative recovery objectives. Actual targets must be based on business needs."
-            },
-            {
-              type: "callout",
-              variant: "important",
-              title: "Do not confuse the two",
-              text:
-                "RTO concerns the target time for service restoration. RPO concerns the acceptable period of data loss measured backward from the disruption."
-            }
-          ]
-        }
-      ]
+        createSection(
+          "01",
+          "Understanding Business Impact",
+          "A business impact analysis identifies essential activities and evaluates the consequences of their interruption. Impacts may include lost revenue, delayed services, legal obligations, damaged reputation, and harm to customers or employees. The analysis also identifies dependencies such as databases, communication systems, personnel, facilities, and external providers. For example, a university may determine that enrollment, payroll, and student-record services have different recovery priorities. Understanding these dependencies helps organizations decide which services require the fastest restoration and which resources must be available during a disruption.",
+        ),
+        createSection(
+          "02",
+          "Establishing Recovery Requirements",
+          "Business impact analysis helps establish recovery time objectives and recovery point objectives. The RTO identifies the target time for restoring a process or service, while the RPO describes the acceptable data-loss window measured in time. A system with an RPO of one hour should be recoverable to a point no more than approximately one hour before the disruption, subject to the recovery design and business requirements. These objectives guide backup frequency, redundancy, recovery architecture, and testing. They should be realistic, approved by business owners, and reviewed when operational requirements change.",
+        ),
+      ],
     },
-
-    // ==========================================
-    // LESSON 3.10
-    // ==========================================
     {
       id: "ias-m03-l10",
       lessonNo: "3.10",
       title: "Residual Risk",
       description:
-        "Explains the risk remaining after security controls are applied.",
-      durationMinutes: 12,
-
+        "Explains the risk that remains after safeguards and treatment measures have been implemented, including how organizations evaluate and formally accept remaining exposure.",
       keyTerms: [
-        {
-          word: "Inherent Risk",
-          definition:
-            "The level of risk considered before accounting for the effects of the relevant controls."
-        },
         {
           word: "Residual Risk",
           definition:
-            "The risk that remains after the effects of implemented controls and other treatment measures are considered."
+            "The risk that remains after security controls and other risk responses have been applied.",
+          source: "NIST CSRC Glossary — https://csrc.nist.gov/glossary",
         },
         {
-          word: "Control Effectiveness",
+          word: "Inherent Risk",
           definition:
-            "The degree to which a safeguard operates as intended and achieves its security objectives."
+            "The level of risk associated with an activity or situation before considering the effect of relevant controls.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
         },
         {
           word: "Risk Acceptance",
           definition:
-            "An authorized decision to retain a risk after considering its significance and the available treatment options."
-        }
+            "An informed decision by an authorized person or organization to retain a particular level of risk within applicable requirements and approved limits.",
+          source: "NIST SP 800-30 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+        },
       ],
-
-      video: [
-        {
-          title: "Residual Risk (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
-      ],
-
+      durationMinutes: 15,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Understanding Remaining Exposure",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Security controls reduce risk but rarely eliminate it entirely. Residual risk is the exposure that remains after controls and other treatment measures have been taken into account. Organizations need to understand this remaining exposure before deciding whether it is acceptable."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example"
-            },
-            {
-              type: "paragraph",
-              text:
-                "A company introduces multifactor authentication, access restrictions, and account monitoring to reduce account takeover risk. These controls make unauthorized access more difficult, but phishing, compromised devices, and implementation weaknesses may still create residual risk."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Managing Residual Risk"
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Assess the effectiveness of implemented controls.",
-                "Reevaluate likelihood and impact after treatment.",
-                "Compare the remaining exposure with approved risk criteria.",
-                "Apply additional controls when necessary and feasible.",
-                "Document remaining risks, owners, and treatment decisions.",
-                "Obtain acceptance from the appropriate authority when required."
-              ]
-            },
-            {
-              type: "callout",
-              variant: "warning",
-              title: "Acceptance is not automatic",
-              text:
-                "A risk should not be considered acceptable simply because controls have been implemented. Remaining exposure must be evaluated against organizational criteria, legal obligations, and approval requirements."
-            }
-          ]
-        }
-      ]
+        createSection(
+          "01",
+          "Why Risk Remains After Controls",
+          "Security controls reduce risk but rarely eliminate it entirely. Residual risk may remain because controls have limitations, new threats emerge, human error continues to be possible, or some safeguards are too costly or disruptive to implement. Inherent risk describes exposure before considering controls, while residual risk reflects the exposure remaining after relevant safeguards and responses are considered. For example, multifactor authentication can reduce account-compromise risk but may not prevent every incident involving stolen sessions or compromised devices. Understanding residual risk helps organizations avoid assuming that implementing a control makes a system completely safe.",
+        ),
+        createSection(
+          "02",
+          "Evaluating and Accepting Residual Risk",
+          "After implementing a risk response, organizations should reassess the remaining likelihood and impact and determine whether the result falls within approved limits. If residual risk is still too high, additional safeguards or alternative responses may be necessary. If it is acceptable, an authorized risk owner should document the decision, supporting rationale, limitations, and conditions for future review. Risk acceptance must respect legal, regulatory, contractual, and policy requirements. It should not be treated as permanent because changes in threats, system exposure, or organizational priorities can make previously acceptable risk unacceptable.",
+        ),
+      ],
     },
-
-    // ==========================================
-    // LESSON 3.11
-    // ==========================================
     {
       id: "ias-m03-l11",
       lessonNo: "3.11",
       title: "Risk Monitoring",
       description:
-        "Tracks changing threats, vulnerabilities, control effectiveness, and risk levels.",
-      durationMinutes: 12,
-
+        "Tracks changes in threats, vulnerabilities, control effectiveness, and risk levels to ensure that security decisions remain appropriate as systems and operating conditions evolve.",
       keyTerms: [
         {
           word: "Risk Monitoring",
           definition:
-            "The ongoing observation and review of risks, controls, and changing conditions that could affect risk exposure."
-        },
-        {
-          word: "Risk Indicator",
-          definition:
-            "A measure or observable condition used to help identify changes in risk."
-        },
-        {
-          word: "Key Risk Indicator (KRI)",
-          definition:
-            "A metric used to signal increasing or changing exposure to a particular risk."
+            "The ongoing process of observing risk conditions, reassessing exposure, and checking whether risk responses and security controls remain effective.",
+          source: "NIST SP 800-137 — https://csrc.nist.gov/pubs/sp/800/137/final",
         },
         {
           word: "Continuous Monitoring",
           definition:
-            "An ongoing process of collecting and evaluating information about security posture, controls, and risks at an appropriate frequency."
-        }
-      ],
-
-      video: [
+            "An ongoing strategy for collecting and analyzing security-related information to maintain awareness of system security and support timely decisions.",
+          source: "NIST SP 800-137 — https://csrc.nist.gov/pubs/sp/800/137/final",
+        },
         {
-          title: "Risk Monitoring (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
+          word: "Key Risk Indicator (KRI)",
+          definition:
+            "A measurable signal used to help identify changes in risk exposure or the likelihood that an adverse event may occur.",
+          source: "NIST IR 8286 Series — https://csrc.nist.gov/projects/risk-management/about-rmf",
+        },
       ],
-
+      durationMinutes: 15,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Keeping Risk Information Current",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Risk assessments can become outdated as systems, threats, business operations, and suppliers change. Risk monitoring helps organizations detect new exposure, verify control performance, and decide when reassessment is necessary."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "What Should Be Monitored?"
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "New vulnerabilities and relevant threat intelligence.",
-                "Security incidents, suspicious activity, and near misses.",
-                "Control failures and overdue remediation actions.",
-                "Changes to systems, configurations, and dependencies.",
-                "Third-party security incidents and service changes.",
-                "Changes in legal requirements and business priorities."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example Risk Indicators"
-            },
-            {
-              type: "table",
-              headers: ["Indicator", "What It May Signal"],
-              rows: [
-                [
-                  "Increasing unresolved critical vulnerabilities",
-                  "Growing exposure to known weaknesses"
-                ],
-                [
-                  "Repeated failed login attempts",
-                  "Possible credential attacks or misconfiguration"
-                ],
-                [
-                  "Frequent service interruptions",
-                  "Availability or resilience problems"
-                ],
-                [
-                  "Overdue access reviews",
-                  "Potentially excessive or outdated permissions"
-                ]
-              ]
-            },
-            {
-              type: "callout",
-              variant: "tip",
-              title: "Close the loop",
-              text:
-                "Monitoring should lead to action. Assign responsibility for reviewing indicators, investigating significant changes, updating risk records, and escalating issues when thresholds are exceeded."
-            }
-          ]
-        }
-      ]
+        createSection(
+          "01",
+          "Monitoring Changes in Risk",
+          "Risk changes as organizations deploy new applications, adopt cloud services, discover vulnerabilities, or encounter new attack methods. Monitoring helps identify these changes before they cause significant harm. Useful information includes security alerts, vulnerability findings, incident reports, access logs, control-test results, and changes in supplier status. Key risk indicators can help teams recognize concerning trends, such as increasing unresolved vulnerabilities or repeated failed authentication attempts. Monitoring should focus on information relevant to organizational priorities rather than collecting data without a clear purpose.",
+        ),
+        createSection(
+          "02",
+          "Reviewing Controls and Updating Risk Decisions",
+          "Effective monitoring checks whether security controls continue to operate as intended and whether the remaining risk is within approved limits. Teams should establish responsibilities, reporting schedules, escalation thresholds, and procedures for responding to significant changes. For example, a newly disclosed vulnerability affecting an exposed service may require immediate reassessment and emergency mitigation. Monitoring results should update the risk register and inform management decisions. Regular reviews, technical alerts, independent assessments, and lessons learned from incidents help organizations adjust safeguards as conditions evolve.",
+        ),
+      ],
     },
-
-    // ==========================================
-    // LESSON 3.12
-    // ==========================================
     {
       id: "ias-m03-l12",
       lessonNo: "3.12",
       title: "Third-Party Risk Management",
       description:
-        "Assesses security risks associated with vendors, contractors, and service providers.",
-      durationMinutes: 15,
-
+        "Assesses and manages security risks associated with vendors, contractors, cloud providers, software suppliers, and other external parties that access organizational information or support essential services.",
       keyTerms: [
         {
           word: "Third-Party Risk",
           definition:
-            "The risk an organization faces through its relationships with external vendors, contractors, suppliers, and service providers."
+            "The risk to an organization arising from the products, services, access, operations, or security practices of an external organization or provider.",
+          source: "NIST SP 800-161 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/161/r1/upd1/final",
         },
         {
-          word: "Vendor Assessment",
+          word: "Supply Chain Risk Management",
           definition:
-            "The evaluation of a supplier's security practices, capabilities, and risks before or during a business relationship."
+            "The process of identifying, assessing, and mitigating risks associated with products, services, suppliers, and the systems and processes through which they are provided.",
+          source: "NIST SP 800-161 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/161/r1/upd1/final",
         },
         {
           word: "Due Diligence",
           definition:
-            "Reasonable investigation and evaluation performed before making or continuing a business decision."
+            "The process of examining relevant information about a prospective or existing provider to assess its suitability, capabilities, and associated risks.",
+          source: "NIST SP 800-161 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/161/r1/upd1/final",
         },
-        {
-          word: "Shared Responsibility",
-          definition:
-            "The allocation of security duties between parties that provide, operate, or use a service."
-        },
-        {
-          word: "Supply-Chain Risk",
-          definition:
-            "Risk arising from dependencies on suppliers, products, services, and associated delivery processes."
-        }
       ],
-
-      video: [
-        {
-          title: "Third-Party Risk Management (Placeholder)",
-          url: VIDEO_URL,
-          provider: "youtube"
-        }
-      ],
-
+      durationMinutes: 18,
+      video: [{ ...placeholderVideo }],
       sections: [
-        {
-          sectionNo: "01",
-          header: "Managing Risks from External Providers",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Organizations often rely on external providers for cloud hosting, payment processing, software development, data storage, and other essential services. A provider's security weakness or service failure can affect the organization that depends on it."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Third-Party Risk Management Lifecycle"
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Inventory suppliers and the services they provide.",
-                "Classify providers according to data access, criticality, and exposure.",
-                "Assess security controls, relevant certifications, and incident history.",
-                "Define security requirements and responsibilities in contracts.",
-                "Monitor provider performance and material changes.",
-                "Plan for incidents, service interruptions, and contract termination."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example: Cloud Service Provider"
-            },
-            {
-              type: "paragraph",
-              text:
-                "A company stores customer records with a cloud provider. Before adoption, it evaluates access controls, encryption, incident notification procedures, data location, backup capabilities, and service continuity. During the relationship, it reviews significant changes and confirms that contractual security requirements remain appropriate."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Important Considerations"
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Limit provider access to what is necessary.",
-                "Clarify responsibility for incident reporting and response.",
-                "Understand subcontractor and dependency risks.",
-                "Verify backup, recovery, and data-return arrangements.",
-                "Reassess providers when services or risk conditions change."
-              ]
-            },
-            {
-              type: "callout",
-              variant: "important",
-              title: "Key takeaway",
-              text:
-                "Using an external provider does not automatically remove the organization's responsibility for managing its information security risks. Responsibilities should be clearly defined and monitored throughout the relationship."
-            }
-          ]
-        }
-      ]
-    }
+        createSection(
+          "01",
+          "Identifying Risks from External Providers",
+          "Organizations depend on external providers for cloud hosting, payment processing, software development, technical support, and other services. A provider's security failure can expose customer information, interrupt operations, or introduce compromised software into the organization's environment. Third-party risk assessment considers the sensitivity of shared data, access privileges, service criticality, subcontractor relationships, incident history, and the provider's security practices. A cloud service that stores sensitive records may require more extensive assessment than a supplier with no access to organizational systems or information.",
+        ),
+        createSection(
+          "02",
+          "Assessing, Contracting, and Monitoring Providers",
+          "Third-party risk management begins before engagement and continues throughout the relationship. Organizations may review security documentation, conduct assessments, define access restrictions, and establish contractual requirements for incident notification, data protection, availability, and secure disposal. Provider access should be limited to what is necessary and reviewed periodically. Ongoing monitoring may include reassessments, audit reports, vulnerability disclosures, and changes in subcontractors or service arrangements. Organizations should also plan for provider outages, security incidents, and contract termination so that essential information and services can be protected or recovered.",
+        ),
+      ],
+    },
   ],
-
   references: [
     {
-      title: "Guide for Conducting Risk Assessments (NIST SP 800-30 Rev. 1)",
+      title: "Guide for Conducting Risk Assessments (SP 800-30 Rev. 1)",
       url: "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
-      organization: "National Institute of Standards and Technology",
-      publishedYear: 2012,
-      accessedAt: "2026-10-23"
+      author: "Joint Task Force Transformation Initiative",
+      organization: "National Institute of Standards and Technology (NIST)",
     },
     {
-      title: "Risk Management Framework for Information Systems and Organizations (NIST SP 800-37 Rev. 2)",
-      url: "https://csrc.nist.gov/pubs/sp/800/37/r2/final",
-      organization: "National Institute of Standards and Technology",
-      publishedYear: 2018,
-      accessedAt: "2026-10-23"
+      title: "Security and Privacy Controls for Information Systems and Organizations (SP 800-53 Rev. 5)",
+      url: "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      author: "Joint Task Force",
+      organization: "National Institute of Standards and Technology (NIST)",
     },
     {
-      title: "Guide for Applying the Risk Management Framework to Federal Information Systems (NIST SP 800-39)",
-      url: "https://csrc.nist.gov/pubs/sp/800/39/final",
-      organization: "National Institute of Standards and Technology",
-      publishedYear: 2011,
-      accessedAt: "2026-10-23"
+      title: "Technical Guide to Information Security Testing and Assessment (SP 800-115)",
+      url: "https://csrc.nist.gov/pubs/sp/800/115/final",
+      author: "Karen Scarfone, Murugiah Souppaya, Amanda Cody, and Angela Orebaugh",
+      organization: "National Institute of Standards and Technology (NIST)",
     },
     {
-      title: "Contingency Planning Guide for Federal Information Systems (NIST SP 800-34 Rev. 1)",
+      title: "Common Vulnerability Scoring System (CVSS)",
+      url: "https://www.first.org/cvss/",
+      author: "Forum of Incident Response and Security Teams",
+      organization: "FIRST",
+    },
+    {
+      title: "Threat Modeling",
+      url: "https://owasp.org/www-community/Threat_Modeling",
+      author: "OWASP Foundation",
+      organization: "OWASP",
+    },
+    {
+      title: "Contingency Planning Guide for Federal Information Systems (SP 800-34 Rev. 1)",
       url: "https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final",
-      organization: "National Institute of Standards and Technology",
-      publishedYear: 2010,
-      accessedAt: "2026-10-23"
+      author: "National Institute of Standards and Technology",
+      organization: "NIST",
     },
     {
-      title: "Developing Cyber-Resilient Systems: A Systems Security Engineering Approach (NIST SP 800-160 Vol. 2 Rev. 1)",
-      url: "https://csrc.nist.gov/pubs/sp/800/160/v2/r1/final",
-      organization: "National Institute of Standards and Technology",
-      publishedYear: 2021,
-      accessedAt: "2026-10-23"
+      title: "Information Security Continuous Monitoring (ISCM) for Federal Information Systems and Organizations (SP 800-137)",
+      url: "https://csrc.nist.gov/pubs/sp/800/137/final",
+      author: "Karen Scarfone, Murugiah Souppaya, and Paul Hoffman",
+      organization: "National Institute of Standards and Technology (NIST)",
     },
     {
-      title: "Cybersecurity Supply Chain Risk Management Practices for Systems and Organizations (NIST SP 800-161 Rev. 1)",
+      title: "Cybersecurity Supply Chain Risk Management Practices for Systems and Organizations (SP 800-161 Rev. 1)",
       url: "https://csrc.nist.gov/pubs/sp/800/161/r1/upd1/final",
-      organization: "National Institute of Standards and Technology",
-      publishedYear: 2024,
-      accessedAt: "2026-10-23"
+      author: "National Institute of Standards and Technology",
+      organization: "NIST",
     },
     {
-      title: "Cybersecurity Framework 2.0",
-      url: "https://www.nist.gov/cyberframework",
-      organization: "National Institute of Standards and Technology",
-      publishedYear: 2024,
-      accessedAt: "2026-10-23"
+      title: "Integrating Cybersecurity and Enterprise Risk Management (NIST IR 8286 Series)",
+      url: "https://csrc.nist.gov/projects/risk-management/about-rmf",
+      author: "National Institute of Standards and Technology",
+      organization: "NIST",
     },
-    {
-      title: "Cybersecurity and Infrastructure Security Agency",
-      url: "https://www.cisa.gov/",
-      organization: "Cybersecurity and Infrastructure Security Agency",
-      accessedAt: "2026-10-23"
-    }
   ],
-
   createdAt: "2026-10-23T00:00:00.000Z",
-  updatedAt: "2026-10-23T00:00:00.000Z"
+  updatedAt: "2026-10-23T00:00:00.000Z",
 };
 
-export default iasModule03;
+export default module3;

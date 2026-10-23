@@ -1,835 +1,520 @@
+
 import type { IASModule } from "../../types/modules";
 
-const iasModule01: IASModule = {
+const module1: IASModule = {
   unitId: "ias-module-01",
   moduleId: "01",
-  moduleNo: 1,
   title: "Introduction to Information Assurance and Security",
   description:
-    "Introduces information assurance, information security, cybersecurity, and the principles used to protect information assets.",
-
+    "Introduces information assurance, information security, cybersecurity, and the fundamental principles used to protect information assets. Learners explore the core security objectives, trust mechanisms, accountability, privacy, and the trade-offs involved in securing information systems.",
   objectives: [
-    "Define information security, information assurance, and cybersecurity.",
-    "Identify common information assets, threats, and security controls.",
-    "Explain the CIA triad and the principles of authenticity, accountability, and non-repudiation.",
-    "Describe privacy protection and responsible data handling.",
-    "Evaluate basic security objectives and their trade-offs."
+    "Define information security, information assurance, cybersecurity, and information assets.",
+    "Explain how security controls, validation, risk management, and recovery support information assurance.",
+    "Describe the principles of confidentiality, integrity, and availability.",
+    "Explain authenticity, accountability, and non-repudiation in information systems.",
+    "Identify privacy principles and responsible practices for handling personal information.",
+    "Evaluate common trade-offs between security, usability, cost, and system performance.",
   ],
-
   lessons: [
-    // ==========================================
-    // LESSON 1.1
-    // ==========================================
     {
       id: "ias-m01-l01",
       lessonNo: "1.1",
       title: "Information Security Fundamentals",
       description:
-        "Defines information security, cybersecurity, information assets, and basic methods for protecting systems and information.",
-      durationMinutes: 15,
-
+        "Defines information security, cybersecurity, information assets, and the basic concepts used to protect information and systems from unauthorized access, disclosure, alteration, destruction, and disruption.",
       keyTerms: [
         {
           word: "Information Security",
           definition:
-            "The protection of information and information systems against unauthorized access, use, disclosure, modification, disruption, or destruction.",
-          source: "NIST SP 800-12 Rev. 1"
+            "The protection of information and information systems against unauthorized access, use, disclosure, disruption, modification, or destruction.",
+          source: "NIST CSRC Glossary — https://csrc.nist.gov/glossary",
         },
         {
           word: "Cybersecurity",
           definition:
-            "The protection and restoration of computers, networks, electronic communications, and the information they contain against cyber threats.",
-          source: "NIST CSRC Glossary"
+            "The ability to protect or defend the use of cyberspace from cyberattacks, including threats to systems, networks, and digital information.",
+          source: "NIST CSRC Glossary — https://csrc.nist.gov/glossary",
         },
         {
           word: "Information Asset",
           definition:
-            "Information or a resource that has value to an individual or organization and requires appropriate protection."
+            "Information or a resource that has value to an organization, such as customer records, databases, applications, devices, and business documents.",
+          source: "NIST SP 800-12 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/12/r1/final",
         },
-        {
-          word: "Security Control",
-          definition:
-            "A safeguard or countermeasure used to manage risks and protect information systems."
-        }
       ],
-
+      durationMinutes: 15,
       video: [
         {
-          title: "Introduction to Information Security (Placeholder)",
-          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=HTjUXXk8qQ7PmpQm",
-          provider: "youtube"
-        }
+          title: "Introduction to Information Security",
+          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=WwjFU_8f0WSKrE5_",
+          provider: "YouTube",
+        },
       ],
-
       sections: [
         {
           sectionNo: "01",
           header: "Understanding Information Security",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Information security protects information throughout its lifecycle, whether it is stored digitally, transmitted through a network, or recorded on paper. Its purpose is to reduce the likelihood and impact of unauthorized access, misuse, alteration, loss, or disruption."
-            },
-            {
-              type: "image",
-              url: "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
-              alt: "System administrator reviewing computer systems and backup data",
-              source: "Provided placeholder image URL",
-              caption:
-                "Information security involves protecting systems, data, and supporting resources."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Common Information Assets"
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Personal information and customer records",
-                "Databases, documents, and business transactions",
-                "Computers, servers, and network equipment",
-                "Applications, credentials, and encryption keys",
-                "Backups and recovery resources"
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Basic Protection Methods"
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Authentication: verify who or what is requesting access.",
-                "Access control: restrict access according to permissions.",
-                "Encryption: protect information from unauthorized reading.",
-                "Backups: maintain recoverable copies of important data.",
-                "Updates: correct known vulnerabilities in software."
-              ]
-            },
-            {
-              type: "callout",
-              variant: "important",
-              title: "Key takeaway",
-              text:
-                "Security is not limited to preventing hackers. It also addresses human error, equipment failure, accidental disclosure, and other causes of information loss."
-            }
-          ]
-        }
-      ]
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5p/c3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Information is one of the most valuable resources in modern organizations. Student records, financial transactions, research files, and customer databases must be protected against unauthorized access and accidental loss. Information security combines policies, processes, people, and technical controls to reduce these risks. It applies to digital systems as well as physical documents and devices. Cybersecurity focuses on threats involving digital systems and connected environments, making it an important part of the broader information security discipline.",
+        },
+        {
+          sectionNo: "02",
+          header: "Information Assets and Common Threats",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Information assets include data, hardware, software, networks, documentation, and services that support organizational activities. Common threats include phishing, malware, stolen credentials, insider misuse, hardware failure, and natural disasters. A vulnerability is a weakness that a threat may exploit, while risk describes the potential for loss or harm under uncertain conditions. Identifying valuable assets and understanding their threats help organizations select appropriate safeguards, such as access controls, encryption, security awareness training, and backups.",
+        },
+      ],
     },
-
-    // ==========================================
-    // LESSON 1.2
-    // ==========================================
     {
       id: "ias-m01-l02",
       lessonNo: "1.2",
       title: "Information Assurance Principles",
       description:
-        "Explains how security controls, validation, risk management, and recovery help maintain trustworthy information and systems.",
-      durationMinutes: 15,
-
+        "Explains how security controls, validation, risk management, and recovery help maintain trustworthy information and support the reliable operation of information systems.",
       keyTerms: [
         {
           word: "Information Assurance",
           definition:
-            "The degree of confidence that information and systems are adequately protected and can be relied upon to meet security requirements.",
-          source: "NIST SP 800-12 Rev. 1"
+            "The practice of managing risks to information and systems so that information remains trustworthy and systems can perform their intended functions.",
+          source: "NIST Risk Management Framework — https://csrc.nist.gov/projects/risk-management/about-rmf",
+        },
+        {
+          word: "Security Control",
+          definition:
+            "A safeguard or countermeasure designed to protect information systems, manage risks, or support compliance with security requirements.",
+          source: "NIST SP 800-53 Rev. 5 — https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
         },
         {
           word: "Risk Management",
           definition:
-            "The process of identifying, assessing, responding to, and monitoring risks."
+            "The ongoing process of identifying, assessing, responding to, and monitoring risks to organizational operations, assets, and information.",
+          source: "NIST Risk Management Framework — https://csrc.nist.gov/projects/risk-management/about-rmf",
         },
-        {
-          word: "Validation",
-          definition:
-            "Checking whether a system, process, or result satisfies specified requirements and intended needs."
-        },
-        {
-          word: "Recovery",
-          definition:
-            "Restoring data, services, or system operations after an interruption or incident."
-        }
       ],
-
+      durationMinutes: 15,
       video: [
         {
-          title: "Information Assurance Principles (Placeholder)",
-          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=HTjUXXk8qQ7PmpQm",
-          provider: "youtube"
-        }
+          title: "Introduction to Information Security",
+          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=WwjFU_8f0WSKrE5_",
+          provider: "YouTube",
+        },
       ],
-
       sections: [
         {
           sectionNo: "01",
-          header: "Building Confidence in Information Systems",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Information assurance focuses on whether information and systems can be trusted to perform as expected. It combines protection, assessment, monitoring, and recovery rather than relying on a single security mechanism."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Core Assurance Activities"
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Identify important assets and their potential threats.",
-                "Assess the likelihood and impact of possible incidents.",
-                "Select and implement suitable security controls.",
-                "Test controls and validate that they work as intended.",
-                "Monitor changes and respond to detected incidents.",
-                "Recover operations and improve controls using lessons learned."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example: Student Records System"
-            },
-            {
-              type: "paragraph",
-              text:
-                "A school restricts access to student records, validates grade entries, reviews access logs, and maintains tested backups. Together, these measures reduce risk and provide greater confidence in the accuracy, protection, and recoverability of records."
-            },
-            {
-              type: "callout",
-              variant: "info",
-              title: "Remember",
-              text:
-                "Assurance provides justified confidence, not an absolute guarantee that a system can never fail or be compromised."
-            }
-          ]
-        }
-      ]
+          header: "Building Trustworthy Information Systems",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5p/c3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Information assurance extends beyond preventing cyberattacks. It aims to maintain confidence that information is accurate, accessible to authorized users, and handled appropriately throughout its lifecycle. Organizations use administrative controls, such as policies and training; technical controls, such as authentication and encryption; and physical controls, such as locks and restricted facilities. These safeguards work together to reduce risk. Their effectiveness depends on appropriate implementation, regular evaluation, and adaptation to changing threats and business requirements.",
+        },
+        {
+          sectionNo: "02",
+          header: "Validation, Risk Management, and Recovery",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Assurance requires evidence that safeguards work as intended. Validation activities include reviewing configurations, testing controls, checking data accuracy, and examining audit records. Risk management helps prioritize these activities according to the likelihood and impact of potential incidents. Recovery measures, including tested backups, documented response procedures, and disaster recovery plans, help restore information and services after failures or attacks. For example, a university can reduce student-record risks by restricting database access, reviewing permissions, testing backups, and periodically checking whether its controls remain effective.",
+        },
+      ],
     },
-
-    // ==========================================
-    // LESSON 1.3
-    // ==========================================
     {
       id: "ias-m01-l03",
       lessonNo: "1.3",
       title: "Confidentiality, Integrity, and Availability",
       description:
-        "Introduces the CIA triad and its role in preventing unauthorized disclosure, modification, and disruption.",
-      durationMinutes: 15,
-
+        "Introduces the CIA triad, the three foundational security objectives used to prevent unauthorized information disclosure, improper modification, and disruption of access to information and services.",
       keyTerms: [
         {
           word: "Confidentiality",
           definition:
-            "The property that information is not disclosed or made available to unauthorized individuals, entities, or processes.",
-          source: "NIST SP 800-12 Rev. 1"
+            "The property that information is not made available or disclosed to unauthorized individuals, entities, or processes.",
+          source: "NIST CSRC Glossary — https://csrc.nist.gov/glossary",
         },
         {
           word: "Integrity",
           definition:
-            "The protection of information against improper or unauthorized modification or destruction.",
-          source: "NIST SP 800-12 Rev. 1"
+            "The property that information remains accurate, complete, and protected against unauthorized modification or destruction.",
+          source: "NIST CSRC Glossary — https://csrc.nist.gov/glossary",
         },
         {
           word: "Availability",
           definition:
-            "The property that information and services remain accessible and usable when required by authorized users.",
-          source: "NIST SP 800-12 Rev. 1"
-        }
+            "The property that information and services are accessible and usable when required by authorized users or processes.",
+          source: "NIST CSRC Glossary — https://csrc.nist.gov/glossary",
+        },
       ],
-
+      durationMinutes: 18,
       video: [
         {
-          title: "The CIA Triad (Placeholder)",
-          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=HTjUXXk8qQ7PmpQm",
-          provider: "youtube"
-        }
+          title: "Introduction to Information Security",
+          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=WwjFU_8f0WSKrE5_",
+          provider: "YouTube",
+        },
       ],
-
       sections: [
         {
           sectionNo: "01",
-          header: "The CIA Triad",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "The CIA triad is a foundational information security model consisting of confidentiality, integrity, and availability. Security policies and controls should address all three objectives according to the system's risks and requirements."
-            },
-            {
-              type: "table",
-              headers: ["Principle", "Objective", "Example Control"],
-              rows: [
-                [
-                  "Confidentiality",
-                  "Prevent unauthorized disclosure.",
-                  "Access permissions and encryption."
-                ],
-                [
-                  "Integrity",
-                  "Prevent or detect unauthorized changes.",
-                  "Validation, hashes, and audit trails."
-                ],
-                [
-                  "Availability",
-                  "Maintain timely access to services and data.",
-                  "Backups, redundancy, and recovery plans."
-                ]
-              ],
-              caption: "The three objectives of the CIA triad."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Applying the CIA Triad"
-            },
-            {
-              type: "paragraph",
-              text:
-                "For an online enrollment system, confidentiality protects student records from unauthorized viewers, integrity helps ensure enrollment details are not improperly altered, and availability helps students and staff access the system when needed."
-            },
-            {
-              type: "callout",
-              variant: "tip",
-              title: "Quick distinction",
-              text:
-                "Disclosure is a confidentiality concern, unauthorized alteration is an integrity concern, and service interruption is an availability concern."
-            }
-          ]
-        }
-      ]
+          header: "The Three Pillars of Information Security",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5p/c3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "The CIA triad provides a foundational model for evaluating information security. Confidentiality protects information from unauthorized disclosure. Integrity protects information from unauthorized changes or destruction. Availability ensures that authorized users can access information and services when needed. These objectives are related but distinct: a system may keep information secret while allowing incorrect records, or preserve accurate records while becoming unavailable. Security decisions should therefore consider all three objectives instead of focusing on a single aspect of protection.",
+        },
+        {
+          sectionNo: "02",
+          header: "Applying the CIA Triad",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5p/c3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Consider a university enrollment system. Confidentiality is supported by allowing only authorized personnel to view sensitive student records. Integrity is supported by validating grade changes, restricting editing permissions, and recording approved updates. Availability is supported by maintaining reliable infrastructure, backups, and recovery procedures. A denial-of-service attack primarily threatens availability, while an unauthorized grade alteration threatens integrity. Leaked student records threaten confidentiality. Identifying the affected objective helps administrators select suitable controls and assess the consequences of an incident.",
+        },
+      ],
     },
-
-    // ==========================================
-    // LESSON 1.4
-    // ==========================================
     {
       id: "ias-m01-l04",
       lessonNo: "1.4",
       title: "Authenticity",
       description:
-        "Explains how to verify that information, users, devices, and communications are genuine.",
-      durationMinutes: 12,
-
+        "Explains how users, devices, information, and communications can be verified as genuine through identity verification, authentication mechanisms, and integrity-related evidence.",
       keyTerms: [
         {
           word: "Authenticity",
           definition:
-            "The property of being genuine and capable of being verified as valid.",
-          source: "NIST CSRC Glossary"
+            "The property of being genuine and capable of being verified as trustworthy with respect to identity, origin, or source.",
+          source: "NIST CSRC Glossary — https://csrc.nist.gov/glossary",
         },
         {
           word: "Authentication",
           definition:
-            "The process of verifying an identity or other claimed attributes of a user, device, or entity.",
-          source: "NIST CSRC Glossary"
+            "The process of establishing confidence in a claimed identity of a user, device, or other entity.",
+          source: "NIST SP 800-63B — https://pages.nist.gov/800-63-4/sp800-63b.html",
         },
         {
           word: "Digital Signature",
           definition:
-            "A cryptographic mechanism used to verify the origin and integrity of signed digital information and to support evidence of signing."
+            "A cryptographic mechanism that can help verify the origin and integrity of signed digital information and provide evidence supporting accountability.",
+          source: "NIST Digital Signature Standard — https://csrc.nist.gov/pubs/fips/186-5/final",
         },
-        {
-          word: "Spoofing",
-          definition:
-            "An attack in which an entity or communication is made to appear to come from a different, trusted source."
-        }
       ],
-
+      durationMinutes: 15,
       video: [
         {
-          title: "Authenticity and Authentication (Placeholder)",
-          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=HTjUXXk8qQ7PmpQm",
-          provider: "youtube"
-        }
+          title: "Introduction to Information Security",
+          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=WwjFU_8f0WSKrE5_",
+          provider: "YouTube",
+        },
       ],
-
       sections: [
         {
           sectionNo: "01",
           header: "Verifying Genuine Identities and Information",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Authenticity helps establish whether a user, device, message, or document is what it claims to be. Authentication is one important process used to establish authenticity, but authenticity can also involve verifying the source and integrity of information."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Common Verification Methods"
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Passwords and passkeys for account authentication.",
-                "Multifactor authentication using independent authentication factors.",
-                "Digital certificates for verifying identities in supported systems.",
-                "Digital signatures for verifying signed content and detecting changes.",
-                "Trusted verification procedures for documents and transactions."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example"
-            },
-            {
-              type: "paragraph",
-              text:
-                "An employee receives an email that appears to come from the IT department. Before following a password-reset link, the employee verifies the request through an established, trusted channel to reduce the risk of phishing or impersonation."
-            },
-            {
-              type: "callout",
-              variant: "warning",
-              title: "Important",
-              text:
-                "A familiar name, logo, or email display name does not prove that a message is genuine."
-            }
-          ]
-        }
-      ]
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Authenticity helps determine whether an identity, message, document, or system is genuine. In online environments, attackers may impersonate legitimate users, create fraudulent websites, or send messages that appear to come from trusted organizations. Authentication mechanisms can include passwords, security keys, one-time codes, and biometric checks. Digital signatures and trusted certificates can also help verify the origin of digital communications. These mechanisms provide different forms of evidence, and their effectiveness depends on correct implementation, trustworthy credentials, and appropriate verification procedures.",
+        },
+        {
+          sectionNo: "02",
+          header: "Authenticity in Everyday Digital Activities",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5p/c3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Before submitting grades or financial information, a user should verify that the website or application is legitimate. Organizations can strengthen authenticity by using multifactor authentication, certificate validation, approved identity-verification procedures, and signed software updates. However, authentication does not automatically prove that every action is authorized or that all submitted information is truthful. For example, a valid account may still be compromised. Authenticity should therefore be supported by access control, monitoring, and additional checks appropriate to the sensitivity of the activity.",
+        },
+      ],
     },
-
-    // ==========================================
-    // LESSON 1.5
-    // ==========================================
     {
       id: "ias-m01-l05",
       lessonNo: "1.5",
       title: "Accountability",
       description:
-        "Describes how actions are recorded and attributed to responsible users, devices, or systems.",
-      durationMinutes: 12,
-
+        "Describes how actions performed by users and systems are recorded, monitored, and attributed to responsible identities through logging, auditing, and access management.",
       keyTerms: [
         {
           word: "Accountability",
           definition:
-            "The property that actions can be traced to the entity responsible for performing them.",
-          source: "NIST SP 800-12 Rev. 1"
+            "The property that actions within a system can be traced to the individuals, processes, or entities responsible for them.",
+          source: "NIST CSRC Glossary — https://csrc.nist.gov/glossary",
         },
         {
           word: "Audit Log",
           definition:
-            "A record of system or user activities maintained for review, monitoring, or investigation."
+            "A chronological record of system activities and events that supports monitoring, investigation, and review.",
+          source: "NIST SP 800-53 Rev. 5 — https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
         },
         {
           word: "Audit Trail",
           definition:
-            "A chronological record that helps reconstruct and examine activities or events."
+            "A record of relevant actions and events that allows activities to be reconstructed and examined after they occur.",
+          source: "NIST CSRC Glossary — https://csrc.nist.gov/glossary",
         },
-        {
-          word: "Least Privilege",
-          definition:
-            "The principle of granting only the minimum access and permissions needed to perform an assigned task."
-        }
       ],
-
+      durationMinutes: 15,
       video: [
         {
-          title: "Accountability and Audit Logs (Placeholder)",
-          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=HTjUXXk8qQ7PmpQm",
-          provider: "youtube"
-        }
+          title: "Introduction to Information Security",
+          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=WwjFU_8f0WSKrE5_",
+          provider: "YouTube",
+        },
       ],
-
       sections: [
         {
           sectionNo: "01",
-          header: "Tracing Actions to Responsible Entities",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Accountability enables an organization to investigate who performed an action, what happened, and when it occurred. It depends on appropriate identification, reliable records, controlled access, and procedures for reviewing security events."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Supporting Accountability"
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Assign individual accounts instead of sharing credentials.",
-                "Record relevant login attempts and administrative actions.",
-                "Synchronize system clocks to support event correlation.",
-                "Restrict access to logs and protect them against tampering.",
-                "Review records for suspicious or policy-violating activity."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example"
-            },
-            {
-              type: "paragraph",
-              text:
-                "If a student record is changed unexpectedly, authorized administrators can examine audit logs to identify the account used, the time of the change, and the affected record."
-            },
-            {
-              type: "callout",
-              variant: "info",
-              title: "Interpret evidence carefully",
-              text:
-                "A log associates an event with an account or system identity. Additional evidence may be needed to establish which person actually performed the action, especially if credentials were compromised."
-            }
-          ]
-        }
-      ]
+          header: "Making System Actions Traceable",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Accountability makes it possible to determine who performed an action, what happened, and when it occurred. Systems support accountability through individual user accounts, access permissions, timestamps, activity logs, and audit reviews. For example, a student information system may record which authorized staff member changed a grade and when the update occurred. Shared accounts weaken accountability because several people may perform actions under the same identity. Organizations should use unique accounts, appropriate privileges, and reliable logging to make investigations more accurate.",
+        },
+        {
+          sectionNo: "02",
+          header: "Logging, Monitoring, and Auditing",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5p/c3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Logging captures relevant events, monitoring helps identify suspicious activity, and auditing examines records to determine whether actions followed established rules. Useful logs may include successful and failed logins, permission changes, record updates, and administrative activities. Logs must be protected against unauthorized alteration or deletion, and their collection should respect privacy requirements. Accurate timestamps and consistent identity management improve investigations. Accountability is strongest when technical records are combined with clear responsibilities, documented procedures, and regular review rather than relying on logs alone.",
+        },
+      ],
     },
-
-    // ==========================================
-    // LESSON 1.6
-    // ==========================================
     {
       id: "ias-m01-l06",
       lessonNo: "1.6",
       title: "Non-repudiation",
       description:
-        "Explains how evidence can establish that an action or transaction occurred and help prevent its denial.",
-      durationMinutes: 12,
-
+        "Explains how trustworthy records, digital signatures, and transaction evidence can help establish that an action occurred and make it more difficult for a participant to credibly deny involvement.",
       keyTerms: [
         {
           word: "Non-repudiation",
           definition:
-            "A security property that provides evidence supporting the origin or occurrence of an action so that it is difficult to deny later.",
-          source: "NIST SP 800-12 Rev. 1"
+            "A security property that provides evidence supporting the attribution of an action or event to an entity, helping prevent a credible denial of involvement.",
+          source: "NIST CSRC Glossary — https://csrc.nist.gov/glossary",
         },
         {
           word: "Digital Signature",
           definition:
-            "A cryptographic signature that supports verification of the signed data and the signer's associated key."
+            "A cryptographic value generated using a private key that can be verified with the corresponding public key to support evidence of origin and data integrity.",
+          source: "NIST FIPS 186-5 — https://csrc.nist.gov/pubs/fips/186-5/final",
         },
         {
-          word: "Timestamp",
+          word: "Transaction Evidence",
           definition:
-            "A recorded indication of date and time associated with an event or item of information."
+            "Records such as signed documents, timestamps, receipts, and protected logs that help establish the details of a transaction.",
+          source: "NIST SP 800-53 Rev. 5 — https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
         },
-        {
-          word: "Evidence",
-          definition:
-            "Information or records used to support a conclusion about an event, action, or transaction."
-        }
       ],
-
+      durationMinutes: 15,
       video: [
         {
-          title: "Non-repudiation Fundamentals (Placeholder)",
-          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=HTjUXXk8qQ7PmpQm",
-          provider: "youtube"
-        }
+          title: "Introduction to Information Security",
+          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=WwjFU_8f0WSKrE5_",
+          provider: "YouTube",
+        },
       ],
-
       sections: [
         {
           sectionNo: "01",
-          header: "Establishing Evidence of Actions",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Non-repudiation concerns evidence that can help demonstrate the origin, submission, approval, or receipt of information. It is especially relevant to digital transactions, signed documents, and formal communications."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Mechanisms That Support Non-repudiation"
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Digital signatures backed by appropriate key management.",
-                "Reliable transaction records and audit trails.",
-                "Trusted timestamps and supporting transaction evidence.",
-                "Procedures for protecting records and verifying signatures."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example"
-            },
-            {
-              type: "paragraph",
-              text:
-                "A company uses digital signatures for an electronic agreement. The signature can help verify that the document has not changed since signing and that it was signed using the corresponding private key."
-            },
-            {
-              type: "callout",
-              variant: "warning",
-              title: "Limitations",
-              text:
-                "A digital signature alone does not conclusively prove who physically used a key, whether the signer understood the agreement, or whether every legal requirement was met. Key protection and supporting evidence matter."
-            }
-          ]
-        }
-      ]
+          header: "Understanding Non-repudiation",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Non-repudiation focuses on evidence that helps establish the origin, participation, or occurrence of a digital action. For example, a digitally signed agreement may provide evidence that a particular signing key was used to approve a document and that the signed content has not changed since signing. This can help resolve disputes involving online transactions or electronic approvals. Non-repudiation depends on reliable identity verification, secure key management, trustworthy records, and appropriate procedures for handling disputes.",
+        },
+        {
+          sectionNo: "02",
+          header: "Digital Signatures and Evidentiary Limits",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Digital signatures use cryptographic techniques to help verify that data was signed using a particular private key and has not been altered after signing. However, a signature alone does not prove that the key owner personally performed the action, understood the document, or acted voluntarily. A compromised key or weak identity-verification process can undermine the evidence. Organizations should protect signing keys, validate certificates where applicable, retain relevant transaction records, and follow legal and procedural requirements when relying on electronic evidence.",
+        },
+      ],
     },
-
-    // ==========================================
-    // LESSON 1.7
-    // ==========================================
     {
       id: "ias-m01-l07",
       lessonNo: "1.7",
       title: "Privacy",
       description:
-        "Introduces the protection of personal information, appropriate data collection, and responsible data handling.",
-      durationMinutes: 15,
-
+        "Introduces the protection of personal information, responsible data handling, and the importance of collecting, using, storing, sharing, and disposing of personal data appropriately.",
       keyTerms: [
         {
           word: "Privacy",
           definition:
-            "The protection of individuals' interests concerning how information about them is collected, used, shared, retained, and managed.",
-          source: "NIST Privacy Framework"
+            "The interest of individuals in how information about them is collected, used, shared, retained, and otherwise processed.",
+          source: "NIST Privacy Framework — https://www.nist.gov/privacy-framework",
         },
         {
-          word: "Personal Information",
+          word: "Personally Identifiable Information (PII)",
           definition:
-            "Information that identifies an individual or can reasonably be linked to an identifiable individual."
+            "Information that can distinguish or trace an individual's identity, either by itself or when combined with other linked or linkable information.",
+          source: "NIST SP 800-122 — https://csrc.nist.gov/pubs/sp/800/122/final",
         },
         {
           word: "Data Minimization",
           definition:
-            "Collecting and retaining only the personal information necessary for a defined purpose."
+            "The practice of limiting personal data collection, use, and retention to what is relevant and necessary for a defined purpose.",
+          source: "NIST Privacy Framework — https://www.nist.gov/privacy-framework",
         },
-        {
-          word: "Consent",
-          definition:
-            "An individual's agreement to a specified activity, where consent is an appropriate and applicable basis for that activity."
-        }
       ],
-
+      durationMinutes: 18,
       video: [
         {
-          title: "Privacy and Responsible Data Handling (Placeholder)",
-          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=HTjUXXk8qQ7PmpQm",
-          provider: "youtube"
-        }
+          title: "Introduction to Information Security",
+          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=WwjFU_8f0WSKrE5_",
+          provider: "YouTube",
+        },
       ],
-
       sections: [
         {
           sectionNo: "01",
           header: "Protecting Personal Information",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Privacy concerns how information about people is handled and how that handling affects their rights and interests. A system can protect data against hackers and still create privacy risks if it collects unnecessary information or uses data in unexpected ways."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Responsible Data Handling"
-            },
-            {
-              type: "list",
-              style: "unordered",
-              items: [
-                "Define a legitimate and specific purpose for collection.",
-                "Collect only information that is necessary for that purpose.",
-                "Explain relevant collection, use, sharing, and retention practices.",
-                "Restrict access to authorized individuals.",
-                "Apply appropriate safeguards and retention or deletion rules.",
-                "Respect applicable rights and legal requirements."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example"
-            },
-            {
-              type: "paragraph",
-              text:
-                "A school enrollment portal needs a student's identity and enrollment details. Collecting unrelated personal details without a valid need increases privacy risk and should be avoided."
-            },
-            {
-              type: "callout",
-              variant: "important",
-              title: "Security and privacy are related",
-              text:
-                "Security helps protect information from unauthorized access or alteration. Privacy additionally addresses whether personal information is collected, used, shared, and retained appropriately."
-            }
-          ]
-        }
-      ]
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHRhbnQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Privacy concerns how information about individuals is collected and handled, while information security provides safeguards that help prevent unauthorized access, disclosure, or alteration. Personal information may include names, addresses, identification numbers, financial records, location data, and other details that can identify someone directly or indirectly. Responsible data handling starts by defining a legitimate purpose, collecting only necessary information, restricting access, and explaining relevant practices to individuals. Strong security is essential to privacy, but privacy also involves appropriate decisions about how data is used and shared.",
+        },
+        {
+          sectionNo: "02",
+          header: "Responsible Data Handling Throughout the Lifecycle",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5p/c3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Personal data should be protected throughout collection, storage, use, sharing, retention, and disposal. Practical measures include encryption, access restrictions, retention schedules, secure deletion, and procedures for responding to data breaches. Data minimization reduces unnecessary exposure by avoiding the collection of information that is not needed. For example, an event registration form should request only the details required to organize the event rather than collecting unrelated sensitive information. In the Philippines, organizations handling personal data should also consider their obligations under Republic Act No. 10173, the Data Privacy Act of 2012, and applicable implementing rules.",
+        },
+      ],
     },
-
-    // ==========================================
-    // LESSON 1.8
-    // ==========================================
     {
       id: "ias-m01-l08",
       lessonNo: "1.8",
       title: "Security Objectives and Trade-offs",
       description:
-        "Explores how organizations balance security, usability, cost, performance, and operational needs.",
-      durationMinutes: 15,
-
+        "Explores how organizations balance security objectives with usability, cost, performance, accessibility, and operational needs when selecting and implementing safeguards.",
       keyTerms: [
-        {
-          word: "Security Objective",
-          definition:
-            "A desired security outcome that guides the selection and evaluation of protective measures."
-        },
-        {
-          word: "Risk",
-          definition:
-            "The potential for an unwanted outcome, commonly assessed through its likelihood and impact."
-        },
-        {
-          word: "Usability",
-          definition:
-            "The degree to which intended users can use a system effectively and efficiently to achieve their goals."
-        },
         {
           word: "Security Trade-off",
           definition:
-            "A compromise between competing requirements, such as stronger protection, user convenience, cost, and system performance."
-        }
+            "A decision in which improving one security objective or operational requirement may introduce costs, limitations, or competing risks elsewhere.",
+          source: "NIST SP 800-12 Rev. 1 — https://csrc.nist.gov/pubs/sp/800/12/r1/final",
+        },
+        {
+          word: "Least Privilege",
+          definition:
+            "The principle of granting users and processes only the minimum access and permissions necessary to perform their assigned tasks.",
+          source: "NIST SP 800-53 Rev. 5 — https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+        },
+        {
+          word: "Risk-Based Decision",
+          definition:
+            "A decision that considers the likelihood and potential impact of adverse events when selecting safeguards and allocating resources.",
+          source: "NIST Risk Management Framework — https://csrc.nist.gov/projects/risk-management/about-rmf",
+        },
       ],
-
+      durationMinutes: 15,
       video: [
         {
-          title: "Security Objectives and Trade-offs (Placeholder)",
-          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=HTjUXXk8qQ7PmpQm",
-          provider: "youtube"
-        }
+          title: "Introduction to Information Security",
+          url: "https://www.youtube.com/embed/X-O1-l0gP5Q?si=WwjFU_8f0WSKrE5_",
+          provider: "YouTube",
+        },
       ],
-
       sections: [
         {
           sectionNo: "01",
-          header: "Balancing Security and Operational Needs",
-          contentBlocks: [
-            {
-              type: "paragraph",
-              text:
-                "Organizations rarely have unlimited budgets, time, or computing resources. Security decisions therefore require evaluating risks and choosing safeguards that provide appropriate protection without unnecessarily preventing legitimate work."
-            },
-            {
-              type: "table",
-              headers: ["Consideration", "Potential Benefit", "Possible Trade-off"],
-              rows: [
-                [
-                  "Stronger authentication",
-                  "Reduces account compromise risk.",
-                  "May add login steps."
-                ],
-                [
-                  "Encryption",
-                  "Helps protect sensitive information.",
-                  "Requires key management and computing resources."
-                ],
-                [
-                  "Frequent backups",
-                  "Improves recovery options.",
-                  "Consumes storage and operational resources."
-                ],
-                [
-                  "Strict access controls",
-                  "Reduces unauthorized access.",
-                  "May delay legitimate tasks if poorly configured."
-                ],
-                [
-                  "Continuous monitoring",
-                  "Improves visibility into suspicious activity.",
-                  "Requires tools, staff, and alert management."
-                ]
-              ],
-              caption: "Examples of security benefits and operational trade-offs."
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "A Risk-based Approach"
-            },
-            {
-              type: "list",
-              style: "ordered",
-              items: [
-                "Identify the assets and business activities that need protection.",
-                "Determine relevant threats, vulnerabilities, and potential impacts.",
-                "Estimate and prioritize risks.",
-                "Select controls appropriate to the risks and requirements.",
-                "Evaluate effectiveness, cost, usability, and performance.",
-                "Monitor results and adjust controls as circumstances change."
-              ]
-            },
-            {
-              type: "heading",
-              level: 3,
-              text: "Example"
-            },
-            {
-              type: "paragraph",
-              text:
-                "A banking application may require multifactor authentication for sensitive transactions while allowing lower-risk activities with fewer steps. The controls should reflect the risk rather than applying identical restrictions to every action."
-            },
-            {
-              type: "callout",
-              variant: "tip",
-              title: "Final principle",
-              text:
-                "Effective security is risk-based and proportionate. The objective is not to eliminate every possible risk at any cost, but to manage risks in accordance with organizational needs and applicable obligations."
-            }
-          ]
-        }
-      ]
-    }
+          header: "Balancing Security and Usability",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRpYS5p/c3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Security measures must protect information without unnecessarily preventing legitimate work. For example, multifactor authentication can reduce account-compromise risks but may add time to the login process. Strict access restrictions can reduce unauthorized access but may delay employees who need information to complete their tasks. Organizations should assess the sensitivity of information, likely threats, user needs, regulatory requirements, implementation cost, and potential operational impact. Effective security does not mean applying the strongest possible control everywhere; it means selecting appropriate controls based on the risks and requirements of each situation.",
+        },
+        {
+          sectionNo: "02",
+          header: "Making Risk-Based Security Decisions",
+          imageUrl:
+            "https://imgs.search.brave.com/z4FWaj5duxzaztXq8f_Dw4vp1U2pu0TmMaIYQy-sMWg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjIx/NjQyNjcxMy9waG90/by9mb2N1c2VkLXN5/c3RlbS1hZG1pbmlz/dHJhdG9yLW9yLWNv/bnN1bHQtbG9v/ay1hdC10aGUtc2Ny/ZWVuLWFuZC1zYXZl/cy1iYWNrdXAtZGF0/YS1pbi1kYXJrLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz1y/akpUcGV4TFk2dW4y/U1ZORHZLQzRLNjB2/cTIzTFBtTV9fVzdC/SVJjYXF3PQ",
+          imageSource: "User-provided placeholder image URL.",
+          textContent:
+            "Security decisions should be guided by the value of the information, the likelihood of threats, the consequences of incidents, and available resources. A public information page may require basic protections, while a system containing financial or sensitive personal records may justify stronger authentication, encryption, monitoring, and recovery measures. Organizations must also consider performance, accessibility, maintainability, and applicable laws. Security requirements should be reviewed as threats and operational needs change. The objective is to reduce risk to an acceptable level while preserving the confidentiality, integrity, availability, and responsible use of information.",
+        },
+      ],
+    },
   ],
-
   references: [
     {
-      title: "An Introduction to Information Security (NIST SP 800-12 Rev. 1)",
+      title: "Computer Security: A Practical Definition and Guide to Managing Security",
       url: "https://csrc.nist.gov/pubs/sp/800/12/r1/final",
-      author: "Michael Nieles, Kelley Dempsey, Victoria Pillitteri",
-      organization: "National Institute of Standards and Technology",
-      publishedYear: 2017,
-      accessedAt: "2026-10-23"
+      author: "Richard Kissel, editor",
+      organization: "National Institute of Standards and Technology (NIST)",
     },
     {
-      title: "Cybersecurity Glossary",
+      title: "NIST Computer Security Resource Center Glossary",
       url: "https://csrc.nist.gov/glossary",
-      organization: "National Institute of Standards and Technology",
-      accessedAt: "2026-10-23"
+      author: "Richard Kissel, editor",
+      organization: "National Institute of Standards and Technology (NIST)",
+    },
+    {
+      title: "Security and Privacy Controls for Information Systems and Organizations",
+      url: "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+      author: "Richard Kissel, editor",
+      organization: "National Institute of Standards and Technology (NIST)",
+    },
+    {
+      title: "NIST Risk Management Framework",
+      url: "https://csrc.nist.gov/projects/risk-management/about-rmf",
+      author: "Richard Kissel, editor",
+      organization: "National Institute of Standards and Technology (NIST)",
+    },
+    {
+      title: "Digital Identity Guidelines: Authentication and Authenticator Management",
+      url: "https://pages.nist.gov/800-63-4/sp800-63b.html",
+      author: "Richard Kissel, editor",
+      organization: "National Institute of Standards and Technology (NIST)",
+    },
+    {
+      title: "Digital Signature Standard (DSS)",
+      url: "https://csrc.nist.gov/pubs/fips/186-5/final",
+      author: "Richard Kissel, editor",
+      organization: "National Institute of Standards and Technology (NIST)",
+    },
+    {
+      title: "Guide to Protecting the Confidentiality of Personally Identifiable Information (PII)",
+      url: "https://csrc.nist.gov/pubs/sp/800/122/final",
+      author: "Richard Kissel, editor",
+      organization: "National Institute of Standards and Technology (NIST)",
     },
     {
       title: "NIST Privacy Framework",
       url: "https://www.nist.gov/privacy-framework",
-      organization: "National Institute of Standards and Technology",
-      accessedAt: "2026-10-23"
+      author: "Richard Kissel, editor",
+      organization: "National Institute of Standards and Technology (NIST)",
     },
     {
-      title: "Data Integrity: Detecting and Responding to Ransomware and Other Destructive Events (NIST SP 1800-26)",
-      url: "https://www.nccoe.nist.gov/publication/1800-26/VolA/index.html",
-      organization: "National Institute of Standards and Technology",
-      publishedYear: 2020,
-      accessedAt: "2026-10-23"
-    }
+      title: "Republic Act No. 10173 — Data Privacy Act of 2012",
+      url: "https://lawphil.net/statutes/repacts/ra2012/ra_10173_2012.html",
+      author: "Richard Kissel, editor",
+      organization: "Republic of the Philippines",
+    },
   ],
-
   createdAt: "2026-10-23T00:00:00.000Z",
-  updatedAt: "2026-10-23T00:00:00.000Z"
+  updatedAt: "2026-10-23T00:00:00.000Z",
 };
 
-export default iasModule01;
+export default module1;
