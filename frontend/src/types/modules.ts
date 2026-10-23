@@ -1,50 +1,49 @@
 
-export interface IASModule {
-  unitId: string;
-  moduleId: string;
+export interface CloudComputingChapter {
+  chapterId: string;
   title: string;
   description: string;
-  objectives: string[];
-  lessons: IASLesson[];
-  references: IASReference[];
+  objectives: CloudChapterObjective[];
+  videoUrl: string;
+  slideUrl: string;
+  sections: CloudChapterSection[];
+  keyTerms: CloudKeyTerm[];
+  references: CloudReference[];
   createdAt: string;
   updatedAt: string;
 }
 
-export interface IASLesson {
-  id: string;
-  lessonNo: string;
-  title: string;
-  description: string;
-  keyTerms: IASTerm[];
-  durationMinutes: number;
-  video: IASVideo[];
-  sections: IASSection[];
+export interface CloudChapterObjective {
+  objective: string;
 }
 
-export interface IASTerm {
+export interface CloudChapterSection {
+  sectionNo: string;
+  header: string;
+  imageUrl: CloudSectionImage[];
+  imageSource: CloudSectionImageSource[];
+  content: CloudSectionContent[];
+}
+
+export interface CloudSectionImage {
+  url: string;
+}
+
+export interface CloudSectionImageSource {
+  source: string;
+}
+
+export interface CloudSectionContent {
+  paragraph: string;
+}
+
+export interface CloudKeyTerm {
   word: string;
   definition: string;
   source: string;
 }
 
-export interface IASVideo {
-  title: string;
-  url: string;
-  provider: string;
-}
-
-export interface IASSection {
-  sectionNo: string;
-  header: string;
-  imageUrl: string;
-  imageSource: string;
-  textContent: string;
-}
-
-export interface IASReference {
-  title: string;
-  url: string;
+export interface CloudReference {
   author: string;
-  organization?: string;
+  link: string;
 }

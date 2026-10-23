@@ -11,12 +11,12 @@ import "../styles/Landing.css";
 
 /* ===================== HERO TITLE: EXPERIMENT HERE ===================== */
 const TITLE = {
-  text: "Information Assurance & Security",
+  text: "CLOUD COMPUTING",
   fontFamily: '"Anton", sans-serif', // any family loaded in App.css, e.g. '"Poppins", sans-serif'
   fontWeight: 400, // Anton only has 400; Poppins supports 100–900
-  fontSize: 150, // MAX size in px; TechText shrinks it to fit the box below
+  fontSize: 180, // MAX size in px; TechText shrinks it to fit the box below
   letterSpacing: -0.02, // in em
-  boxHeight: "clamp(110px, 15vw, 230px)", // taller box = room for a bigger title
+  boxHeight: "clamp(110px, 17vw, 230px)", // taller box = room for a bigger title
   maxWidth: "100vw", // wider box = bigger title (it fits to this width)
   align: "center" as const, // "left" | "center" | "right"
   color: "#ffffff",
@@ -45,7 +45,7 @@ const TITLE_FX = {
 } as const;
 /* ======================================================================= */
 
-const TAGLINE = ["Cybersecurity Fundamentals", "Certifications", "Hands-On Tests"];
+const TAGLINE = ["INFORMATION TECHNOLOGY PROFESSIONAL ELECTIVE 4"];
 
 const TITLE_FONT_SPEC = `${TITLE.fontWeight} 100px "${TITLE.fontFamily
   .split(",")[0]
@@ -157,7 +157,7 @@ export default function Landing() {
           </Reveal>
 
           <Reveal as="p" className="hero__sub" delay={350}>
-            <strong>Learn the fundamentals and best practices in Cybersecurity.</strong> 
+            <strong>Learn the fundamentals and best practices in Cloud Computing.</strong> 
             <br></br>Discover how to protect data, secure systems, manage risk, and respond to threats. Build the skills the digital world depends on, starting today.
           </Reveal>
 
