@@ -2,6 +2,7 @@ import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import MetallicBlueButton from "../components/MetallicBlueButton";
+import LiquidGlass from "../components/LiquidGlass";
 import { getChapterCards, toRoman } from "../data/chapters";
 import "../styles/Lessons.css";
 
@@ -99,6 +100,9 @@ export default function Lessons() {
             <MetallicBlueButton className="lessons__cta-btn" onClick={onQuiz}>
               Learned Enough? Take on the Quiz!
             </MetallicBlueButton>
+            <LiquidGlass as="button" className="lessons__cta-btn" onClick={goBack}>
+              Next Lesson
+            </LiquidGlass>
           </div>
         </div>
 
