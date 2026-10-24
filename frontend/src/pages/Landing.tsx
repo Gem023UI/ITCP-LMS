@@ -1,10 +1,7 @@
 import * as React from "react";
-import GradientASCII from "../components/GradientASCII";
-import TechText from "../components/TechText";
 import Reveal from "../components/Reveal";
 import LiquidGlass from "../components/LiquidGlass";
 import MetallicBlueButton from "../components/MetallicBlueButton";
-import SiteHeader from "../components/Header";
 import ImageCards from "../components/ImageCards";
 import StatsSection from "../components/StatsSection";
 import TrendsSection from "../components/TrendsSection";
@@ -14,174 +11,142 @@ import { CARD_IMAGES } from "../data/cardImage";
 import { useNavigate } from "react-router-dom";
 import "../styles/Landing.css";
 
-/* ===================== HERO TITLE: EXPERIMENT HERE ===================== */
-const TITLE = {
-  text: "Information Assurance & Security",
-  fontFamily: '"Anton", sans-serif', // any family loaded in App.css, e.g. '"Poppins", sans-serif'
-  fontWeight: 400, // Anton only has 400; Poppins supports 100–900
-  fontSize: 150, // MAX size in px; TechText shrinks it to fit the box below
-  letterSpacing: -0.02, // in em
-  boxHeight: "clamp(110px, 15vw, 230px)", // taller box = room for a bigger title
-  maxWidth: "100vw", // wider box = bigger title (it fits to this width)
-  align: "center" as const, // "left" | "center" | "right"
-  color: "#ffffff",
-};
+const TITLE_LINES = ["Cloud", "Computing"];
 
-/* Interaction / effect settings for the title */
-const TITLE_FX = {
-  reveal: "letter",
-  dashLength: 4,
-  dashGap: 2,
-  specks: 15,
-  intro: "none",
-  introDuration: 2,
-  clickKick: true,
-  guides: false,
-  reach: 200,
-  softness: 0.7,
-  lineStyle: "dashed",
-  strokeWidth: 1.5,
-  speed: 1,
-  bounce: 0.4,
-  selection: true,
-  labels: true,
-  draggable: true,
-  sweep: true,
-} as const;
-/* ======================================================================= */
-
-const TAGLINE = ["Cybersecurity Fundamentals", "Certifications", "Hands-On Tests"];
-
-const TITLE_FONT_SPEC = `${TITLE.fontWeight} 100px "${TITLE.fontFamily
-  .split(",")[0]
-  .replace(/["']/g, "")
-  .trim()}"`;
-
-function useFontReady(spec: string) {
-  const [ready, setReady] = React.useState(false);
-
+/* Parallax: writes --sy (scroll) and --mx/--my (pointer) onto the hero element.
+   No React state, so scrolling never re-renders. Elements opt in with the .px class. */
+function useHeroParallax(ref: React.RefObject<HTMLElement | null>) {
   React.useEffect(() => {
-    let alive = true;
-    const done = () => {
-      if (alive) setReady(true);
+    const el = ref.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let raf = 0;
+    const apply = () => {
+      raf = 0;
+      el.style.setProperty("--sy", String(Math.min(window.scrollY, window.innerHeight)));
     };
-    const onLoad = () => {
-      if (document.fonts.check(spec)) done();
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(apply);
+    };
+    const onMove = (e: PointerEvent) => {
+      el.style.setProperty("--mx", String((e.clientX / window.innerWidth - 0.5) * 2));
+      el.style.setProperty("--my", String((e.clientY / window.innerHeight - 0.5) * 2));
     };
 
-    document.fonts.load(spec).then((faces) => {
-      if (faces.length) done();
-    });
-    document.fonts.addEventListener("loadingdone", onLoad);
-    const timeout = window.setTimeout(done, 2500);
-
+    apply();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("pointermove", onMove, { passive: true });
     return () => {
-      alive = false;
-      window.clearTimeout(timeout);
-      document.fonts.removeEventListener("loadingdone", onLoad);
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("pointermove", onMove);
     };
-  }, [spec]);
+  }, [ref]);
+}
 
-  return ready;
+type PxStyle = React.CSSProperties & { "--speed"?: number; "--depth"?: number };
+const px = (speed: number, depth = 0): PxStyle => ({ "--speed": speed, "--depth": depth });
+
+/* Every letter gets its own scroll speed + pointer depth, so the title ripples. */
+function Letters({ text, offset }: { text: string; offset: number }) {
+  return (
+    <>
+      {text.split("").map((ch, i) => {
+        const n = offset + i;
+        const speed = 0.04 + (((n * 7 + 3) % 11) / 11) * 0.14;
+        const depth = (((n * 5) % 9) - 4) * 1.6;
+        return (
+          <span key={n} className="px hero__letter" style={px(speed, depth)} aria-hidden="true">
+            {ch === " " ? "\u00A0" : ch}
+          </span>
+        );
+      })}
+    </>
+  );
 }
 
 export default function Landing() {
   const navigate = useNavigate();
-  const fontReady = useFontReady(TITLE_FONT_SPEC);
+  const heroRef = React.useRef<HTMLElement>(null);
+  useHeroParallax(heroRef);
 
   return (
     <div className="landing">
-      <SiteHeader />
-
       <main>
-        <section className="hero" id="hero">
-          <div className="hero__bg" aria-hidden="true">
-            <div style={{ width: "100%", height: "100%", position: "relative" }}>
-              <GradientASCII
-                colors={["#1e3fd8", "#f6f8ff", "#a5d8ff", "#38bdf8"]}
-                shape="horizon"
-                characters=" =+xX0S8#@"
-                cellSize={18}
-                density={0.8}
-                glyphOpacity={0.85}
-                glow={0.2}
-                depthOfField={0}
-                flicker={0.2}
-                softness={0.5}
-                scale={1}
-                flow={0.5}
-                speed={1}
-                gradientOpacity={0.9}
-                grain={0.08}
-                variation={0}
-                mouseInteraction
-                scrambleRadius={0.1}
-                clickEffect="burst"
-                intro
-                lightMode={false}
-              />
-            </div>
-          </div>
-          <div className="hero__scrim" aria-hidden="true" />
-
+        <section className="hero" id="hero" ref={heroRef}>
           <div className="hero__content">
-            <h1 className="hero__title">
-              <span className="sr-only">Information Assurance &amp; Security</span>
-              <Reveal
-                aria-hidden="true"
-                style={{
-                  height: TITLE.boxHeight,
-                  width: "100%",
-                  maxWidth: TITLE.maxWidth,
-                  margin: "0 auto",
-                }}
-              >
-                <TechText
-                  key={fontReady ? "ready" : "pending"}
-                  text={TITLE.text}
-                  fontFamily={TITLE.fontFamily}
-                  fontWeight={TITLE.fontWeight}
-                  fontSize={TITLE.fontSize}
-                  letterSpacing={TITLE.letterSpacing}
-                  align={TITLE.align}
-                  color={TITLE.color}
-                  accentColor={TITLE.color}
-                  {...TITLE_FX}
-                />
-              </Reveal>
-            </h1>
+            <div className="hero__stage">
+              {/* title + logos */}
+              <div className="hero__titleblock">
+                <h1 className="hero__title" aria-label="Cloud Computing">
+                  <Reveal as="span" className="hero__line" delay={0}>
+                    <Letters text={TITLE_LINES[0]} offset={0} />
+                  </Reveal>
+                  <Reveal as="span" className="hero__line" delay={150}>
+                    <Letters text={TITLE_LINES[1]} offset={TITLE_LINES[0].length} />
+                  </Reveal>
+                </h1>
 
-            <Reveal as="p" className="hero__tagline" delay={200}>
-              {TAGLINE.map((item, i) => (
-                <React.Fragment key={item}>
-                  {i > 0 && (
-                    <span className="hero__dot" aria-hidden="true">
-                      •
-                    </span>
-                  )}
-                  <span>{item}</span>
-                </React.Fragment>
-              ))}
-            </Reveal>
+                <div className="hero__logo hero__logo--aws">
+                  <div className="px" style={px(0.2, 14)}>
+                    <Reveal delay={300}>
+                      <img src="/aws-color.png" alt="" draggable={false} />
+                    </Reveal>
+                  </div>
+                </div>
+                <div className="hero__logo hero__logo--azure">
+                  <div className="px" style={px(0.28, -16)}>
+                    <Reveal delay={400}>
+                      <img src="/azure.png" alt="" draggable={false} />
+                    </Reveal>
+                  </div>
+                </div>
+                <div className="hero__logo hero__logo--gcp">
+                  <div className="px" style={px(0.38, 20)}>
+                    <Reveal delay={500}>
+                      <img src="/gcp.png" alt="" draggable={false} />
+                    </Reveal>
+                  </div>
+                </div>
+              </div>
 
-            <Reveal as="p" className="hero__sub" delay={350}>
-              <strong>Learn the fundamentals and best practices in Cybersecurity.</strong>
-              <br />
-              Discover how to protect data, secure systems, manage risk, and respond to
-              threats. Build the skills the digital world depends on, starting today.
-            </Reveal>
+              {/* subtext, flanking images, buttons */}
+              <div className="hero__lower">
+                <div className="hero__art hero__art--left">
+                  <div className="px" style={px(0.26, 16)}>
+                    <Reveal delay={450}>
+                      <img src="/server.png" alt="" draggable={false} />
+                    </Reveal>
+                  </div>
+                </div>
+                <div className="hero__art hero__art--right">
+                  <div className="px" style={px(0.32, -16)}>
+                    <Reveal delay={550}>
+                      <img src="/datacenter.png" alt="" draggable={false} />
+                    </Reveal>
+                  </div>
+                </div>
 
-            <div className="hero__actions">
-              <Reveal delay={550}>
-                <LiquidGlass as="button" className="hero__btn">
-                  See Full Curriculum
-                </LiquidGlass>
-              </Reveal>
-              <Reveal delay={700}>
-                <MetallicBlueButton className="hero__btn" onClick={() => navigate("/chapters")}>
-                  Learn Today
-                </MetallicBlueButton>
-              </Reveal>
+                <div className="px" style={px(0.14)}>
+                  <Reveal as="p" className="hero__sub" delay={350}>
+                    Learn the fundamentals of cloud infrastructure and services - along with a
+                    growing community
+                  </Reveal>
+                </div>
+
+                <div className="px hero__actions" style={px(0.1)}>
+                  <Reveal delay={650}>
+                    <LiquidGlass as="button" className="hero__btn">
+                      See Full Curriculum
+                    </LiquidGlass>
+                  </Reveal>
+                  <Reveal delay={800}>
+                    <MetallicBlueButton className="hero__btn" onClick={() => navigate("/chapters")}>
+                      Learn Today
+                    </MetallicBlueButton>
+                  </Reveal>
+                </div>
+              </div>
             </div>
           </div>
         </section>

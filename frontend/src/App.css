@@ -1,6 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+  --font-heading: "League Spartan", system-ui, sans-serif;
+  --font-body: "Poppins", system-ui, sans-serif;
+  --app-bg: #0f0e14;
+}
+
+/* app-level typography: League Spartan for headings, Poppins for everything else */
+html,
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+body {
+  margin: 0;
+  background: var(--app-bg);
+  color: #fff;
+}
 
 #root {
   width: 100%;
   min-height: 100svh;
+}
+
+/* fixed, viewport-locked background shared by every page */
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--app-bg);
+}
+
+/* all routed content sits above the background */
+.app-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* top dock: full-viewport host so the dock centers on the screen */
+.app-dock {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.app-dock .dock:not([data-hidden]) {
+  pointer-events: auto;
 }
