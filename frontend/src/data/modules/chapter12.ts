@@ -14,7 +14,7 @@ export const cloudComputingChapter12: CloudComputingChapter = {
   title: "Emerging Trends and Future of Cloud Computing",
   description:
     "Examines emerging technologies and architectural trends shaping cloud computing, including artificial intelligence, edge computing, cloud-native development, confidential computing, automation, quantum computing research, sustainability, and evolving professional skills. Learners evaluate potential benefits, limitations, security implications, and future directions of cloud technology.",
-
+  durationMinutes: 30,
   objectives: [
     {
       objective:

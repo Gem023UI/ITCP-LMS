@@ -12,7 +12,7 @@ export const cloudComputingChapter06: CloudComputingChapter = {
   title: "Cloud Storage and Data Management",
   description:
     "Explores how cloud platforms store, organize, protect, process, and manage data. Covers cloud storage types, databases, data lifecycle management, durability, availability, backup and recovery, security, performance, cost optimization, and data migration.",
-
+  durationMinutes: 30,
   objectives: [
     {
       objective:

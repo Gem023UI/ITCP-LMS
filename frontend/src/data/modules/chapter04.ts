@@ -12,7 +12,7 @@ export const cloudComputingChapter04: CloudComputingChapter = {
   title: "Cloud Deployment Models",
   description:
     "Introduces the major cloud deployment models and explains how cloud infrastructure can be organized, owned, managed, and accessed. Learners explore public, private, community, and hybrid clouds, compare their characteristics and trade-offs, and evaluate deployment options based on security, compliance, cost, scalability, control, and organizational requirements.",
-
+  durationMinutes: 30,
   objectives: [
     {
       objective:

@@ -12,7 +12,7 @@ export const cloudComputingChapter09: CloudComputingChapter = {
   title: "Containers and Serverless Computing",
   description:
     "Explores modern cloud application deployment approaches, including containerization, container images, registries, orchestration, and serverless computing. Explains how these technologies support portability, automated deployment, scalability, and efficient resource use, while examining their architecture, limitations, security concerns, and appropriate use cases.",
-
+  durationMinutes: 30,
   objectives: [
     {
       objective:

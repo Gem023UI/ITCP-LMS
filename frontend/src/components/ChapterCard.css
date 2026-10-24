@@ -1,0 +1,92 @@
+.chapter-card__layer {
+  pointer-events: none;
+}
+
+.chapter-card__shade {
+  position: absolute;
+  inset: -14px;
+  background: linear-gradient(
+    to top,
+    rgba(8, 8, 14, 0.9) 0%,
+    rgba(8, 8, 14, 0.5) 28%,
+    rgba(8, 8, 14, 0) 58%
+  );
+}
+
+.chapter-card__meta {
+  position: absolute;
+  left: 22px;
+  right: 86px;
+  bottom: 22px;
+}
+
+.chapter-card__title {
+  margin: 0 0 6px;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-size: 1.55rem;
+  line-height: 1.12;
+  letter-spacing: 0.01em;
+  color: #fff;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chapter-card__no {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.chapter-card__play {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #f4f4f5;
+  color: #18181b;
+  display: grid;
+  place-items: center;
+}
+
+.chapter-card__back {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 26px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  background: linear-gradient(160deg, #181823 0%, #0b0b11 100%);
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+}
+
+.chapter-card__back-no {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #38bdf8;
+}
+
+.chapter-card__back-title {
+  margin: 0;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.15;
+}
+
+.chapter-card__back-desc {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+  overflow: hidden;
+}

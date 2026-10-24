@@ -5,7 +5,7 @@ export const cloudComputingChapter02: CloudComputingChapter = {
   title: "Cloud Architecture and Core Concepts",
   description:
     "Explores the architectural components, design principles, and operational concepts that enable cloud computing systems to deliver reliable, scalable, secure, and efficient services. This chapter examines cloud infrastructure, compute and storage resources, networking, virtualization, distributed systems, scalability, elasticity, availability, fault tolerance, and cloud architecture best practices.",
-
+  durationMinutes: 30,
   objectives: [
     {
       objective:

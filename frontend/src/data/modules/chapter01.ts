@@ -5,6 +5,7 @@ export const cloudComputingChapter01: CloudComputingChapter = {
   title: "Introduction to Cloud Computing",
   description:
     "Introduces the fundamental concepts, evolution, characteristics, benefits, limitations, and real-world applications of cloud computing. This chapter explains how computing resources are delivered over networks, how cloud computing differs from traditional IT infrastructure, and why organizations use cloud services to support scalability, accessibility, collaboration, and digital transformation.",
+  durationMinutes: 30,
 
   objectives: [
     {
@@ -25,7 +26,7 @@ export const cloudComputingChapter01: CloudComputingChapter = {
     },
     {
       objective:
-        "Recognize common cloud computing applications and distinguish cloud-based services from traditional locally managed computing resources."
+        "Recognize common cloud c omputing applications and distinguish cloud-based services from traditional locally managed computing resources."
     }
   ],
 

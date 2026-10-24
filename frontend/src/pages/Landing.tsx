@@ -11,6 +11,7 @@ import TrendsSection from "../components/TrendsSection";
 import FolderSection from "../components/FolderSection";
 import Footer from "../components/Footer";
 import { CARD_IMAGES } from "../data/cardImage";
+import { useNavigate } from "react-router-dom";
 import "../styles/Landing.css";
 
 /* ===================== HERO TITLE: EXPERIMENT HERE ===================== */
@@ -56,7 +57,6 @@ const TITLE_FONT_SPEC = `${TITLE.fontWeight} 100px "${TITLE.fontFamily
   .replace(/["']/g, "")
   .trim()}"`;
 
-/** True once the title font is loaded, so TechText can be remounted with correct glyph metrics */
 function useFontReady(spec: string) {
   const [ready, setReady] = React.useState(false);
 
@@ -86,6 +86,7 @@ function useFontReady(spec: string) {
 }
 
 export default function Landing() {
+  const navigate = useNavigate();
   const fontReady = useFontReady(TITLE_FONT_SPEC);
 
   return (
@@ -177,7 +178,7 @@ export default function Landing() {
                 </LiquidGlass>
               </Reveal>
               <Reveal delay={700}>
-                <MetallicBlueButton className="hero__btn">
+                <MetallicBlueButton className="hero__btn" onClick={() => navigate("/chapters")}>
                   Learn Today
                 </MetallicBlueButton>
               </Reveal>

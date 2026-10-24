@@ -14,7 +14,7 @@ export const cloudComputingChapter11: CloudComputingChapter = {
   title: "Cloud Governance, Cost Management, and Ethics",
   description:
     "Explores the policies, processes, financial practices, and ethical principles used to manage cloud environments responsibly. Learners examine governance frameworks, resource accountability, cloud spending, cost optimization, compliance, privacy, sustainability, and ethical decision-making.",
-
+  durationMinutes: 30,
   objectives: [
     {
       objective:

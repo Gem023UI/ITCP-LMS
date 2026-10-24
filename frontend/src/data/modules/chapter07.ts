@@ -12,7 +12,7 @@ export const cloudComputingChapter07: CloudComputingChapter = {
   title: "Cloud Networking Security, Operations and Platforms",
   description:
     "Explores cloud networking architecture, connectivity, network security, traffic management, operational monitoring, automation, reliability, and major cloud management platforms. Students learn how cloud resources communicate, how network access is controlled, and how cloud environments are operated securely and efficiently.",
-
+  durationMinutes: 30,
   objectives: [
     {
       objective:

@@ -14,7 +14,7 @@ export const cloudComputingChapter10: CloudComputingChapter = {
   title: "Major Cloud Platforms",
   description:
     "Explores major cloud service providers, including Amazon Web Services (AWS), Microsoft Azure, and Google Cloud. Learners examine their core services, infrastructure, security capabilities, management tools, pricing considerations, and approaches to migration and platform selection.",
-
+  durationMinutes: 30,
   objectives: [
     {
       objective:

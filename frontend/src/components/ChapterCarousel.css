@@ -1,0 +1,25 @@
+.chapter-carousel {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+}
+
+.chapter-carousel.is-dragging {
+  cursor: grabbing;
+}
+
+.chapter-carousel__item {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  will-change: transform;
+}
+
+.chapter-carousel__item.is-hidden {
+  visibility: hidden;
+}

@@ -3,6 +3,7 @@ export interface CloudComputingChapter {
   chapterId: string;
   title: string;
   description: string;
+  durationMinutes: number;
   objectives: CloudChapterObjective[];
   videoUrl: string;
   slideUrl: string;
