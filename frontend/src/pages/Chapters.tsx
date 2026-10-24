@@ -2,6 +2,7 @@ import * as React from "react";
 import ChapterCarousel from "../components/ChapterCarousel";
 import ChapterCard from "../components/ChapterCard";
 import ChapterDetails from "../components/ChapterDetails";
+import Lessons from "./Lessons";
 import { CARD_W, CARD_H } from "../data/chaptercardsize";
 import { getChapterCards, type ChapterCardData } from "../data/chapters";
 import "../styles/Chapters.css";
@@ -27,6 +28,7 @@ export default function Chapters() {
   const [selected, setSelected] = React.useState<ChapterCardData | null>(null);
   const [pose, setPose] = React.useState<Pose | null>(null);
   const [flipped, setFlipped] = React.useState(false);
+  const [lessonOpen, setLessonOpen] = React.useState(false);
 
   const slotRef = React.useRef<HTMLDivElement>(null);
   const stageRef = React.useRef<HTMLDivElement>(null);
@@ -118,7 +120,7 @@ export default function Chapters() {
             chapterNo={selected.chapterNo}
             leaving={phase === "closing"}
             onClose={close}
-            onProceed={() => console.log("Proceed to lesson", selected.id)}
+            onProceed={() => setLessonOpen(true)}
             onQuiz={() => console.log("Quiz", selected.id)}
           />
         </div>
@@ -137,6 +139,15 @@ export default function Chapters() {
         >
           <ChapterCard data={selected} flipped={flipped} intro={false} />
         </div>
+      )}
+
+      {selected && lessonOpen && (
+        <Lessons
+         chapter={selected.chapter}
+          chapterNo={selected.chapterNo}
+          onBack={() => setLessonOpen(false)}
+          onQuiz={() => console.log("Quiz", selected.id)}
+        />
       )}
     </div>
   );

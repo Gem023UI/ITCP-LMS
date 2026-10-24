@@ -83,9 +83,9 @@ function Shell() {
           <ShapeGrid
             shape="square"
             direction="diagonal"
-            lineColor="#003d72"
-            hoverColor="#ffffff"
-            hoverFillColor="#003d72"
+            lineColor="#00396b"
+            hoverColor="#0060af"
+            hoverFillColor="#00396b"
             fillOpacity={0.15}
             cellSize={40}
             speed={0.5}
