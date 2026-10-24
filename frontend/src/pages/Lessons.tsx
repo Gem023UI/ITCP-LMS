@@ -1,20 +1,27 @@
 import * as React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import MetallicBlueButton from "../components/MetallicBlueButton";
-import { toRoman } from "../data/chapters";
-import type { CloudComputingChapter } from "../types/modules";
+import { getChapterCards, toRoman } from "../data/chapters";
 import "../styles/Lessons.css";
 
-interface LessonsProps {
-  chapter: CloudComputingChapter;
-  chapterNo: number;
-  onQuiz?: () => void;
-  onBack?: () => void;
-}
+export default function Lessons() {
+  const navigate = useNavigate();
+  const { lessonId } = useParams();
 
-export default function Lessons({ chapter, chapterNo, onQuiz, onBack }: LessonsProps) {
+  // "lesson01" -> 1
+  const chapterNo = Number(lessonId?.match(/^lesson(\d+)$/i)?.[1]);
+  const card = React.useMemo(
+    () => getChapterCards().find((c) => c.chapterNo === chapterNo),
+    [chapterNo],
+  );
+  const chapter = card?.chapter;
+
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [progress, setProgress] = React.useState(0);
+
+  const goBack = React.useCallback(() => navigate("/chapters"), [navigate]);
+  const onQuiz = () => console.log("Quiz", lessonId);
 
   const update = React.useCallback(() => {
     const el = scrollRef.current;
@@ -28,14 +35,23 @@ export default function Lessons({ chapter, chapterNo, onQuiz, onBack }: LessonsP
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
-  }, [update]);
+  }, [update, chapter]);
 
   React.useEffect(() => {
-    if (!onBack) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onBack();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && goBack();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onBack]);
+  }, [goBack]);
+
+  if (!chapter) {
+    return (
+      <div className="lessons" style={{ placeItems: "center", display: "grid" }}>
+        <p>
+          Lesson not found. <a href="/chapters" onClick={(e) => { e.preventDefault(); goBack(); }}>Back to chapters</a>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="lessons">

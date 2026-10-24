@@ -15,6 +15,7 @@ import ShapeGrid from "./components/ShapeGrid";
 import Dock from "./components/Dock";
 import LandingPage from "./pages/Landing";
 import Chapters from "./pages/Chapters";
+import Lessons from "./pages/Lessons";
 
 const glyph = (icon: React.ComponentProps<typeof HugeiconsIcon>["icon"]) => (
   <HugeiconsIcon icon={icon} size="1em" strokeWidth={1.8} />
@@ -129,6 +130,7 @@ function Shell() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/chapters" element={<Chapters />} />
+          <Route path="/chapters/:lessonId" element={<Lessons />} />
         </Routes>
       </div>
     </>

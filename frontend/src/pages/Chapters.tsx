@@ -2,9 +2,9 @@ import * as React from "react";
 import ChapterCarousel from "../components/ChapterCarousel";
 import ChapterCard from "../components/ChapterCard";
 import ChapterDetails from "../components/ChapterDetails";
-import Lessons from "./Lessons";
 import { CARD_W, CARD_H } from "../data/chaptercardsize";
 import { getChapterCards, type ChapterCardData } from "../data/chapters";
+import { useNavigate } from "react-router-dom";
 import "../styles/Chapters.css";
 
 type Phase = "carousel" | "opening" | "details" | "closing";
@@ -22,13 +22,13 @@ const poseFromRect = (r: DOMRect, animate: boolean): Pose => ({
 });
 
 export default function Chapters() {
+  const navigate = useNavigate();
   const cards = React.useMemo(() => getChapterCards(), []);
 
   const [phase, setPhase] = React.useState<Phase>("carousel");
   const [selected, setSelected] = React.useState<ChapterCardData | null>(null);
   const [pose, setPose] = React.useState<Pose | null>(null);
   const [flipped, setFlipped] = React.useState(false);
-  const [lessonOpen, setLessonOpen] = React.useState(false);
 
   const slotRef = React.useRef<HTMLDivElement>(null);
   const stageRef = React.useRef<HTMLDivElement>(null);
@@ -120,7 +120,9 @@ export default function Chapters() {
             chapterNo={selected.chapterNo}
             leaving={phase === "closing"}
             onClose={close}
-            onProceed={() => setLessonOpen(true)}
+            onProceed={() =>
+              navigate(`/chapters/lesson${String(selected.chapterNo).padStart(2, "0")}`)
+            }
             onQuiz={() => console.log("Quiz", selected.id)}
           />
         </div>
@@ -139,15 +141,6 @@ export default function Chapters() {
         >
           <ChapterCard data={selected} flipped={flipped} intro={false} />
         </div>
-      )}
-
-      {selected && lessonOpen && (
-        <Lessons
-         chapter={selected.chapter}
-          chapterNo={selected.chapterNo}
-          onBack={() => setLessonOpen(false)}
-          onQuiz={() => console.log("Quiz", selected.id)}
-        />
       )}
     </div>
   );
