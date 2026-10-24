@@ -11,6 +11,7 @@ const timestamp = "2026-10-24T00:00:00.000Z";
 
 export const cloudComputingChapter10: CloudComputingChapter = {
   chapterId: "cloud-computing-chapter-10",
+  cardImage: "../../../public/chapters/10.png",
   title: "Major Cloud Platforms",
   description:
     "Explores major cloud service providers, including Amazon Web Services (AWS), Microsoft Azure, and Google Cloud. Learners examine their core services, infrastructure, security capabilities, management tools, pricing considerations, and approaches to migration and platform selection.",

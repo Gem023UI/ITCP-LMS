@@ -9,6 +9,7 @@ const cloudImage2 =
 
 export const cloudComputingChapter03: CloudComputingChapter = {
   chapterId: "cloud-computing-chapter-03",
+  cardImage: "../../../public/chapters/03.png",
   title: "Cloud Service Models",
   description:
     "Explores the major cloud service models—Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS)—and explains their characteristics, shared responsibility boundaries, benefits, limitations, use cases, and selection criteria. Learners will understand how service models determine the level of control, flexibility, and operational responsibility retained by cloud customers and provided by cloud providers.",

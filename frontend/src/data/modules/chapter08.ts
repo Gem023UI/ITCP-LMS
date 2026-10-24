@@ -9,6 +9,7 @@ const cloudImage2 =
 
 export const cloudComputingChapter08: CloudComputingChapter = {
   chapterId: "cloud-computing-chapter-08",
+  cardImage: "../../../public/chapters/08.png",
   title: "Cloud Security and Privacy",
   description:
     "Introduces the principles, controls, and practices used to protect cloud infrastructure, applications, identities, and information. Covers the shared responsibility model, identity and access management, data protection, network and workload security, threat detection, privacy, compliance, incident response, and cloud security best practices.",

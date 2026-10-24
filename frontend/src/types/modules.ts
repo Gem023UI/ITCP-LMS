@@ -1,6 +1,7 @@
 
 export interface CloudComputingChapter {
   chapterId: string;
+  cardImage: string;
   title: string;
   description: string;
   durationMinutes: number;

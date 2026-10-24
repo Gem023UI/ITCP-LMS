@@ -9,6 +9,7 @@ const cloudImage2 =
 
 export const cloudComputingChapter05: CloudComputingChapter = {
   chapterId: "cloud-computing-chapter-05",
+  cardImage: "../../../public/chapters/05.png",
   title: "Virtualization Fundamentals",
   description:
     "Introduces virtualization as a foundational technology in cloud computing. Learners explore how virtualization abstracts physical computing resources, how hypervisors create and manage virtual machines, how virtual resources are allocated, and how virtualization supports scalability, isolation, efficient utilization, and flexible infrastructure management. The chapter also examines virtual networking and storage, containers, security considerations, and the limitations of virtualization.",

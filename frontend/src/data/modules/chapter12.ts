@@ -12,6 +12,7 @@ const timestamp = "2026-10-24T00:00:00.000Z";
 export const cloudComputingChapter12: CloudComputingChapter = {
   chapterId: "cloud-computing-chapter-12",
   title: "Emerging Trends and Future of Cloud Computing",
+  cardImage: "../../../public/chapters/12.png",
   description:
     "Examines emerging technologies and architectural trends shaping cloud computing, including artificial intelligence, edge computing, cloud-native development, confidential computing, automation, quantum computing research, sustainability, and evolving professional skills. Learners evaluate potential benefits, limitations, security implications, and future directions of cloud technology.",
   durationMinutes: 30,

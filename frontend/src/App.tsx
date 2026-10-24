@@ -3,11 +3,13 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  Delete02Icon,
-  Home01Icon,
-  Mail01Icon,
-  MusicNote03Icon,
-  Settings01Icon,
+  Home09Icon,
+  Book03Icon,
+  NoteIcon,
+  UserAccountIcon,
+  DashboardCircleEditIcon,
+  EditUser02Icon,
+  LicenseDraftIcon,
 } from "@hugeicons/core-free-icons";
 import ShapeGrid from "./components/ShapeGrid";
 import Dock from "./components/Dock";
@@ -39,7 +41,7 @@ function Shell() {
   const dockItems = React.useMemo(
     () => [
       {
-        icon: glyph(Home01Icon),
+        icon: glyph(Home09Icon),
         label: "Home",
         active: true,
         onClick: () => navigate("/"),
@@ -51,11 +53,25 @@ function Shell() {
           { label: "Quit", onClick: () => console.log("Quit") },
         ],
       },
-      { icon: glyph(Mail01Icon), label: "Mail", badge: 3, onClick: () => console.log("Mail") },
-      { icon: glyph(MusicNote03Icon), label: "Music", active: true, onClick: () => console.log("Music") },
-      { icon: glyph(Settings01Icon), label: "Settings", onClick: () => console.log("Settings") },
+      {
+        icon: glyph(Book03Icon),
+        label: "Chapters",
+        active: true,
+        onClick: () => navigate("/chapters"),
+        menu: [
+          { label: "New Window", onClick: () => console.log("New Window") },
+          { separator: true },
+          { label: "Options", items: [{ label: "Open at Login", checked: true }, { label: "Show in Finder" }] },
+          { separator: true },
+          { label: "Quit", onClick: () => console.log("Quit") },
+        ],
+      },
+      { icon: glyph(NoteIcon), label: "Articles", active: true, onClick: () => console.log("Articles") },
+      { icon: glyph(UserAccountIcon), label: "Profile", onClick: () => console.log("Profile") },
       { separator: true },
-      { icon: glyph(Delete02Icon), label: "Trash", onClick: () => console.log("Trash") },
+      { icon: glyph(DashboardCircleEditIcon), label: "Dashboard", onClick: () => console.log("Dashboard") },
+      { icon: glyph(EditUser02Icon), label: "Users", onClick: () => console.log("Users") },
+      { icon: glyph(LicenseDraftIcon), label: "Licenses", onClick: () => console.log("Licenses") },
     ],
     [navigate],
   );
@@ -67,9 +83,9 @@ function Shell() {
           <ShapeGrid
             shape="square"
             direction="diagonal"
-            lineColor="#2a2734"
+            lineColor="#003d72"
             hoverColor="#ffffff"
-            hoverFillColor="#ffffff"
+            hoverFillColor="#003d72"
             fillOpacity={0.15}
             cellSize={40}
             speed={0.5}
@@ -77,7 +93,7 @@ function Shell() {
             tiltY={0}
             rainbow={false}
             lineWidth={1}
-            radius={1.5}
+            radius={1.8}
             trail={0.6}
             glow={0.35}
             twinkle={0}
@@ -104,7 +120,7 @@ function Shell() {
           tiles
           showLabels
           showIndicators={false}
-          showBadges
+          showBadges={false}
           autoHide={autoHide}
         />
       </div>

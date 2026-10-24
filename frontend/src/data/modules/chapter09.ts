@@ -10,6 +10,7 @@ const cloudImage2 =
 export const cloudComputingChapter09: CloudComputingChapter = {
   chapterId: "cloud-computing-chapter-09",
   title: "Containers and Serverless Computing",
+  cardImage: "../../../public/chapters/09.png",
   description:
     "Explores modern cloud application deployment approaches, including containerization, container images, registries, orchestration, and serverless computing. Explains how these technologies support portability, automated deployment, scalability, and efficient resource use, while examining their architecture, limitations, security concerns, and appropriate use cases.",
   durationMinutes: 30,

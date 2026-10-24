@@ -76,7 +76,7 @@ export function getChapterCards(): ChapterCardData[] {
     .map((chapter, i) => {
       const parsed = parseInt(chapter.chapterId.match(/\d+/)?.[0] ?? "", 10);
       const image =
-        chapter.sections.find((s) => s.imageUrl?.[0]?.url)?.imageUrl[0].url ?? FALLBACK_IMAGE;
+        chapter.cardImage ?? FALLBACK_IMAGE;
       return {
         id: chapter.chapterId,
         chapterNo: Number.isFinite(parsed) ? parsed : i + 1,

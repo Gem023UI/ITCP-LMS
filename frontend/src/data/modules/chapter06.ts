@@ -1,4 +1,3 @@
-
 import type { CloudComputingChapter } from "../../types/modules";
 
 const cloudImage1 =
@@ -9,6 +8,7 @@ const cloudImage2 =
 
 export const cloudComputingChapter06: CloudComputingChapter = {
   chapterId: "cloud-computing-chapter-06",
+  cardImage: "../../../public/chapters/06.png",
   title: "Cloud Storage and Data Management",
   description:
     "Explores how cloud platforms store, organize, protect, process, and manage data. Covers cloud storage types, databases, data lifecycle management, durability, availability, backup and recovery, security, performance, cost optimization, and data migration.",
