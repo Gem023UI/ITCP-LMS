@@ -10,20 +10,11 @@
   background: transparent;
 }
 
-/* ---------- parallax helper ---------- */
-/* --sy: scroll px (unitless)  --mx/--my: pointer -1..1
-   --speed: scroll factor      --depth: pointer travel in px */
-.px {
-  transform: translate3d(
-    calc(var(--mx, 0) * var(--depth, 0) * 1px),
-    calc(var(--sy, 0) * var(--speed, 0) * -1px + var(--my, 0) * var(--depth, 0) * 1px),
-    0
-  );
-  will-change: transform;
-}
-
 /* ---------- hero ---------- */
+/* The hero is laid out on the 951 x 535 reference image.
+   --r = size of one reference pixel; the canvas scales to fit any viewport. */
 .hero {
+  --r: min(calc(100vw / 951), calc(100svh / 535));
   position: relative;
   overflow: hidden;
   min-height: 100svh;
@@ -32,130 +23,142 @@
   background: transparent;
 }
 
-.hero__content {
+.hero__canvas {
   position: relative;
   z-index: 2;
-  width: 100%;
-  padding: 72px 24px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
+  width: calc(var(--r) * 951);
+  height: calc(var(--r) * 535);
   pointer-events: none; /* lets the ShapeGrid beneath receive the mouse */
 }
 
-/* the stage is as wide as the widest title line, like the reference */
-.hero__stage {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: fit-content;
-  max-width: 100%;
-}
-
-/* ----- title ----- */
-.hero__titleblock {
-  position: relative;
-}
-
+/* ----- title: two lines, centered on the canvas ----- */
 .hero__title {
+  position: absolute; /* no z-index: lines and images share one stacking order */
+  left: 0;
+  top: calc(var(--r) * 75);
+  width: 100%;
   margin: 0;
+  text-align: center;
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: clamp(2rem, 9.4vw, 13rem);
-  line-height: 1;
+  font-size: calc(var(--r) * 145);
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: #fff;
 }
 
 .hero__line {
+  position: relative;
   display: block;
   white-space: nowrap;
 }
 
-.hero__letter {
+.hero__word {
   display: inline-block;
 }
 
-/* ----- logos (percentages are of the title width, as in the reference) ----- */
-.hero__logo {
-  position: absolute;
+/* stacking: CLOUD < gcp < COMPUTING */
+.hero__line--1 {
+  z-index: 1;
+}
+.hero__img--gcp {
+  z-index: 2;
+}
+.hero__line--2 {
   z-index: 3;
+}
+
+/* ----- pictures (x / y / width taken from the reference) ----- */
+.hero__img {
+  position: absolute;
+  z-index: 2;
   pointer-events: none;
 }
 
-.hero__logo img,
-.hero__art img {
+.hero__img img {
   display: block;
   width: 100%;
   height: auto;
   user-select: none;
+  transform: rotate(var(--tilt, 0deg));
 }
 
-.hero__logo--aws {
-  left: 5%;
-  top: 12%;
-  width: 14%;
+.hero__img--aws {
+  --tilt: -4deg;
+  left: calc(var(--r) * 160);
+  top: calc(var(--r) * 120);
+  width: calc(var(--r) * 70);
 }
 
-.hero__logo--azure {
-  right: 7%;
-  top: 11%;
-  width: 11%;
+.hero__img--azure {
+  --tilt: 12deg;
+  left: calc(var(--r) * 710);
+  top: calc(var(--r) * 120);
+  width: calc(var(--r) * 65);
 }
 
-.hero__logo--gcp {
-  left: 41%;
-  top: 27%;
-  width: 17%;
+.hero__img--gcp {
+  --tilt: -15deg;
+  left: calc(var(--r) * 417);
+  top: calc(var(--r) * 150);
+  width: calc(var(--r) * 100);
 }
 
-/* ----- lower block: subtext, flanking images, buttons ----- */
-.hero__lower {
-  position: relative;
-  width: 100%;
-  margin-top: clamp(20px, 4vh, 44px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(18px, 3.4vh, 36px);
+.hero__img--server {
+  --tilt: -4deg;
+  left: calc(var(--r) * 114);
+  top: calc(var(--r) * 341);
+  width: calc(var(--r) * 111);
 }
 
-.hero__art {
+.hero__img--datacenter {
+  --tilt: 8deg;
+  left: calc(var(--r) * 721);
+  top: calc(var(--r) * 340);
+  width: calc(var(--r) * 105);
+}
+
+/* ----- subtext ----- */
+.hero__subwrap {
   position: absolute;
-  top: -4%;
-  width: 17%;
-  pointer-events: none;
-}
-
-.hero__art--left {
-  left: -4%;
-}
-
-.hero__art--right {
-  right: -3%;
+  left: 0;
+  top: calc(var(--r) * 349);
+  width: 100%;
+  text-align: center;
 }
 
 .hero__sub {
-  max-width: 74%;
-  margin: 0 auto;
+  margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(0.65rem, 1.4vw, 1.5rem);
+  font-size: calc(var(--r) * 14.8);
   font-weight: 500;
-  line-height: 1.6;
+  line-height: calc(var(--r) * 20);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  text-wrap: balance;
+  white-space: nowrap;
   color: #fff;
 }
 
+/* ----- buttons ----- */
+/* centered on the canvas at the reference's button height (y = 435 is the row's middle);
+   the buttons keep their own intrinsic look (padding + font), as before */
 .hero__actions {
+  position: absolute;
+  left: 0;
+  top: calc(var(--r) * 435);
+  width: 100%;
+  transform: translateY(-50%);
+  z-index: 5;
   display: flex;
-  flex-wrap: wrap;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.hero__actions-row {
+  display: flex;
+  align-items: center;
   justify-content: center;
   gap: clamp(10px, 1.4vw, 16px);
-  pointer-events: auto;
 }
 
 .hero__btn {
@@ -173,24 +176,6 @@
 
 .hero__btn:hover {
   transform: scale(1.05);
-}
-
-@media (max-width: 640px) {
-  .hero__title {
-    font-size: 14vw;
-  }
-  .hero__line {
-    white-space: normal;
-  }
-  .hero__art {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .px {
-    transform: none;
-  }
 }
 
 /* ---------- showcase ---------- */

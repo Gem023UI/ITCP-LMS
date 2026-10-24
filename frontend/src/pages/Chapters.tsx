@@ -92,7 +92,7 @@ export default function Chapters() {
   const away = phase === "opening" || phase === "details";
 
   return (
-    <div className="chapters">
+    <div className="chapters" style={{ background: "transparent" }}>
       <div ref={stageRef} className={`chapters__stage${away ? " is-away" : ""}`}>
         {cards.length ? (
           <ChapterCarousel
