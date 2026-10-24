@@ -52,6 +52,15 @@
   color: #18181b;
   display: grid;
   place-items: center;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  pointer-events: auto; /* the layer itself ignores the mouse; the play button doesn't */
+  transition: transform 0.2s ease;
+}
+
+.chapter-card__play:hover {
+  transform: scale(1.1);
 }
 
 .chapter-card__back {

@@ -8,16 +8,11 @@ const GAP = 56;
 const STEP = CARD_W + GAP;
 const SIDE_SCALE = 0.72;
 const DRAG_THRESHOLD = 6;
-const RUBBER = 0.35;
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
-function rubber(raw: number, count: number) {
-  const max = Math.max(0, count - 1);
-  if (raw < 0) return raw * RUBBER;
-  if (raw > max) return max + (raw - max) * RUBBER;
-  return raw;
-}
+/** Shortest signed distance on a ring of n items (loop) */
+const wrap = (d: number, n: number) => (n > 0 ? d - n * Math.round(d / n) : d);
 
 interface ChapterCarouselProps {
   cards: ChapterCardData[];
@@ -33,6 +28,7 @@ export default function ChapterCarousel({
   disabled = false,
   onSelect,
 }: ChapterCarouselProps) {
+  const [flippedId, setFlippedId] = React.useState<string | null>(null);
   const rootRef = React.useRef<HTMLDivElement>(null);
   const itemRefs = React.useRef<(HTMLDivElement | null)[]>([]);
   const countRef = React.useRef(cards.length);
@@ -57,9 +53,10 @@ export default function ChapterCarousel({
 
   const paint = React.useCallback(() => {
     const { pos } = st.current;
+    const n = countRef.current;
     itemRefs.current.forEach((el, i) => {
       if (!el) return;
-      const d = i - pos;
+      const d = wrap(i - pos, n);
       const a = Math.min(Math.abs(d), 1);
       const scale = 1 - (1 - SIDE_SCALE) * a;
       el.style.transform = `translate3d(${(d * STEP).toFixed(2)}px,0,0) scale(${scale.toFixed(4)})`;
@@ -92,10 +89,6 @@ export default function ChapterCarousel({
   }, [tick]);
 
   React.useLayoutEffect(() => {
-    const s = st.current;
-    const max = Math.max(0, cards.length - 1);
-    s.target = clamp(Math.round(s.target), 0, max);
-    s.pos = clamp(s.pos, 0, max);
     paint();
   }, [cards.length, paint]);
 
@@ -134,7 +127,7 @@ export default function ChapterCarousel({
     s.vel = s.vel * 0.7 + (-((e.clientX - s.lastX) / STEP) / dt) * 0.3;
     s.lastX = e.clientX;
     s.lastT = now;
-    s.pos = rubber(s.startPos - dx / STEP, countRef.current);
+    s.pos = s.startPos - dx / STEP;
     wake();
   };
 
@@ -151,23 +144,32 @@ export default function ChapterCarousel({
       /* already released */
     }
     const vel = performance.now() - s.lastT > 80 ? 0 : clamp(s.vel, -6, 6);
-    s.target = clamp(Math.round(s.pos + vel * 0.18), 0, Math.max(0, countRef.current - 1));
+    s.target = Math.round(s.pos + vel * 0.18);
     wake();
   };
 
+  // play button: opens the chapter details
   const select = (i: number) => {
     const el = itemRefs.current[i];
     if (!el || disabledRef.current) return;
+    setFlippedId(null);
     onSelect(cards[i], el.getBoundingClientRect());
+  };
+
+  // card body: flips it to show the description (one card at a time)
+  const toggleFlip = (i: number) => {
+    if (disabledRef.current) return;
+    const id = cards[i].id;
+    setFlippedId((cur) => (cur === id ? null : id));
   };
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (disabledRef.current) return;
     const s = st.current;
-    const max = Math.max(0, countRef.current - 1);
-    if (e.key === "ArrowRight") s.target = clamp(Math.round(s.target) + 1, 0, max);
-    else if (e.key === "ArrowLeft") s.target = clamp(Math.round(s.target) - 1, 0, max);
-    else if (e.key === "Enter") select(Math.round(s.pos));
+    const n = countRef.current;
+    if (e.key === "ArrowRight") s.target = Math.round(s.target) + 1;
+    else if (e.key === "ArrowLeft") s.target = Math.round(s.target) - 1;
+    else if (e.key === "Enter" && n) select((((Math.round(s.pos) % n) + n) % n));
     else return;
     e.preventDefault();
     wake();
@@ -202,9 +204,9 @@ export default function ChapterCarousel({
           }}
           className={`chapter-carousel__item${hiddenId === card.id ? " is-hidden" : ""}`}
           style={{ width: CARD_W, height: CARD_H, marginLeft: -CARD_W / 2, marginTop: -CARD_H / 2 }}
-          onClick={() => select(i)}
+          onClick={() => toggleFlip(i)}
         >
-          <ChapterCard data={card} />
+          <ChapterCard data={card} flipped={flippedId === card.id} onPlay={() => select(i)} />
         </div>
       ))}
     </div>

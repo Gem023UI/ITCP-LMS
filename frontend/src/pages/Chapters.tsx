@@ -93,7 +93,11 @@ export default function Chapters() {
 
   return (
     <div className="chapters" style={{ background: "transparent" }}>
-      <div ref={stageRef} className={`chapters__stage${away ? " is-away" : ""}`}>
+      <div
+        ref={stageRef}
+        className={`chapters__stage${away ? " is-away" : ""}`}
+        style={{ position: "absolute", inset: 0, margin: 0, padding: 0 }}
+      >
         {cards.length ? (
           <ChapterCarousel
             cards={cards}

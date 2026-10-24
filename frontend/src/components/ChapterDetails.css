@@ -71,20 +71,25 @@
   gap: 14px;
 }
 
-/* Scale lives on a plain wrapper so it never fights Reveal's inline transform
-   or the buttons' own transitions */
 .chapter-details__btnwrap {
   display: inline-block;
-  transition: transform 0.2s ease;
 }
 
-.chapter-details__btnwrap:hover {
-  transform: scale(1.05);
-}
-
+/* same button styling as the landing hero (.hero__btn) */
 .chapter-details__btn {
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-size: 1.1rem;
+  min-width: clamp(160px, 14vw, 240px);
+  padding: 14px 28px;
+  font-family: var(--font-body, "Poppins", sans-serif);
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  border-radius: 999px;
+  cursor: pointer;
   white-space: nowrap;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.chapter-details__btn:hover {
+  transform: scale(1.05);
 }
