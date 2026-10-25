@@ -61,3 +61,53 @@ body {
 .app-dock .dock:not([data-hidden]) {
   pointer-events: auto;
 }
+
+/* ===== App-level scrollbar: metallic blue pill, transparent track ===== */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+  background-color: #03406b;
+  background-image: linear-gradient(
+    90deg,
+    #0a4a78 0%,
+    #1a7fb0 12%,
+    #43cfff 28%,
+    #1d8dbd 42%,
+    #03406b 55%,
+    #2a78b8 70%,
+    #4aa0dc 84%,
+    #031a73 100%
+  );
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(
+    90deg,
+    #1a7fb0 0%,
+    #43cfff 22%,
+    #96e8ff 40%,
+    #2a78b8 60%,
+    #4aa0dc 80%,
+    #0a4a78 100%
+  );
+}
+
+/* Firefox: no gradient support, so a solid metallic blue fallback */
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: #1d8dbd transparent;
+  }
+}

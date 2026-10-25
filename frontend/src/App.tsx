@@ -14,6 +14,7 @@ import {
 import ShapeGrid from "./components/ShapeGrid";
 import Dock from "./components/Dock";
 import LandingPage from "./pages/Landing";
+import Auth from "./pages/Auth";
 import Chapters from "./pages/Chapters";
 import Lessons from "./pages/Lessons";
 
@@ -129,6 +130,7 @@ function Shell() {
       <div className="app-content">
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/chapters" element={<Chapters />} />
           <Route path="/chapters/:lessonId" element={<Lessons />} />
         </Routes>

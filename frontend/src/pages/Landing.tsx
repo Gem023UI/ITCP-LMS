@@ -74,8 +74,8 @@ export default function Landing() {
                   </LiquidGlass>
                 </Reveal>
                 <Reveal delay={800} threshold={0}>
-                  <MetallicBlueButton className="hero__btn" onClick={() => navigate("/chapters")}>
-                    Learn Today
+                  <MetallicBlueButton className="hero__btn" onClick={() => navigate("/auth")}>
+                    Learn With Us
                   </MetallicBlueButton>
                 </Reveal>
               </div>
