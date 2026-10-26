@@ -12,7 +12,7 @@ const timestamp = "2026-10-24T00:00:00.000Z";
 export const cloudComputingChapter11: CloudComputingChapter = {
   chapterId: "cloud-computing-chapter-11",
   title: "Cloud Governance, Cost Management, and Ethics",
-  cardImage: "../../../public/chapters/11.png",
+  cardImage: "/chapters/11.png",
   description:
     "Explores the policies, processes, financial practices, and ethical principles used to manage cloud environments responsibly. Learners examine governance frameworks, resource accountability, cloud spending, cost optimization, compliance, privacy, sustainability, and ethical decision-making.",
   durationMinutes: 30,

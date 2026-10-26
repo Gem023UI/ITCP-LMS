@@ -9,7 +9,7 @@ const cloudImage2 =
 
 export const cloudComputingChapter04: CloudComputingChapter = {
   chapterId: "cloud-computing-chapter-04",
-  cardImage: "../../../public/chapters/04.png",
+  cardImage: "/chapters/04.png",
   title: "Cloud Deployment Models",
   description:
     "Introduces the major cloud deployment models and explains how cloud infrastructure can be organized, owned, managed, and accessed. Learners explore public, private, community, and hybrid clouds, compare their characteristics and trade-offs, and evaluate deployment options based on security, compliance, cost, scalability, control, and organizational requirements.",

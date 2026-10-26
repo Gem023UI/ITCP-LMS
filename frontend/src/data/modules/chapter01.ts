@@ -2,7 +2,7 @@ import type { CloudComputingChapter } from "../../types/modules";
 
 export const cloudComputingChapter01: CloudComputingChapter = {
   chapterId: "chapter-01",
-  cardImage: "../../../public/chapters/01.png",
+  cardImage: "/chapters/01.png",
   title: "Introduction to Cloud Computing",
   description:
     "Introduces the fundamental concepts, evolution, characteristics, benefits, limitations, and real-world applications of cloud computing. This chapter explains how computing resources are delivered over networks, how cloud computing differs from traditional IT infrastructure, and why organizations use cloud services to support scalability, accessibility, collaboration, and digital transformation.",
