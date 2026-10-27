@@ -3,15 +3,15 @@ import Reveal from "./Reveal";
 import "./FolderSection.css";
 
 /* EDIT THESE ------------------------------------------------------------ */
-const TITLE = "Modules and progress--all in one place.";
+const TITLE = "Modules and progress, all in one place.";
 const TEXT =
   "Access every unit and module, track your progress, and pick up right where you left off, all organized in one place.";
 
 // each item: { title } and optionally { image: "/photos/xyz.jpg" }
 const ITEMS = [
-  { title: "Brand guidelines" },
-  { title: "Launch plan" },
-  { title: "The pier" },
+  { title: "Cloud Scalability" },
+  { title: "Cloud Enterprise" },
+  { title: "Cloud Services" },
 ];
 /* ----------------------------------------------------------------------- */
 
@@ -26,7 +26,7 @@ export default function FolderSection() {
           mode="flap"
           variant="solid"
           layout="spread"
-          color="#e6c78f"
+          color="#007fce"
           paperColor="#ffffff"
           tabPosition="right"
           openOn="click"

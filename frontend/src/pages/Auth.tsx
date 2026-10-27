@@ -1,12 +1,19 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import LiquidGlass from "../components/LiquidGlass";
 import MetallicBlueButton from "../components/MetallicBlueButton";
+import { ApiError, authApi } from "../services/authApi";
+import { getMissingPasswordRules, validateEmail } from "../utils/authValidators";
 import "../styles/Auth.css";
 
 const PLACEHOLDER_IMG =
   "https://imgs.search.brave.com/hjSPuyXM7OmC_UwkgtdwRc8BjhOpcbtnYoCpngeiTG4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9lYXJ0/aGRhdGEubmFzYS5n/b3YvczNmcy1wdWJs/aWMvc3R5bGVzL2hk/c19nZW5lcmljX2Nh/cmQvcHVibGljLzIw/MjUtMTIvY2xvdWQt/Y29tcHV0aW5nLTIt/dGguanBnP1ZlcnNp/b25JZD12SGR4MWps/OHNHT3V5QTl5SFNs/R1plamNxYXNoMVVi/TSZpdG9rPV9FNUtn/cXNK";
 
 type Mode = "register" | "login";
+type FieldState = { status: "idle" | "valid" | "invalid"; hint: string };
+
+const IDLE: FieldState = { status: "idle", hint: "" };
+const stateClass = (s: FieldState) => (s.status === "idle" ? "" : ` is-${s.status}`);
 
 /* ---------- Icons ---------- */
 function EyeIcon({ open }: { open: boolean }) {
@@ -39,6 +46,51 @@ function EyeIcon({ open }: { open: boolean }) {
   );
 }
 
+/* ---------- Hint text ---------- */
+function Hint({ id, state }: { id: string; state: FieldState }) {
+  return (
+    <p
+      id={id}
+      className={`auth-hint${state.status === "idle" ? "" : ` is-${state.status}`}`}
+      aria-live="polite"
+    >
+      {state.hint}
+    </p>
+  );
+}
+
+/* ---------- Email field ---------- */
+type EmailFieldProps = {
+  id: string;
+  value: string;
+  onChange: (v: string) => void;
+  onBlur: () => void;
+  state: FieldState;
+};
+
+function EmailField({ id, value, onChange, onBlur, state }: EmailFieldProps) {
+  return (
+    <div className="auth-field">
+      <label htmlFor={id}>Your email</label>
+      <div className={`auth-input-wrap${stateClass(state)}`}>
+        <input
+          id={id}
+          type="email"
+          inputMode="email"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
+          autoComplete="email"
+          maxLength={254}
+          aria-invalid={state.status === "invalid"}
+          aria-describedby={`${id}-hint`}
+        />
+      </div>
+      <Hint id={`${id}-hint`} state={state} />
+    </div>
+  );
+}
+
 /* ---------- Password field with show/hide ---------- */
 type PasswordFieldProps = {
   id: string;
@@ -46,6 +98,7 @@ type PasswordFieldProps = {
   value: string;
   onChange: (v: string) => void;
   autoComplete: string;
+  state?: FieldState;
 };
 
 function PasswordField({
@@ -54,20 +107,23 @@ function PasswordField({
   value,
   onChange,
   autoComplete,
+  state = IDLE,
 }: PasswordFieldProps) {
   const [visible, setVisible] = React.useState(false);
 
   return (
     <div className="auth-field">
       <label htmlFor={id}>{label}</label>
-      <div className="auth-input-wrap">
+      <div className={`auth-input-wrap${stateClass(state)}`}>
         <input
           id={id}
           type={visible ? "text" : "password"}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           autoComplete={autoComplete}
-          required
+          maxLength={72}
+          aria-invalid={state.status === "invalid"}
+          aria-describedby={`${id}-hint`}
         />
         <button
           type="button"
@@ -79,47 +135,130 @@ function PasswordField({
           <EyeIcon open={visible} />
         </button>
       </div>
+      <Hint id={`${id}-hint`} state={state} />
     </div>
   );
 }
 
 /* ---------- Page ---------- */
 export default function Auth() {
+  const navigate = useNavigate();
   const [mode, setMode] = React.useState<Mode>("register");
   const isLogin = mode === "login";
+  const [submitting, setSubmitting] = React.useState(false);
 
-  // register state
+  // register
   const [regEmail, setRegEmail] = React.useState("");
+  const [regEmailTouched, setRegEmailTouched] = React.useState(false);
   const [regPassword, setRegPassword] = React.useState("");
   const [regConfirm, setRegConfirm] = React.useState("");
-  const [regError, setRegError] = React.useState("");
+  const [regServerErrors, setRegServerErrors] = React.useState<Record<string, string>>({});
+  const [regFormError, setRegFormError] = React.useState("");
 
-  // login state
+  // login
   const [loginEmail, setLoginEmail] = React.useState("");
+  const [loginEmailTouched, setLoginEmailTouched] = React.useState(false);
   const [loginPassword, setLoginPassword] = React.useState("");
+  const [loginSubmitted, setLoginSubmitted] = React.useState(false);
+  const [loginFormError, setLoginFormError] = React.useState("");
 
-  const handleRegister = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (regPassword !== regConfirm) {
-      setRegError("Passwords do not match.");
-      return;
-    }
-    setRegError("");
-    // TODO: call register endpoint
-    console.log("register", { email: regEmail });
+  /* ----- register field states ----- */
+  const regEmailError = validateEmail(regEmail);
+  const regEmailState: FieldState = regServerErrors.email
+    ? { status: "invalid", hint: regServerErrors.email }
+    : !regEmailTouched
+      ? IDLE
+      : regEmailError
+        ? { status: "invalid", hint: regEmailError }
+        : { status: "valid", hint: "Email looks good" };
+
+  const missing = getMissingPasswordRules(regPassword);
+  const regPasswordState: FieldState = !regPassword
+    ? { status: "idle", hint: "8+ characters, 1 uppercase letter, 1 special character" }
+    : missing.length
+      ? { status: "invalid", hint: `Needs: ${missing.join(", ")}` }
+      : { status: "valid", hint: "Password meets requirements" };
+
+  const regConfirmState: FieldState = !regConfirm
+    ? IDLE
+    : regConfirm === regPassword
+      ? { status: "valid", hint: "Passwords match" }
+      : { status: "invalid", hint: "Passwords do not match" };
+
+  const registerReady =
+    !regEmailError && missing.length === 0 && regConfirm === regPassword && !!regConfirm;
+
+  /* ----- login field states ----- */
+  const loginEmailError = validateEmail(loginEmail);
+  const loginEmailState: FieldState =
+    (loginEmailTouched || loginSubmitted) && loginEmailError
+      ? { status: "invalid", hint: loginEmailError }
+      : IDLE;
+  const loginPasswordState: FieldState =
+    loginSubmitted && !loginPassword
+      ? { status: "invalid", hint: "Password is required" }
+      : IDLE;
+
+  /* ----- actions ----- */
+  const switchMode = (next: Mode) => {
+    setRegFormError("");
+    setLoginFormError("");
+    setRegServerErrors({});
+    setRegPassword("");
+    setRegConfirm("");
+    setLoginPassword("");
+    setLoginSubmitted(false);
+    setMode(next);
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: call login endpoint
-    console.log("login", { email: loginEmail });
+    setRegEmailTouched(true);
+    if (!registerReady || submitting) return;
+
+    setSubmitting(true);
+    setRegFormError("");
+    try {
+      await authApi.register({
+        email: regEmail.trim(),
+        password: regPassword,
+        confirmPassword: regConfirm,
+      });
+      navigate("/chapters");
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setRegServerErrors(err.fieldErrors);
+        if (Object.keys(err.fieldErrors).length === 0) setRegFormError(err.message);
+      } else {
+        setRegFormError("Something went wrong. Please try again.");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginSubmitted(true);
+    if (loginEmailError || !loginPassword || submitting) return;
+
+    setSubmitting(true);
+    setLoginFormError("");
+    try {
+      await authApi.login({ email: loginEmail.trim(), password: loginPassword });
+      navigate("/chapters");
+    } catch (err) {
+      setLoginFormError(
+        err instanceof ApiError ? err.message : "Something went wrong. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <main className="auth-page">
-      <LiquidGlass
-        className={`auth-card${isLogin ? " is-login" : ""}`}
-      >
+      <LiquidGlass className={`auth-card${isLogin ? " is-login" : ""}`}>
         <div className="auth-stage">
           {/* Sliding image panel */}
           <aside className="auth-visual" aria-hidden="true">
@@ -135,28 +274,22 @@ export default function Auth() {
             </p>
           </aside>
 
-          {/* Register form (right half while image is left) */}
-          <section
-            className="auth-panel auth-panel--register"
-            aria-hidden={isLogin}
-          >
+          {/* Register */}
+          <section className="auth-panel auth-panel--register" aria-hidden={isLogin}>
             <h1>Get Started</h1>
             <p className="auth-sub">Create your account to begin learning.</p>
             <hr />
-            <form onSubmit={handleRegister} noValidate={false}>
-              <div className="auth-field">
-                <label htmlFor="reg-email">Your email</label>
-                <div className="auth-input-wrap">
-                  <input
-                    id="reg-email"
-                    type="email"
-                    value={regEmail}
-                    onChange={(e) => setRegEmail(e.target.value)}
-                    autoComplete="email"
-                    required
-                  />
-                </div>
-              </div>
+            <form onSubmit={handleRegister} noValidate>
+              <EmailField
+                id="reg-email"
+                value={regEmail}
+                onChange={(v) => {
+                  setRegEmail(v);
+                  setRegServerErrors({});
+                }}
+                onBlur={() => setRegEmailTouched(true)}
+                state={regEmailState}
+              />
 
               <div className="auth-row">
                 <PasswordField
@@ -165,6 +298,7 @@ export default function Auth() {
                   value={regPassword}
                   onChange={setRegPassword}
                   autoComplete="new-password"
+                  state={regPasswordState}
                 />
                 <PasswordField
                   id="reg-confirm"
@@ -172,65 +306,70 @@ export default function Auth() {
                   value={regConfirm}
                   onChange={setRegConfirm}
                   autoComplete="new-password"
+                  state={regConfirmState}
                 />
               </div>
 
-              {regError && (
+              {regFormError && (
                 <p className="auth-error" role="alert">
-                  {regError}
+                  {regFormError}
                 </p>
               )}
 
-              <MetallicBlueButton type="submit" className="auth-cta">
-                Create new account
+              <MetallicBlueButton type="submit" className="auth-cta" disabled={submitting}>
+                {submitting && !isLogin ? "Creating account…" : "Create new account"}
               </MetallicBlueButton>
             </form>
             <p className="auth-switch">
               Already have an account?{" "}
-              <button type="button" onClick={() => setMode("login")}>
+              <button type="button" onClick={() => switchMode("login")}>
                 Login
               </button>
             </p>
           </section>
 
-          {/* Login form (left half while image is right) */}
-          <section
-            className="auth-panel auth-panel--login"
-            aria-hidden={!isLogin}
-          >
+          {/* Login */}
+          <section className="auth-panel auth-panel--login" aria-hidden={!isLogin}>
             <h1>Welcome Back</h1>
             <p className="auth-sub">Log in to continue your progress.</p>
             <hr />
-            <form onSubmit={handleLogin}>
-              <div className="auth-field">
-                <label htmlFor="login-email">Your email</label>
-                <div className="auth-input-wrap">
-                  <input
-                    id="login-email"
-                    type="email"
-                    value={loginEmail}
-                    onChange={(e) => setLoginEmail(e.target.value)}
-                    autoComplete="email"
-                    required
-                  />
-                </div>
-              </div>
+            <form onSubmit={handleLogin} noValidate>
+              <EmailField
+                id="login-email"
+                value={loginEmail}
+                onChange={(v) => {
+                  setLoginEmail(v);
+                  setLoginFormError("");
+                }}
+                onBlur={() => setLoginEmailTouched(true)}
+                state={loginEmailState}
+              />
 
               <PasswordField
                 id="login-password"
                 label="Password"
                 value={loginPassword}
-                onChange={setLoginPassword}
+                onChange={(v) => {
+                  setLoginPassword(v);
+                  setLoginFormError("");
+                }}
                 autoComplete="current-password"
+                state={loginPasswordState}
               />
 
-              <MetallicBlueButton type="submit" className="auth-cta">
-                Login
+              {loginFormError && (
+                <p className="auth-error" role="alert">
+                  {loginFormError}
+                </p>
+              )}
+
+              <MetallicBlueButton type="submit" className="auth-cta" disabled={submitting}>
+                {submitting && isLogin ? "Logging in…" : "Login"}
               </MetallicBlueButton>
             </form>
             <p className="auth-switch">
               Don&rsquo;t have an account yet?{" "}
-              <button type="button" onClick={() => setMode("register")}>
+              <button type="button" onClick={() => switchMode("register")}>
                 Register
               </button>
             </p>

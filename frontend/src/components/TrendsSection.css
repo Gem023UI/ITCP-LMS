@@ -18,10 +18,10 @@
 
 .trends__title {
   margin: 0 0 20px;
-  font-family: "Anton", sans-serif;
-  font-weight: 400;
+  font-family: "League Spartan", sans-serif;
+  font-weight: 700;
   font-size: clamp(2rem, 4.4vw, 4rem);
-  line-height: 1.25;
+  line-height: 1.05;
   color: #fff;
 }
 

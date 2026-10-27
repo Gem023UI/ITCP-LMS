@@ -7,16 +7,16 @@ type Stat = { value: number; suffix?: string; label: string };
 
 /* EDIT THESE: values and labels ("\n" = line break) */
 const STATS: Stat[] = [
-  { value: 7, label: "Units to\nLearn From" },
+  { value: 10, label: "Units to\nLearn From" },
   { value: 25, label: "Modules to\nPractice" },
   { value: 100, label: "Students\nEducated" },
 ];
 
 const NUMBER_STYLE: React.CSSProperties = {
-  fontFamily: '"Anton", sans-serif',
-  fontWeight: 400,
-  fontSize: "clamp(2.5rem, 5.1vw, 6rem)",
-  lineHeight: 1.35,
+  fontFamily: '"League Spartan", sans-serif',
+  fontWeight: 900,
+  fontSize: "clamp(2.5rem, 4.1vw, 6rem)",
+  lineHeight: 1.05,
 };
 
 export default function StatsSection() {
