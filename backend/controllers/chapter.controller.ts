@@ -10,6 +10,6 @@ export const listBySubject: RequestHandler = async (req, res) => {
 };
 
 export const getOne: RequestHandler = async (req, res) => {
-  const chapter = await chapterService.getChapter(res.locals.userId, res.locals.role, req.params.id);
+  const chapter = await chapterService.getChapter(res.locals.userId, res.locals.role, String(req.params.id));
   res.json({ chapter });
 };

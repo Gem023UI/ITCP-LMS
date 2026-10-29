@@ -2,7 +2,7 @@ import { Router } from "express";
 import { getByChapter, submit } from "../controllers/quiz.controller";
 import { validate } from "../middlewares/validate";
 import { requireRole } from "../middlewares/role";
-import { submitQuizSchema } from "../utils/learning.validator";
+import { submitQuizSchema } from "../utils/learning.validators";
 
 const router = Router();
 

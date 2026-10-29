@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import LiquidGlass from "../components/LiquidGlass";
 import MetallicBlueButton from "../components/MetallicBlueButton";
 import { ApiError, authApi } from "../services/authApi";
+import { homeFor } from "../utils/roleRoutes";
 import {
   formatTuptId,
   getMissingPasswordRules,
@@ -290,13 +291,13 @@ export default function Auth() {
     setSubmitting(true);
     setRegFormError("");
     try {
-      await authApi.register({
+      const { user } = await authApi.register({
         tuptId: regTupt,
         email: regEmail.trim(),
         password: regPassword,
         confirmPassword: regConfirm,
       });
-      navigate("/chapters");
+      navigate(homeFor(user.role));
     } catch (err) {
       if (err instanceof ApiError) {
         setRegServerErrors(err.fieldErrors);
@@ -317,8 +318,8 @@ export default function Auth() {
     setSubmitting(true);
     setLoginFormError("");
     try {
-      await authApi.login({ tuptId: loginTupt, password: loginPassword });
-      navigate("/chapters");
+      const { user } = await authApi.login({ tuptId: loginTupt, password: loginPassword });
+      navigate(homeFor(user.role));
     } catch (err) {
       setLoginFormError(
         err instanceof ApiError ? err.message : "Something went wrong. Please try again.",

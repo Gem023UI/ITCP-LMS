@@ -8,6 +8,5 @@ export const listUsers: RequestHandler = async (req, res) => {
 };
 
 export const setStatus: RequestHandler = async (req, res) => {
-  const user = await admin.setUserStatus(res.locals.userId, req.params.id, req.body.status);
-  res.json({ user });
+const user = await admin.setUserStatus(res.locals.userId, String(req.params.id), req.body.status);  res.json({ user });
 };

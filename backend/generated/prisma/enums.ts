@@ -11,7 +11,33 @@
 
 export const Role = {
   STUDENT: 'STUDENT',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  TEACHER: 'TEACHER'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const UserStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  DEACTIVATED: 'DEACTIVATED'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+
+export const SubjectVisibility = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE'
+} as const
+
+export type SubjectVisibility = (typeof SubjectVisibility)[keyof typeof SubjectVisibility]
+
+
+export const StudentStatus = {
+  ONGOING: 'ONGOING',
+  FINISHED: 'FINISHED'
+} as const
+
+export type StudentStatus = (typeof StudentStatus)[keyof typeof StudentStatus]

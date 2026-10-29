@@ -99,6 +99,11 @@ export const quizApi = {
     ),
 };
 
-// adapts an API chapter to the card shape the existing carousel/details components expect
-export const toChapterCard = (c: ApiChapter): ChapterCardData =>
-  ({ id: c.id, chapterNo: c.chapterNo, chapter: c }) as ChapterCardData;
+export const toChapterCard = (c: ApiChapter): ChapterCardData => ({
+  id: c.id,
+  chapterNo: c.chapterNo,
+  title: c.title,
+  description: c.description,
+  image: c.cardImage,
+  chapter: c,
+});

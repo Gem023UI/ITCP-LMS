@@ -51,7 +51,12 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Subject: 'Subject',
+  Chapter: 'Chapter',
+  SubjectStudent: 'SubjectStudent',
+  Quiz: 'Quiz',
+  QuizAttempt: 'QuizAttempt'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -76,11 +81,85 @@ export const UserScalarFieldEnum = {
   email: 'email',
   passwordHash: 'passwordHash',
   role: 'role',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const SubjectScalarFieldEnum = {
+  id: 'id',
+  ownerId: 'ownerId',
+  code: 'code',
+  title: 'title',
+  description: 'description',
+  mediaUrl: 'mediaUrl',
+  visibility: 'visibility',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]
+
+
+export const ChapterScalarFieldEnum = {
+  id: 'id',
+  subjectId: 'subjectId',
+  chapterId: 'chapterId',
+  chapterNo: 'chapterNo',
+  cardImage: 'cardImage',
+  title: 'title',
+  description: 'description',
+  durationMinutes: 'durationMinutes',
+  videoUrl: 'videoUrl',
+  slideUrl: 'slideUrl',
+  objectives: 'objectives',
+  sections: 'sections',
+  keyTerms: 'keyTerms',
+  references: 'references',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChapterScalarFieldEnum = (typeof ChapterScalarFieldEnum)[keyof typeof ChapterScalarFieldEnum]
+
+
+export const SubjectStudentScalarFieldEnum = {
+  id: 'id',
+  subjectId: 'subjectId',
+  userId: 'userId',
+  status: 'status',
+  joinedAt: 'joinedAt',
+  finishedAt: 'finishedAt'
+} as const
+
+export type SubjectStudentScalarFieldEnum = (typeof SubjectStudentScalarFieldEnum)[keyof typeof SubjectStudentScalarFieldEnum]
+
+
+export const QuizScalarFieldEnum = {
+  id: 'id',
+  chapterId: 'chapterId',
+  questions: 'questions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QuizScalarFieldEnum = (typeof QuizScalarFieldEnum)[keyof typeof QuizScalarFieldEnum]
+
+
+export const QuizAttemptScalarFieldEnum = {
+  id: 'id',
+  quizId: 'quizId',
+  userId: 'userId',
+  score: 'score',
+  total: 'total',
+  answers: 'answers',
+  createdAt: 'createdAt'
+} as const
+
+export type QuizAttemptScalarFieldEnum = (typeof QuizAttemptScalarFieldEnum)[keyof typeof QuizAttemptScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -91,10 +170,34 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

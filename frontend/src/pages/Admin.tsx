@@ -7,17 +7,136 @@ import { errText } from "../utils/errorText";
 import { homeFor } from "../utils/roleRoutes";
 import "../styles/Manage.css";
 
-const STATUSES: AdminUser["status"][] = ["ACTIVE", "INACTIVE", "DEACTIVATED"];
+type Status = AdminUser["status"];
+const STATUSES: Status[] = ["ACTIVE", "INACTIVE", "DEACTIVATED"];
+const label = (s: Status) => s.charAt(0) + s.slice(1).toLowerCase();
+
+function UserTable({
+  title,
+  users,
+  loading,
+  editingId,
+  draft,
+  savingId,
+  onEdit,
+  onDraft,
+  onSave,
+  onCancel,
+}: {
+  title: string;
+  users: AdminUser[];
+  loading: boolean;
+  editingId: string | null;
+  draft: Status;
+  savingId: string | null;
+  onEdit: (u: AdminUser) => void;
+  onDraft: (s: Status) => void;
+  onSave: (u: AdminUser) => void;
+  onCancel: () => void;
+}) {
+  return (
+    <section className="admin__section">
+      <h3 className="admin__section-title">{title}</h3>
+      <LiquidGlass className="manage__panel">
+        <div className="manage__panel-body">
+          {loading ? (
+            <p className="manage__note">Loading…</p>
+          ) : users.length === 0 ? (
+            <p className="manage__note">No {title.toLowerCase()} found.</p>
+          ) : (
+            <table className="admin__table">
+              <thead>
+                <tr>
+                  <th>TUPT ID</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((u) => {
+                  const editing = editingId === u.id;
+                  const saving = savingId === u.id;
+                  return (
+                    <tr key={u.id}>
+                      <td>{u.tuptId}</td>
+                      <td>{u.email}</td>
+                      <td>
+                        {editing ? (
+                          <select
+                            className={`admin__status is-${draft}`}
+                            value={draft}
+                            disabled={saving}
+                            onChange={(e) => onDraft(e.target.value as Status)}
+                          >
+                            {STATUSES.map((s) => (
+                              <option key={s} value={s}>
+                                {label(s)}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <span className={`admin__status is-${u.status}`}>{label(u.status)}</span>
+                        )}
+                      </td>
+                      <td>
+                        {editing ? (
+                          <span className="admin__row-actions">
+                            <button
+                              type="button"
+                              className="manage__link"
+                              disabled={saving}
+                              onClick={() => onSave(u)}
+                            >
+                              {saving ? "Saving…" : "Save"}
+                            </button>
+                            <button
+                              type="button"
+                              className="manage__link"
+                              disabled={saving}
+                              onClick={onCancel}
+                            >
+                              Cancel
+                            </button>
+                          </span>
+                        ) : (
+                          <button
+                            type="button"
+                            className="manage__link"
+                            disabled={editingId !== null}
+                            onClick={() => onEdit(u)}
+                          >
+                            Edit
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </LiquidGlass>
+    </section>
+  );
+}
 
 export default function UsersAdmin() {
   const navigate = useNavigate();
   const { user, loading: authLoading, error: authError } = useAuth();
-  const [tab, setTab] = React.useState<"TEACHER" | "STUDENT">("TEACHER");
-  const [users, setUsers] = React.useState<AdminUser[]>([]);
+
+  const [teachers, setTeachers] = React.useState<AdminUser[]>([]);
+  const [students, setStudents] = React.useState<AdminUser[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
+
+  // only one row is editable at a time
+  const [editingId, setEditingId] = React.useState<string | null>(null);
+  const [draft, setDraft] = React.useState<Status>("ACTIVE");
   const [savingId, setSavingId] = React.useState<string | null>(null);
 
+  // admin only; everyone else goes to their own page
   React.useEffect(() => {
     if (authLoading) return;
     if (!user) {
@@ -35,22 +154,38 @@ export default function UsersAdmin() {
     if (!isAdmin) return;
     let cancelled = false;
     setLoading(true);
-    adminApi
-      .users(tab)
-      .then(({ users }) => !cancelled && setUsers(users))
+    Promise.all([adminApi.users("TEACHER"), adminApi.users("STUDENT")])
+      .then(([t, s]) => {
+        if (cancelled) return;
+        setTeachers(t.users);
+        setStudents(s.users);
+      })
       .catch((e) => !cancelled && setError(errText(e)))
       .finally(() => !cancelled && setLoading(false));
     return () => {
       cancelled = true;
     };
-  }, [tab, isAdmin]);
+  }, [isAdmin]);
 
-  const changeStatus = async (u: AdminUser, status: AdminUser["status"]) => {
+  const startEdit = (u: AdminUser) => {
+    setEditingId(u.id);
+    setDraft(u.status);
+    setError(null);
+  };
+
+  const save = async (u: AdminUser) => {
+    if (draft === u.status) {
+      setEditingId(null);
+      return;
+    }
     setSavingId(u.id);
     setError(null);
     try {
-      await adminApi.setStatus(u.id, status);
-      setUsers((list) => list.map((x) => (x.id === u.id ? { ...x, status } : x)));
+      await adminApi.setStatus(u.id, draft);
+      const apply = (list: AdminUser[]) => list.map((x) => (x.id === u.id ? { ...x, status: draft } : x));
+      if (u.role === "TEACHER") setTeachers(apply);
+      else setStudents(apply);
+      setEditingId(null);
     } catch (e) {
       setError(errText(e));
     } finally {
@@ -58,66 +193,23 @@ export default function UsersAdmin() {
     }
   };
 
+  const shared = {
+    loading,
+    editingId,
+    draft,
+    savingId,
+    onEdit: startEdit,
+    onDraft: setDraft,
+    onSave: save,
+    onCancel: () => setEditingId(null),
+  };
+
   return (
     <div className="manage">
       <h2 className="manage__heading">Users</h2>
-
-      <div className="admin__tabs">
-        {(["TEACHER", "STUDENT"] as const).map((t) => (
-          <LiquidGlass
-            as="button"
-            key={t}
-            className={`admin__tab${tab === t ? " is-active" : ""}`}
-            onClick={() => setTab(t)}
-          >
-            {t === "TEACHER" ? "Teachers" : "Students"}
-          </LiquidGlass>
-        ))}
-      </div>
-
       {error && <p className="manage__error">{error}</p>}
-
-      <LiquidGlass className="manage__panel">
-        <div className="manage__panel-body">
-          {loading ? (
-            <p className="manage__note">Loading…</p>
-          ) : users.length === 0 ? (
-            <p className="manage__note">No users found.</p>
-          ) : (
-            <table className="admin__table">
-              <thead>
-                <tr>
-                  <th>TUPT ID</th>
-                  <th>Email</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((u) => (
-                  <tr key={u.id}>
-                    <td>{u.tuptId}</td>
-                    <td>{u.email}</td>
-                    <td>
-                      <select
-                        className={`admin__status is-${u.status}`}
-                        value={u.status}
-                        disabled={savingId === u.id}
-                        onChange={(e) => changeStatus(u, e.target.value as AdminUser["status"])}
-                      >
-                        {STATUSES.map((s) => (
-                          <option key={s} value={s}>
-                            {s.charAt(0) + s.slice(1).toLowerCase()}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-      </LiquidGlass>
+      <UserTable title="Teachers" users={teachers} {...shared} />
+      <UserTable title="Students" users={students} {...shared} />
     </div>
   );
 }

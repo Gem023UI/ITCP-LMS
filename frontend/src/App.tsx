@@ -19,6 +19,8 @@ import Chapters from "./pages/Chapters";
 import Lessons from "./pages/Lessons";
 import Subjects from "./pages/Subjects";
 import Quiz from "./pages/Quiz";
+import SubjectTeacher from "./pages/Teacher";
+import UsersAdmin from "./pages/Admin";
 
 const glyph = (icon: React.ComponentProps<typeof HugeiconsIcon>["icon"]) => (
   <HugeiconsIcon icon={icon} size="1em" strokeWidth={1.8} />
@@ -134,6 +136,8 @@ function Shell() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/subjects" element={<Subjects />} />
+          <Route path="/teacher/subjects" element={<SubjectTeacher />} />
+          <Route path="/admin/users" element={<UsersAdmin />} />
           <Route path="/chapters" element={<Chapters />} />
           <Route path="/chapters/:lessonId" element={<Lessons />} />
           <Route path="/quiz/:chapterId" element={<Quiz />} />

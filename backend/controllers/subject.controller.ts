@@ -15,11 +15,11 @@ export const joinByCode: RequestHandler = async (req, res) => {
 };
 
 export const joinPublic: RequestHandler = async (req, res) => {
-  const subject = await subjectService.joinPublic(res.locals.userId, req.params.id);
+  const subject = await subjectService.joinPublic(res.locals.userId, String(req.params.id));
   res.status(201).json({ subject });
 };
 
 export const leave: RequestHandler = async (req, res) => {
-  await subjectService.leaveSubject(res.locals.userId, req.params.id);
+  await subjectService.leaveSubject(res.locals.userId, String(req.params.id));
   res.status(204).end();
 };

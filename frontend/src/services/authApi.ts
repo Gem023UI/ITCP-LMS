@@ -5,7 +5,6 @@ export type User = {
   id: string;
   tuptId: string;
   email: string;
-  role: string;
   role: "STUDENT" | "TEACHER" | "ADMIN";
   status: "ACTIVE" | "INACTIVE" | "DEACTIVATED";
   createdAt: string;

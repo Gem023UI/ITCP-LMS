@@ -5,11 +5,14 @@ import SubjectCarousel from "../components/SubjectCarousel";
 import LiquidGlass from "../components/LiquidGlass";
 import MetallicBlueButton from "../components/MetallicBlueButton";
 import { ApiError } from "../services/authApi";
+import { useAuth } from "../hooks/useAuth";
+import { homeFor } from "../utils/roleRoutes";
 import { subjectsApi, type MySubject, type SubjectSummary } from "../services/learningApi";
 import "../styles/Subjects.css";
 
 export default function Subjects() {
   const navigate = useNavigate();
+  const { user, loading: authLoading, error: authError } = useAuth();
   const [mine, setMine] = React.useState<MySubject[]>([]);
   const [pub, setPub] = React.useState<SubjectSummary[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -43,8 +46,17 @@ export default function Subjects() {
   }, [handleError]);
 
   React.useEffect(() => {
-    load();
-  }, [load]);
+    if (authLoading) return;
+    if (!user) {
+      if (authError?.status === 403) {
+        setError(authError.message);
+        setLoading(false);
+      } else navigate("/auth", { replace: true });
+      return;
+    }
+    if (user.role !== "STUDENT") navigate(homeFor(user.role), { replace: true });
+    else load();
+  }, [authLoading, user, authError, navigate, load]);
 
   const closeModal = React.useCallback(() => {
     setModalOpen(false);

@@ -221,3 +221,21 @@
 .admin__status.is-DEACTIVATED {
   color: #ff8a8a;
 }
+
+.admin__section + .admin__section {
+  margin-top: 28px;
+}
+.admin__section-title {
+  margin: 20px 0 10px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.admin__row-actions {
+  display: inline-flex;
+  gap: 14px;
+}
+.admin__table .manage__link:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

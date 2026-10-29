@@ -9,4 +9,9 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
+export type * from './models/Subject'
+export type * from './models/Chapter'
+export type * from './models/SubjectStudent'
+export type * from './models/Quiz'
+export type * from './models/QuizAttempt'
 export type * from './commonInputTypes'
