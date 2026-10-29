@@ -1,7 +1,6 @@
 .manage {
   position: absolute;
   inset: 0;
-  overflow-y: auto;
   padding: 48px 56px 80px 120px; /* left space for the dock */
   color: #fff;
 }

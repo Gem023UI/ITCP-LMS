@@ -91,7 +91,7 @@ export default function SubjectCard({
           <h3 className="subject-card__title">{title}</h3>
           <p className="subject-card__desc">{description}</p>
           <span className="subject-card__count">
-            <strong>{studentCount}</strong> currently taking students
+            <strong>{studentCount}</strong> CURRENTLY TAKING
           </span>
           {actions ? (
             <div className="subject-card__actions">{actions}</div>
