@@ -3,8 +3,10 @@ import ChapterCarousel from "../components/ChapterCarousel";
 import ChapterCard from "../components/ChapterCard";
 import ChapterDetails from "../components/ChapterDetails";
 import { CARD_W, CARD_H } from "../data/chaptercardsize";
-import { getChapterCards, type ChapterCardData } from "../data/chapters";
-import { useNavigate } from "react-router-dom";
+import type { ChapterCardData } from "../data/chapters";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { ApiError } from "../services/authApi";
+import { chaptersApi, toChapterCard } from "../services/learningApi";
 import "../styles/Chapters.css";
 
 type Phase = "carousel" | "opening" | "details" | "closing";
@@ -23,7 +25,32 @@ const poseFromRect = (r: DOMRect, animate: boolean): Pose => ({
 
 export default function Chapters() {
   const navigate = useNavigate();
-  const cards = React.useMemo(() => getChapterCards(), []);
+  const [params] = useSearchParams();
+  const subjectId = params.get("subject");
+  const [cards, setCards] = React.useState<ChapterCardData[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (!subjectId) {
+      navigate("/subjects", { replace: true });
+      return;
+    }
+    let cancelled = false;
+    setLoading(true);
+    chaptersApi
+      .bySubject(subjectId)
+      .then(({ chapters }) => !cancelled && setCards(chapters.map(toChapterCard)))
+      .catch((e) => {
+        if (cancelled) return;
+        if (e instanceof ApiError && e.status === 401) navigate("/auth");
+        else setError(e.message);
+      })
+      .finally(() => !cancelled && setLoading(false));
+    return () => {
+      cancelled = true;
+    };
+  }, [subjectId, navigate]);
 
   const [phase, setPhase] = React.useState<Phase>("carousel");
   const [selected, setSelected] = React.useState<ChapterCardData | null>(null);
@@ -108,7 +135,9 @@ export default function Chapters() {
             onSelect={open}
           />
         ) : (
-          <p className="chapters__empty">No chapters available yet.</p>
+          <p className="chapters__empty">
+            {loading ? "Loading chapters…" : (error ?? "No chapters available yet.")}
+          </p>
         )}
       </div>
 
@@ -121,9 +150,9 @@ export default function Chapters() {
             leaving={phase === "closing"}
             onClose={close}
             onProceed={() =>
-              navigate(`/chapters/lesson${String(selected.chapterNo).padStart(2, "0")}`)
+              navigate(`/chapters/${selected.id}`)
             }
-            onQuiz={() => console.log("Quiz", selected.id)}
+            onQuiz={() => navigate(`/quiz/${selected.id}`)}
           />
         </div>
       )}

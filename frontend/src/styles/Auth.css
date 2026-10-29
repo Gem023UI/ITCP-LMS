@@ -14,7 +14,7 @@
 
 .auth-card {
   width: min(1000px, 100%);
-  height: min(640px, 100%);   /* was: 640px */
+  height: min(700px, 100%);
   border-radius: 32px;
   padding: 24px;
   box-sizing: border-box;
@@ -309,6 +309,14 @@
 .auth-cta:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.auth-hint--compact {
+  min-height: 1.3em;
+}
+
+.auth-input-wrap input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
 }
 
 /* ----- Small screens: drop the image, show active form only ----- */

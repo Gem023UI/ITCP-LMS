@@ -4,6 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes";
+import learningRoutes from "./routes/learning.routes";
 import { errorHandler, notFound } from "./middlewares/errorHandler";
 import { env } from "./utils/env";
 
@@ -19,7 +20,9 @@ if (env.NODE_ENV === "development") app.use(morgan("dev"));
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
 });
+
 app.use("/api/auth", authRoutes);
+app.use("/api", learningRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

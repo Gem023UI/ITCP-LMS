@@ -1,0 +1,223 @@
+.manage {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  padding: 48px 56px 80px 120px; /* left space for the dock */
+  color: #fff;
+}
+.manage__heading {
+  margin: 0 0 8px;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.manage__row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 24px 0 12px;
+}
+.manage__row-head h3,
+.manage__row-head .manage__heading {
+  margin: 0;
+}
+.manage__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 16px 0;
+}
+.manage__note {
+  opacity: 0.75;
+  margin: 8px 0;
+}
+.manage__code {
+  letter-spacing: 0.25em;
+}
+.manage__error {
+  margin: 6px 0;
+  color: #ff6b6b;
+  font-size: 0.85rem;
+}
+.manage__link {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #6cb6ff;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.manage__danger {
+  color: #ff8a8a;
+  cursor: pointer;
+}
+
+.manage__panel {
+  margin-bottom: 12px;
+  border-radius: 16px;
+}
+.manage__panel .liquid-glass__content,
+.manage__modal .liquid-glass__content {
+  display: block;
+}
+.manage__panel-body {
+  padding: 18px 20px;
+}
+.manage__panel-body h3 {
+  margin: 0 0 10px;
+}
+.manage__chapter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 20px;
+}
+.manage__chapter-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* forms */
+.manage__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.manage__form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+.manage input,
+.manage textarea,
+.manage select,
+.manage__modal input,
+.manage__modal textarea,
+.manage__modal select {
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font: inherit;
+}
+.manage__json {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+.manage__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* modal */
+.manage__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.65);
+}
+.manage__modal {
+  width: min(94vw, 460px);
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 20px;
+  color: #fff;
+}
+.manage__modal.is-wide {
+  width: min(94vw, 760px);
+}
+.manage__modal-body {
+  padding: 24px;
+}
+.manage__modal-body h3 {
+  margin: 0 0 14px;
+}
+
+/* quiz editor */
+.manage__question {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+}
+.manage__question-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.manage__question-head .manage__link {
+  margin-left: auto;
+}
+.manage__choices {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.manage__choice-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.manage__choice-row input[type="text"],
+.manage__choice-row input:not([type]) {
+  flex: 1;
+}
+.manage__choice-row input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+}
+.manage__caps {
+  text-transform: uppercase;
+}
+
+/* admin users */
+.admin__tabs {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0;
+}
+.admin__tab {
+  padding: 8px 18px;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+}
+.admin__tab.is-active {
+  box-shadow: inset 0 0 0 2px #0a84ff;
+}
+.admin__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.admin__table th,
+.admin__table td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.admin__status.is-ACTIVE {
+  color: #6ee7a0;
+}
+.admin__status.is-INACTIVE {
+  color: #ffd166;
+}
+.admin__status.is-DEACTIVATED {
+  color: #ff8a8a;
+}

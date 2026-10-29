@@ -3,7 +3,12 @@ import { useNavigate } from "react-router-dom";
 import LiquidGlass from "../components/LiquidGlass";
 import MetallicBlueButton from "../components/MetallicBlueButton";
 import { ApiError, authApi } from "../services/authApi";
-import { getMissingPasswordRules, validateEmail } from "../utils/authValidators";
+import {
+  formatTuptId,
+  getMissingPasswordRules,
+  validateEmail,
+  validateTuptId,
+} from "../utils/authValidators";
 import "../styles/Auth.css";
 
 const PLACEHOLDER_IMG =
@@ -14,6 +19,20 @@ type FieldState = { status: "idle" | "valid" | "invalid"; hint: string };
 
 const IDLE: FieldState = { status: "idle", hint: "" };
 const stateClass = (s: FieldState) => (s.status === "idle" ? "" : ` is-${s.status}`);
+
+/** valid shows live once the value is correct; invalid waits until blur/submit */
+function textFieldState(
+  value: string,
+  error: string | null,
+  touched: boolean,
+  okHint: string,
+  serverError?: string,
+): FieldState {
+  if (serverError) return { status: "invalid", hint: serverError };
+  if (!value) return touched ? { status: "invalid", hint: error ?? "" } : IDLE;
+  if (!error) return { status: "valid", hint: okHint };
+  return touched ? { status: "invalid", hint: error } : IDLE;
+}
 
 /* ---------- Icons ---------- */
 function EyeIcon({ open }: { open: boolean }) {
@@ -47,11 +66,21 @@ function EyeIcon({ open }: { open: boolean }) {
 }
 
 /* ---------- Hint text ---------- */
-function Hint({ id, state }: { id: string; state: FieldState }) {
+function Hint({
+  id,
+  state,
+  compact = false,
+}: {
+  id: string;
+  state: FieldState;
+  compact?: boolean;
+}) {
   return (
     <p
       id={id}
-      className={`auth-hint${state.status === "idle" ? "" : ` is-${state.status}`}`}
+      className={`auth-hint${compact ? " auth-hint--compact" : ""}${
+        state.status === "idle" ? "" : ` is-${state.status}`
+      }`}
       aria-live="polite"
     >
       {state.hint}
@@ -59,34 +88,53 @@ function Hint({ id, state }: { id: string; state: FieldState }) {
   );
 }
 
-/* ---------- Email field ---------- */
-type EmailFieldProps = {
+/* ---------- Text field (TUPT ID, email) ---------- */
+type TextFieldProps = {
   id: string;
+  label: string;
   value: string;
   onChange: (v: string) => void;
   onBlur: () => void;
   state: FieldState;
+  type?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+  autoComplete?: string;
+  maxLength?: number;
+  placeholder?: string;
 };
 
-function EmailField({ id, value, onChange, onBlur, state }: EmailFieldProps) {
+function TextField({
+  id,
+  label,
+  value,
+  onChange,
+  onBlur,
+  state,
+  type = "text",
+  inputMode,
+  autoComplete,
+  maxLength,
+  placeholder,
+}: TextFieldProps) {
   return (
     <div className="auth-field">
-      <label htmlFor={id}>Your email</label>
+      <label htmlFor={id}>{label}</label>
       <div className={`auth-input-wrap${stateClass(state)}`}>
         <input
           id={id}
-          type="email"
-          inputMode="email"
+          type={type}
+          inputMode={inputMode}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onBlur={onBlur}
-          autoComplete="email"
-          maxLength={254}
+          autoComplete={autoComplete}
+          maxLength={maxLength}
+          placeholder={placeholder}
           aria-invalid={state.status === "invalid"}
           aria-describedby={`${id}-hint`}
         />
       </div>
-      <Hint id={`${id}-hint`} state={state} />
+      <Hint id={`${id}-hint`} state={state} compact />
     </div>
   );
 }
@@ -148,6 +196,8 @@ export default function Auth() {
   const [submitting, setSubmitting] = React.useState(false);
 
   // register
+  const [regTupt, setRegTupt] = React.useState("");
+  const [regTuptTouched, setRegTuptTouched] = React.useState(false);
   const [regEmail, setRegEmail] = React.useState("");
   const [regEmailTouched, setRegEmailTouched] = React.useState(false);
   const [regPassword, setRegPassword] = React.useState("");
@@ -156,21 +206,37 @@ export default function Auth() {
   const [regFormError, setRegFormError] = React.useState("");
 
   // login
-  const [loginEmail, setLoginEmail] = React.useState("");
-  const [loginEmailTouched, setLoginEmailTouched] = React.useState(false);
+  const [loginTupt, setLoginTupt] = React.useState("");
+  const [loginTuptTouched, setLoginTuptTouched] = React.useState(false);
   const [loginPassword, setLoginPassword] = React.useState("");
   const [loginSubmitted, setLoginSubmitted] = React.useState(false);
   const [loginFormError, setLoginFormError] = React.useState("");
 
+  const clearRegServerError = (key: string) =>
+    setRegServerErrors((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+
   /* ----- register field states ----- */
+  const regTuptError = validateTuptId(regTupt);
+  const regTuptState = textFieldState(
+    regTupt,
+    regTuptError,
+    regTuptTouched,
+    "TUPT ID looks good",
+    regServerErrors.tuptId,
+  );
+
   const regEmailError = validateEmail(regEmail);
-  const regEmailState: FieldState = regServerErrors.email
-    ? { status: "invalid", hint: regServerErrors.email }
-    : !regEmailTouched
-      ? IDLE
-      : regEmailError
-        ? { status: "invalid", hint: regEmailError }
-        : { status: "valid", hint: "Email looks good" };
+  const regEmailState = textFieldState(
+    regEmail,
+    regEmailError,
+    regEmailTouched,
+    "Email looks good",
+    regServerErrors.email,
+  );
 
   const missing = getMissingPasswordRules(regPassword);
   const regPasswordState: FieldState = !regPassword
@@ -186,13 +252,17 @@ export default function Auth() {
       : { status: "invalid", hint: "Passwords do not match" };
 
   const registerReady =
-    !regEmailError && missing.length === 0 && regConfirm === regPassword && !!regConfirm;
+    !regTuptError &&
+    !regEmailError &&
+    missing.length === 0 &&
+    !!regConfirm &&
+    regConfirm === regPassword;
 
   /* ----- login field states ----- */
-  const loginEmailError = validateEmail(loginEmail);
-  const loginEmailState: FieldState =
-    (loginEmailTouched || loginSubmitted) && loginEmailError
-      ? { status: "invalid", hint: loginEmailError }
+  const loginTuptError = validateTuptId(loginTupt);
+  const loginTuptState: FieldState =
+    (loginTuptTouched || loginSubmitted) && loginTuptError
+      ? { status: "invalid", hint: loginTuptError }
       : IDLE;
   const loginPasswordState: FieldState =
     loginSubmitted && !loginPassword
@@ -213,6 +283,7 @@ export default function Auth() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setRegTuptTouched(true);
     setRegEmailTouched(true);
     if (!registerReady || submitting) return;
 
@@ -220,6 +291,7 @@ export default function Auth() {
     setRegFormError("");
     try {
       await authApi.register({
+        tuptId: regTupt,
         email: regEmail.trim(),
         password: regPassword,
         confirmPassword: regConfirm,
@@ -240,12 +312,12 @@ export default function Auth() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginSubmitted(true);
-    if (loginEmailError || !loginPassword || submitting) return;
+    if (loginTuptError || !loginPassword || submitting) return;
 
     setSubmitting(true);
     setLoginFormError("");
     try {
-      await authApi.login({ email: loginEmail.trim(), password: loginPassword });
+      await authApi.login({ tuptId: loginTupt, password: loginPassword });
       navigate("/chapters");
     } catch (err) {
       setLoginFormError(
@@ -280,15 +352,36 @@ export default function Auth() {
             <p className="auth-sub">Create your account to begin learning.</p>
             <hr />
             <form onSubmit={handleRegister} noValidate>
-              <EmailField
+              <TextField
+                id="reg-tupt"
+                label="TUPT ID"
+                value={regTupt}
+                onChange={(v) => {
+                  setRegTupt(formatTuptId(v));
+                  clearRegServerError("tuptId");
+                }}
+                onBlur={() => setRegTuptTouched(true)}
+                state={regTuptState}
+                inputMode="text"
+                autoComplete="username"
+                maxLength={12}
+                placeholder="TUPT-XX-XXXX"
+              />
+
+              <TextField
                 id="reg-email"
+                label="Your email"
+                type="email"
                 value={regEmail}
                 onChange={(v) => {
                   setRegEmail(v);
-                  setRegServerErrors({});
+                  clearRegServerError("email");
                 }}
                 onBlur={() => setRegEmailTouched(true)}
                 state={regEmailState}
+                inputMode="email"
+                autoComplete="email"
+                maxLength={254}
               />
 
               <div className="auth-row">
@@ -331,18 +424,23 @@ export default function Auth() {
           {/* Login */}
           <section className="auth-panel auth-panel--login" aria-hidden={!isLogin}>
             <h1>Welcome Back</h1>
-            <p className="auth-sub">Log in to continue your progress.</p>
+            <p className="auth-sub">Log in with your TUPT ID to continue.</p>
             <hr />
             <form onSubmit={handleLogin} noValidate>
-              <EmailField
-                id="login-email"
-                value={loginEmail}
+              <TextField
+                id="login-tupt"
+                label="TUPT ID"
+                value={loginTupt}
                 onChange={(v) => {
-                  setLoginEmail(v);
+                  setLoginTupt(formatTuptId(v));
                   setLoginFormError("");
                 }}
-                onBlur={() => setLoginEmailTouched(true)}
-                state={loginEmailState}
+                onBlur={() => setLoginTuptTouched(true)}
+                state={loginTuptState}
+                inputMode="text"
+                autoComplete="username"
+                maxLength={12}
+                placeholder="TUPT-XX-XXXX"
               />
 
               <PasswordField

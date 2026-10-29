@@ -5,6 +5,18 @@ const clean = (s: string) => s.replace(/[\u0000-\u001F\u007F]/g, "");
 
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+export const TUPT_ID_RE = /^TUPT-\d{2}-\d{4}$/;
+
+const tuptId = z
+  .string({ error: "TUPT ID is required" })
+  .transform((s) => clean(s).trim().toUpperCase())
+  .pipe(
+    z
+      .string()
+      .min(1, "TUPT ID is required")
+      .regex(TUPT_ID_RE, "Use the format TUPT-XX-XXXX"),
+  );
+
 const email = z
   .string({ error: "Email is required" })
   .transform((s) => clean(s).trim().toLowerCase())
@@ -26,6 +38,7 @@ const password = z
 
 export const registerSchema = z
   .strictObject({
+    tuptId,
     email,
     password,
     confirmPassword: z.string({ error: "Confirm your password" }),
@@ -36,7 +49,7 @@ export const registerSchema = z
   });
 
 export const loginSchema = z.strictObject({
-  email,
+  tuptId,
   password: z
     .string({ error: "Password is required" })
     .min(1, "Password is required")

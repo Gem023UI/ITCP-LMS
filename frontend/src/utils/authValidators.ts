@@ -1,3 +1,18 @@
+export const TUPT_ID_RE = /^TUPT-\d{2}-\d{4}$/;
+
+export function validateTuptId(value: string): string | null {
+  const v = value.trim();
+  if (!v) return "TUPT ID is required";
+  if (!TUPT_ID_RE.test(v)) return "Use the format TUPT-XX-XXXX (e.g. TUPT-22-0123)";
+  return null;
+}
+
+// uppercases, drops stray characters, and inserts the dashes while typing
+export function formatTuptId(raw: string): string {
+  const s = raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
+  return [s.slice(0, 4), s.slice(4, 6), s.slice(6, 10)].filter(Boolean).join("-");
+}
+
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export function validateEmail(value: string): string | null {

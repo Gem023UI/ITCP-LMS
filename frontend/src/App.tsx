@@ -17,6 +17,8 @@ import LandingPage from "./pages/Landing";
 import Auth from "./pages/Auth";
 import Chapters from "./pages/Chapters";
 import Lessons from "./pages/Lessons";
+import Subjects from "./pages/Subjects";
+import Quiz from "./pages/Quiz";
 
 const glyph = (icon: React.ComponentProps<typeof HugeiconsIcon>["icon"]) => (
   <HugeiconsIcon icon={icon} size="1em" strokeWidth={1.8} />
@@ -59,7 +61,7 @@ function Shell() {
         icon: glyph(Book03Icon),
         label: "Chapters",
         active: true,
-        onClick: () => navigate("/chapters"),
+        onClick: () => navigate("/subjects"),
         menu: [
           { label: "New Window", onClick: () => console.log("New Window") },
           { separator: true },
@@ -131,8 +133,10 @@ function Shell() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/subjects" element={<Subjects />} />
           <Route path="/chapters" element={<Chapters />} />
           <Route path="/chapters/:lessonId" element={<Lessons />} />
+          <Route path="/quiz/:chapterId" element={<Quiz />} />
         </Routes>
       </div>
     </>

@@ -1,8 +1,15 @@
 const API_URL =
   (import.meta.env.VITE_API_URL as string | undefined) ?? "http://localhost:4000";
 
-export type User = { id: string; email: string; role: string; createdAt: string };
-
+export type User = {
+  id: string;
+  tuptId: string;
+  email: string;
+  role: string;
+  role: "STUDENT" | "TEACHER" | "ADMIN";
+  status: "ACTIVE" | "INACTIVE" | "DEACTIVATED";
+  createdAt: string;
+};
 export class ApiError extends Error {
   status: number;
   fieldErrors: Record<string, string>;
@@ -38,9 +45,9 @@ async function request<T>(
 }
 
 export const authApi = {
-  register: (body: { email: string; password: string; confirmPassword: string }) =>
+  register: (body: { tuptId: string; email: string; password: string; confirmPassword: string }) =>
     request<{ user: User }>("/register", { method: "POST", body }),
-  login: (body: { email: string; password: string }) =>
+  login: (body: { tuptId: string; password: string }) =>
     request<{ user: User }>("/login", { method: "POST", body }),
   logout: () => request<void>("/logout", { method: "POST" }),
   me: () => request<{ user: User }>("/me"),

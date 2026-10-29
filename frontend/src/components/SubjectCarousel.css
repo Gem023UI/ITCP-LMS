@@ -1,0 +1,41 @@
+.subject-carousel {
+  position: relative;
+}
+.subject-carousel__track {
+  display: flex;
+  gap: 24px;
+  padding: 16px 8px 24px; /* room for the 1.05 hover scale */
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  cursor: grab;
+}
+.subject-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+.subject-carousel__track > * {
+  scroll-snap-align: start;
+}
+.subject-carousel__track.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+.subject-carousel__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+.subject-carousel__nav--prev {
+  left: -8px;
+}
+.subject-carousel__nav--next {
+  right: -8px;
+}

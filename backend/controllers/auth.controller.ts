@@ -4,15 +4,15 @@ import { signToken } from "../utils/jwt";
 import { COOKIE_NAME, cookieOptions } from "../utils/cookies";
 
 export const register: RequestHandler = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await authService.registerUser(email, password);
+  const { tuptId, email, password } = req.body;
+  const user = await authService.registerUser(tuptId, email, password);
   res.cookie(COOKIE_NAME, signToken({ sub: user.id, role: user.role }), cookieOptions);
   res.status(201).json({ user });
 };
 
 export const login: RequestHandler = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await authService.loginUser(email, password);
+  const { tuptId, email, password } = req.body;
+  const user = await authService.loginUser(tuptId, password);
   res.cookie(COOKIE_NAME, signToken({ sub: user.id, role: user.role }), cookieOptions);
   res.json({ user });
 };

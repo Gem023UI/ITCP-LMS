@@ -3,26 +3,41 @@ import { useNavigate, useParams } from "react-router-dom";
 import Reveal from "../components/Reveal";
 import MetallicBlueButton from "../components/MetallicBlueButton";
 import LiquidGlass from "../components/LiquidGlass";
-import { getChapterCards, toRoman } from "../data/chapters";
+import { toRoman } from "../data/chapters";
+import { chaptersApi, type ApiChapter } from "../services/learningApi";
 import "../styles/Lessons.css";
 
 export default function Lessons() {
   const navigate = useNavigate();
   const { lessonId } = useParams();
 
-  // "lesson01" -> 1
-  const chapterNo = Number(lessonId?.match(/^lesson(\d+)$/i)?.[1]);
-  const card = React.useMemo(
-    () => getChapterCards().find((c) => c.chapterNo === chapterNo),
-    [chapterNo],
-  );
-  const chapter = card?.chapter;
+  const [chapter, setChapter] = React.useState<ApiChapter | null>(null);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    if (!lessonId) return;
+    let cancelled = false;
+    setLoading(true);
+    chaptersApi
+      .get(lessonId)
+      .then(({ chapter }) => !cancelled && setChapter(chapter))
+      .catch(() => !cancelled && setChapter(null))
+      .finally(() => !cancelled && setLoading(false));
+    return () => {
+      cancelled = true;
+    };
+  }, [lessonId]);
+
+  const chapterNo = chapter?.chapterNo ?? 0;
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [progress, setProgress] = React.useState(0);
 
-  const goBack = React.useCallback(() => navigate("/chapters"), [navigate]);
-  const onQuiz = () => console.log("Quiz", lessonId);
+  const goBack = React.useCallback(
+    () => navigate(chapter ? `/chapters?subject=${chapter.subjectId}` : "/subjects"),
+    [navigate, chapter],
+  );
+  const onQuiz = () => navigate(`/quiz/${lessonId}`);
 
   const update = React.useCallback(() => {
     const el = scrollRef.current;
@@ -48,7 +63,10 @@ export default function Lessons() {
     return (
       <div className="lessons" style={{ placeItems: "center", display: "grid" }}>
         <p>
-          Lesson not found. <a href="/chapters" onClick={(e) => { e.preventDefault(); goBack(); }}>Back to chapters</a>
+          {loading ? "Loading lesson…" : "Lesson not found."}{" "}
+          {!loading && (
+            <a href="/subjects" onClick={(e) => { e.preventDefault(); goBack(); }}>Back to chapters</a>
+          )}
         </p>
       </div>
     );
