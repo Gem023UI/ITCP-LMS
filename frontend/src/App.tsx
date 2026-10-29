@@ -8,8 +8,11 @@ import {
   NoteIcon,
   UserAccountIcon,
   DashboardCircleEditIcon,
+  DashboardSquareEditIcon,
   EditUser02Icon,
   LicenseDraftIcon,
+  UserCircleIcon,
+  BookEditIcon,
 } from "@hugeicons/core-free-icons";
 import ShapeGrid from "./components/ShapeGrid";
 import Dock from "./components/Dock";
@@ -73,7 +76,11 @@ function Shell() {
         ],
       },
       { icon: glyph(NoteIcon), label: "Articles", active: true, onClick: () => console.log("Articles") },
+      { icon: glyph(UserCircleIcon), label: "Profile", onClick: () => console.log("Profile") },
+      { separator: true },
+      { icon: glyph(DashboardSquareEditIcon), label: "Dashboard", onClick: () => console.log("Dashboard") },
       { icon: glyph(UserAccountIcon), label: "Profile", onClick: () => console.log("Profile") },
+      { icon: glyph(BookEditIcon), label: "Subjects", onClick: () => console.log("Subjects") },
       { separator: true },
       { icon: glyph(DashboardCircleEditIcon), label: "Dashboard", onClick: () => console.log("Dashboard") },
       { icon: glyph(EditUser02Icon), label: "Users", onClick: () => console.log("Users") },
