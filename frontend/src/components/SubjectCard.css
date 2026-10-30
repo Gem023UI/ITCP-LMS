@@ -1,6 +1,7 @@
 .subject-card {
   --subject-card-w: 300px;
   width: var(--subject-card-w);
+  height: min-content;
   flex: none;
   border-radius: 18px;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);

@@ -13,6 +13,7 @@ import {
   LicenseDraftIcon,
   UserCircleIcon,
   BookEditIcon,
+  ArrowLeftBigIcon,
 } from "@hugeicons/core-free-icons";
 import ShapeGrid from "./components/ShapeGrid";
 import Dock from "./components/Dock";
@@ -38,7 +39,6 @@ function Shell() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  // starts hidden -> slides in -> hands over to the Dock's own autoHide
   const [autoHide, setAutoHide] = React.useState(true);
   React.useEffect(() => {
     const t1 = window.setTimeout(() => setAutoHide(false), SHOW_AFTER_MS);
@@ -49,7 +49,6 @@ function Shell() {
     };
   }, [pathname]);
 
-    // role of the logged-in user (null = guest / not logged in yet)
   const [role, setRole] = React.useState<User["role"] | null>(null);
   React.useEffect(() => {
     let cancelled = false;
@@ -61,6 +60,17 @@ function Shell() {
       cancelled = true;
     };
   }, [pathname]); // re-check after login/logout navigation
+
+    const handleLogout = React.useCallback(async () => {
+    try {
+      await authApi.logout(); // clears the httpOnly cookie server-side
+    } catch {
+      // ignore: still reset the UI below
+    } finally {
+      setRole(null);
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
 
   const dockItems = React.useMemo(() => {
     const demoMenu = [
@@ -76,18 +86,24 @@ function Shell() {
       { icon: glyph(Book03Icon), label: "Subjects", active: true, onClick: () => navigate("/subjects"), menu: demoMenu },
       { icon: glyph(NoteIcon), label: "Articles", active: true, onClick: () => console.log("/articles") },
       { icon: glyph(UserCircleIcon), label: "Profile", onClick: () => console.log("/profile") },
+      { separator: true},
+      { icon: glyph(ArrowLeftBigIcon), label: "Log Out", onClick: handleLogout },
     ];
 
     const teacher = [
       { icon: glyph(DashboardSquareEditIcon), label: "Dashboard", onClick: () => console.log("/teacher/dashboard") },
       { icon: glyph(BookEditIcon), label: "Subjects", onClick: () => navigate("/teacher/subjects") },
       { icon: glyph(UserAccountIcon), label: "Profile", onClick: () => console.log("/teacher/profile") },
+      { separator: true},
+      { icon: glyph(ArrowLeftBigIcon), label: "Log Out", onClick: handleLogout },
     ];
 
     const admin = [
       { icon: glyph(DashboardCircleEditIcon), label: "Dashboard", onClick: () => console.log("admin/dashboard") },
       { icon: glyph(EditUser02Icon), label: "Users", onClick: () => navigate("/admin/users") },
       { icon: glyph(LicenseDraftIcon), label: "Subjects", onClick: () => console.log("admin/subjects") },
+      { separator: true},
+      { icon: glyph(ArrowLeftBigIcon), label: "Log Out", onClick: handleLogout },
     ];
 
     switch (role) {
@@ -100,7 +116,7 @@ function Shell() {
       default:
         return student.slice(0, 1); // guest: Home only
     }
-  }, [navigate, role]);
+    }, [navigate, role, handleLogout]);
 
   return (
     <>
