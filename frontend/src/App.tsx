@@ -24,6 +24,7 @@ import Subjects from "./pages/Subjects";
 import Quiz from "./pages/Quiz";
 import SubjectTeacher from "./pages/Teacher";
 import UsersAdmin from "./pages/Admin";
+import { authApi, type User } from "./services/authApi";
 
 const glyph = (icon: React.ComponentProps<typeof HugeiconsIcon>["icon"]) => (
   <HugeiconsIcon icon={icon} size="1em" strokeWidth={1.8} />
@@ -47,47 +48,58 @@ function Shell() {
     };
   }, [pathname]);
 
-  const dockItems = React.useMemo(
-    () => [
-      {
-        icon: glyph(Home09Icon),
-        label: "Home",
-        active: true,
-        onClick: () => navigate("/"),
-        menu: [
-          { label: "New Window", onClick: () => console.log("New Window") },
-          { separator: true },
-          { label: "Options", items: [{ label: "Open at Login", checked: true }, { label: "Show in Finder" }] },
-          { separator: true },
-          { label: "Quit", onClick: () => console.log("Quit") },
-        ],
-      },
-      {
-        icon: glyph(Book03Icon),
-        label: "Chapters",
-        active: true,
-        onClick: () => navigate("/subjects"),
-        menu: [
-          { label: "New Window", onClick: () => console.log("New Window") },
-          { separator: true },
-          { label: "Options", items: [{ label: "Open at Login", checked: true }, { label: "Show in Finder" }] },
-          { separator: true },
-          { label: "Quit", onClick: () => console.log("Quit") },
-        ],
-      },
+    // role of the logged-in user (null = guest / not logged in yet)
+  const [role, setRole] = React.useState<User["role"] | null>(null);
+  React.useEffect(() => {
+    let cancelled = false;
+    authApi
+      .me()
+      .then(({ user }) => !cancelled && setRole(user.role))
+      .catch(() => !cancelled && setRole(null));
+    return () => {
+      cancelled = true;
+    };
+  }, [pathname]); // re-check after login/logout navigation
+
+  const dockItems = React.useMemo(() => {
+    const demoMenu = [
+      { label: "New Window", onClick: () => console.log("New Window") },
+      { separator: true },
+      { label: "Options", items: [{ label: "Open at Login", checked: true }, { label: "Show in Finder" }] },
+      { separator: true },
+      { label: "Quit", onClick: () => console.log("Quit") },
+    ];
+
+    const student = [
+      { icon: glyph(Home09Icon), label: "Home", active: true, onClick: () => navigate("/"), menu: demoMenu },
+      { icon: glyph(Book03Icon), label: "Chapters", active: true, onClick: () => navigate("/subjects"), menu: demoMenu },
       { icon: glyph(NoteIcon), label: "Articles", active: true, onClick: () => console.log("Articles") },
       { icon: glyph(UserCircleIcon), label: "Profile", onClick: () => console.log("Profile") },
-      { separator: true },
+    ];
+
+    const teacher = [
       { icon: glyph(DashboardSquareEditIcon), label: "Dashboard", onClick: () => console.log("Dashboard") },
       { icon: glyph(UserAccountIcon), label: "Profile", onClick: () => console.log("Profile") },
-      { icon: glyph(BookEditIcon), label: "Subjects", onClick: () => console.log("Subjects") },
-      { separator: true },
+      { icon: glyph(BookEditIcon), label: "Subjects", onClick: () => navigate("/teacher/subjects") },
+    ];
+
+    const admin = [
       { icon: glyph(DashboardCircleEditIcon), label: "Dashboard", onClick: () => console.log("Dashboard") },
-      { icon: glyph(EditUser02Icon), label: "Users", onClick: () => console.log("Users") },
+      { icon: glyph(EditUser02Icon), label: "Users", onClick: () => navigate("/admin/users") },
       { icon: glyph(LicenseDraftIcon), label: "Licenses", onClick: () => console.log("Licenses") },
-    ],
-    [navigate],
-  );
+    ];
+
+    switch (role) {
+      case "STUDENT":
+        return student;
+      case "TEACHER":
+        return teacher;
+      case "ADMIN":
+        return admin;
+      default:
+        return student.slice(0, 1); // guest: Home only
+    }
+  }, [navigate, role]);
 
   return (
     <>
