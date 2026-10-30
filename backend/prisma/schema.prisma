@@ -34,6 +34,9 @@ model User {
   quizAttempts    QuizAttempt[]
   ownedSubjects   Subject[]
 
+  chapterProgress ChapterProgress[]
+  studyActivity   StudyActivity[]
+
   @@map("users")
 }
 
@@ -91,6 +94,8 @@ model Chapter {
   @@unique([subjectId, chapterNo])
   @@index([subjectId])
   @@map("chapters")
+
+  progress ChapterProgress[]
 }
 
 model SubjectStudent {
@@ -98,6 +103,7 @@ model SubjectStudent {
   subjectId  String
   userId     String
   status     StudentStatus @default(ONGOING)
+  progress   Int           @default(0)
   joinedAt   DateTime      @default(now())
   finishedAt DateTime?
 
@@ -137,4 +143,30 @@ model QuizAttempt {
   @@unique([quizId, userId]) // one attempt per quiz
   @@index([userId])
   @@map("quiz_attempts")
+}
+
+model ChapterProgress {
+  id        String   @id @default(uuid())
+  userId    String
+  chapterId String
+  percent   Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, chapterId])
+  @@map("chapter_progress")
+}
+
+model StudyActivity {
+  id     String   @id @default(uuid())
+  userId String
+  date   DateTime @db.Date
+  count  Int      @default(1)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@map("study_activity")
 }

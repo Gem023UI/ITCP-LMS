@@ -5,6 +5,7 @@ import MetallicBlueButton from "../components/MetallicBlueButton";
 import LiquidGlass from "../components/LiquidGlass";
 import { toRoman } from "../data/chapters";
 import { chaptersApi, type ApiChapter } from "../services/learningApi";
+import { progressApi } from "../services/progressApi";
 import "../styles/Lessons.css";
 
 export default function Lessons() {
@@ -33,6 +34,9 @@ export default function Lessons() {
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [progress, setProgress] = React.useState(0);
 
+  const progressRef = React.useRef(0);
+  const sentRef = React.useRef(0);
+
   const goBack = React.useCallback(
     () => navigate(chapter ? `/chapters?subject=${chapter.subjectId}` : "/subjects"),
     [navigate, chapter],
@@ -45,6 +49,9 @@ export default function Lessons() {
     const max = el.scrollHeight - el.clientHeight;
     const pct = max <= 0 ? 100 : (el.scrollTop / max) * 100;
     setProgress(Math.min(100, Math.max(0, Math.round(pct))));
+    const next = Math.min(100, Math.max(0, Math.round(pct)));
+    progressRef.current = next;
+    setProgress(next);
   }, []);
 
   React.useEffect(() => {
@@ -52,6 +59,44 @@ export default function Lessons() {
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, [update, chapter]);
+
+    // resume from the saved percent
+  React.useEffect(() => {
+    if (!chapter || !lessonId) return;
+    let cancelled = false;
+    progressApi
+      .chapter(lessonId)
+      .then(({ percent }) => {
+        if (cancelled) return;
+        sentRef.current = percent;
+        requestAnimationFrame(() => {
+          const el = scrollRef.current;
+          if (!el) return;
+          el.scrollTop = ((el.scrollHeight - el.clientHeight) * percent) / 100;
+          update();
+        });
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [chapter, lessonId, update]);
+
+  // save when leaving the chapter (route change, refresh or tab close)
+  const flush = React.useCallback(() => {
+    const p = progressRef.current;
+    if (!lessonId || p <= sentRef.current) return;
+    sentRef.current = p;
+    progressApi.save(lessonId, p);
+  }, [lessonId]);
+
+  React.useEffect(() => {
+    window.addEventListener("pagehide", flush);
+    return () => {
+      window.removeEventListener("pagehide", flush);
+      flush();
+    };
+  }, [flush]);
 
   React.useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && goBack();

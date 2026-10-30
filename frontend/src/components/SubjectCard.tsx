@@ -11,15 +11,14 @@ export const youTubeId = (url: string) => url.match(YT_RE)?.[1] ?? null;
 export interface SubjectCardProps {
   title: string;
   description: string;
-  /** direct video file URL or a YouTube link/embed link */
   mediaUrl: string;
   studentCount: number;
   actionLabel?: string;
   busy?: boolean;
   className?: string;
   badge?: string;
-  /** replaces the default single button (e.g. Edit / Delete) */
   actions?: React.ReactNode;
+  progress?: number | null;
   onAction?: () => void;
 }
 
@@ -32,6 +31,7 @@ export default function SubjectCard({
   busy = false,
   className,
   badge,
+  progress,
   actions,
   onAction,
 }: SubjectCardProps) {
@@ -61,12 +61,15 @@ export default function SubjectCard({
     >
       <div className="subject-card__inner">
         {badge && <span className="subject-card__badge">{badge}</span>}
+        {progress != null && (
+          <span className="subject-card__progress">{progress}% progress</span>
+        )}
 
         {yt ? (
           <div className="subject-card__media subject-card__media--yt">
             {hovered ? (
               <iframe
-                src={`https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&mute=1&controls=0&loop=1&playlist=${yt}&playsinline=1&modestbranding=1`}
+                src={`https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&controls=0&loop=1&playlist=${yt}&playsinline=1&modestbranding=1`}
                 title={title}
                 allow="autoplay; encrypted-media"
                 tabIndex={-1}
@@ -80,7 +83,6 @@ export default function SubjectCard({
             ref={videoRef}
             className="subject-card__media"
             src={mediaUrl}
-            muted
             loop
             playsInline
             preload="metadata"
@@ -90,9 +92,11 @@ export default function SubjectCard({
         <div className="subject-card__body">
           <h3 className="subject-card__title">{title}</h3>
           <p className="subject-card__desc">{description}</p>
-          <span className="subject-card__count">
-            <strong>{studentCount}</strong> CURRENTLY TAKING
-          </span>
+          {progress == null && (
+            <span className="subject-card__count">
+              <strong>{studentCount}</strong> CURRENTLY TAKING
+            </span>
+          )}
           {actions ? (
             <div className="subject-card__actions">{actions}</div>
           ) : (

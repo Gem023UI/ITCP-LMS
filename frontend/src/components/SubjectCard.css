@@ -1,5 +1,5 @@
 .subject-card {
-  --subject-card-w: 230px;
+  --subject-card-w: 300px;
   width: var(--subject-card-w);
   flex: none;
   border-radius: 18px;
@@ -102,5 +102,20 @@
 }
 .subject-card__actions > * {
   flex: 1;
+  text-transform: uppercase;
+}
+
+.subject-card__progress {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: #0b97b3;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }

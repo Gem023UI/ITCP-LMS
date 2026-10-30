@@ -56,7 +56,9 @@ export const ModelName = {
   Chapter: 'Chapter',
   SubjectStudent: 'SubjectStudent',
   Quiz: 'Quiz',
-  QuizAttempt: 'QuizAttempt'
+  QuizAttempt: 'QuizAttempt',
+  ChapterProgress: 'ChapterProgress',
+  StudyActivity: 'StudyActivity'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -131,6 +133,7 @@ export const SubjectStudentScalarFieldEnum = {
   subjectId: 'subjectId',
   userId: 'userId',
   status: 'status',
+  progress: 'progress',
   joinedAt: 'joinedAt',
   finishedAt: 'finishedAt'
 } as const
@@ -160,6 +163,27 @@ export const QuizAttemptScalarFieldEnum = {
 } as const
 
 export type QuizAttemptScalarFieldEnum = (typeof QuizAttemptScalarFieldEnum)[keyof typeof QuizAttemptScalarFieldEnum]
+
+
+export const ChapterProgressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  chapterId: 'chapterId',
+  percent: 'percent',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChapterProgressScalarFieldEnum = (typeof ChapterProgressScalarFieldEnum)[keyof typeof ChapterProgressScalarFieldEnum]
+
+
+export const StudyActivityScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  count: 'count'
+} as const
+
+export type StudyActivityScalarFieldEnum = (typeof StudyActivityScalarFieldEnum)[keyof typeof StudyActivityScalarFieldEnum]
 
 
 export const SortOrder = {

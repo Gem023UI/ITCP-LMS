@@ -1,2 +1,2 @@
 export const homeFor = (role: string) =>
-  role === "TEACHER" ? "/teacher/subjects" : role === "ADMIN" ? "/admin/users" : "/subjects";
+  role === "TEACHER" ? "/teacher/subjects" : role === "ADMIN" ? "/admin/users" : "/home";

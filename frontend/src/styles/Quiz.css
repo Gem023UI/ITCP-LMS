@@ -1,7 +1,6 @@
 .quiz {
   position: absolute;
   inset: 0;
-  overflow-y: auto;
   padding: 48px 24px 80px 120px;
   color: #fff;
 }

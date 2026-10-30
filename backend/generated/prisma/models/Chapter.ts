@@ -294,6 +294,7 @@ export type ChapterWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   quiz?: Prisma.XOR<Prisma.QuizNullableScalarRelationFilter, Prisma.QuizWhereInput> | null
+  progress?: Prisma.ChapterProgressListRelationFilter
 }
 
 export type ChapterOrderByWithRelationInput = {
@@ -315,6 +316,7 @@ export type ChapterOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   subject?: Prisma.SubjectOrderByWithRelationInput
   quiz?: Prisma.QuizOrderByWithRelationInput
+  progress?: Prisma.ChapterProgressOrderByRelationAggregateInput
 }
 
 export type ChapterWhereUniqueInput = Prisma.AtLeast<{
@@ -341,6 +343,7 @@ export type ChapterWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Chapter"> | Date | string
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   quiz?: Prisma.XOR<Prisma.QuizNullableScalarRelationFilter, Prisma.QuizWhereInput> | null
+  progress?: Prisma.ChapterProgressListRelationFilter
 }, "id" | "subjectId_chapterId" | "subjectId_chapterNo">
 
 export type ChapterOrderByWithAggregationInput = {
@@ -407,6 +410,7 @@ export type ChapterCreateInput = {
   updatedAt?: Date | string
   subject: Prisma.SubjectCreateNestedOneWithoutChaptersInput
   quiz?: Prisma.QuizCreateNestedOneWithoutChapterInput
+  progress?: Prisma.ChapterProgressCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterUncheckedCreateInput = {
@@ -427,6 +431,7 @@ export type ChapterUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   quiz?: Prisma.QuizUncheckedCreateNestedOneWithoutChapterInput
+  progress?: Prisma.ChapterProgressUncheckedCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterUpdateInput = {
@@ -447,6 +452,7 @@ export type ChapterUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.SubjectUpdateOneRequiredWithoutChaptersNestedInput
   quiz?: Prisma.QuizUpdateOneWithoutChapterNestedInput
+  progress?: Prisma.ChapterProgressUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterUncheckedUpdateInput = {
@@ -467,6 +473,7 @@ export type ChapterUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quiz?: Prisma.QuizUncheckedUpdateOneWithoutChapterNestedInput
+  progress?: Prisma.ChapterProgressUncheckedUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterCreateManyInput = {
@@ -673,6 +680,20 @@ export type ChapterUpdateOneRequiredWithoutQuizNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ChapterUpdateToOneWithWhereWithoutQuizInput, Prisma.ChapterUpdateWithoutQuizInput>, Prisma.ChapterUncheckedUpdateWithoutQuizInput>
 }
 
+export type ChapterCreateNestedOneWithoutProgressInput = {
+  create?: Prisma.XOR<Prisma.ChapterCreateWithoutProgressInput, Prisma.ChapterUncheckedCreateWithoutProgressInput>
+  connectOrCreate?: Prisma.ChapterCreateOrConnectWithoutProgressInput
+  connect?: Prisma.ChapterWhereUniqueInput
+}
+
+export type ChapterUpdateOneRequiredWithoutProgressNestedInput = {
+  create?: Prisma.XOR<Prisma.ChapterCreateWithoutProgressInput, Prisma.ChapterUncheckedCreateWithoutProgressInput>
+  connectOrCreate?: Prisma.ChapterCreateOrConnectWithoutProgressInput
+  upsert?: Prisma.ChapterUpsertWithoutProgressInput
+  connect?: Prisma.ChapterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ChapterUpdateToOneWithWhereWithoutProgressInput, Prisma.ChapterUpdateWithoutProgressInput>, Prisma.ChapterUncheckedUpdateWithoutProgressInput>
+}
+
 export type ChapterCreateWithoutSubjectInput = {
   id?: string
   chapterId: string
@@ -690,6 +711,7 @@ export type ChapterCreateWithoutSubjectInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   quiz?: Prisma.QuizCreateNestedOneWithoutChapterInput
+  progress?: Prisma.ChapterProgressCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterUncheckedCreateWithoutSubjectInput = {
@@ -709,6 +731,7 @@ export type ChapterUncheckedCreateWithoutSubjectInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   quiz?: Prisma.QuizUncheckedCreateNestedOneWithoutChapterInput
+  progress?: Prisma.ChapterProgressUncheckedCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterCreateOrConnectWithoutSubjectInput = {
@@ -776,6 +799,7 @@ export type ChapterCreateWithoutQuizInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   subject: Prisma.SubjectCreateNestedOneWithoutChaptersInput
+  progress?: Prisma.ChapterProgressCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterUncheckedCreateWithoutQuizInput = {
@@ -795,6 +819,7 @@ export type ChapterUncheckedCreateWithoutQuizInput = {
   references: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  progress?: Prisma.ChapterProgressUncheckedCreateNestedManyWithoutChapterInput
 }
 
 export type ChapterCreateOrConnectWithoutQuizInput = {
@@ -830,6 +855,7 @@ export type ChapterUpdateWithoutQuizInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.SubjectUpdateOneRequiredWithoutChaptersNestedInput
+  progress?: Prisma.ChapterProgressUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterUncheckedUpdateWithoutQuizInput = {
@@ -849,6 +875,103 @@ export type ChapterUncheckedUpdateWithoutQuizInput = {
   references?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  progress?: Prisma.ChapterProgressUncheckedUpdateManyWithoutChapterNestedInput
+}
+
+export type ChapterCreateWithoutProgressInput = {
+  id?: string
+  chapterId: string
+  chapterNo: number
+  cardImage: string
+  title: string
+  description: string
+  durationMinutes: number
+  videoUrl: string
+  slideUrl: string
+  objectives: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  sections: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  keyTerms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  references: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subject: Prisma.SubjectCreateNestedOneWithoutChaptersInput
+  quiz?: Prisma.QuizCreateNestedOneWithoutChapterInput
+}
+
+export type ChapterUncheckedCreateWithoutProgressInput = {
+  id?: string
+  subjectId: string
+  chapterId: string
+  chapterNo: number
+  cardImage: string
+  title: string
+  description: string
+  durationMinutes: number
+  videoUrl: string
+  slideUrl: string
+  objectives: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  sections: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  keyTerms: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  references: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  quiz?: Prisma.QuizUncheckedCreateNestedOneWithoutChapterInput
+}
+
+export type ChapterCreateOrConnectWithoutProgressInput = {
+  where: Prisma.ChapterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ChapterCreateWithoutProgressInput, Prisma.ChapterUncheckedCreateWithoutProgressInput>
+}
+
+export type ChapterUpsertWithoutProgressInput = {
+  update: Prisma.XOR<Prisma.ChapterUpdateWithoutProgressInput, Prisma.ChapterUncheckedUpdateWithoutProgressInput>
+  create: Prisma.XOR<Prisma.ChapterCreateWithoutProgressInput, Prisma.ChapterUncheckedCreateWithoutProgressInput>
+  where?: Prisma.ChapterWhereInput
+}
+
+export type ChapterUpdateToOneWithWhereWithoutProgressInput = {
+  where?: Prisma.ChapterWhereInput
+  data: Prisma.XOR<Prisma.ChapterUpdateWithoutProgressInput, Prisma.ChapterUncheckedUpdateWithoutProgressInput>
+}
+
+export type ChapterUpdateWithoutProgressInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
+  chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
+  cardImage?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  videoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  slideUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  objectives?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  sections?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  keyTerms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  references?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutChaptersNestedInput
+  quiz?: Prisma.QuizUpdateOneWithoutChapterNestedInput
+}
+
+export type ChapterUncheckedUpdateWithoutProgressInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectId?: Prisma.StringFieldUpdateOperationsInput | string
+  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
+  chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
+  cardImage?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  videoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  slideUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  objectives?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  sections?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  keyTerms?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  references?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quiz?: Prisma.QuizUncheckedUpdateOneWithoutChapterNestedInput
 }
 
 export type ChapterCreateManySubjectInput = {
@@ -886,6 +1009,7 @@ export type ChapterUpdateWithoutSubjectInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quiz?: Prisma.QuizUpdateOneWithoutChapterNestedInput
+  progress?: Prisma.ChapterProgressUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterUncheckedUpdateWithoutSubjectInput = {
@@ -905,6 +1029,7 @@ export type ChapterUncheckedUpdateWithoutSubjectInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quiz?: Prisma.QuizUncheckedUpdateOneWithoutChapterNestedInput
+  progress?: Prisma.ChapterProgressUncheckedUpdateManyWithoutChapterNestedInput
 }
 
 export type ChapterUncheckedUpdateManyWithoutSubjectInput = {
@@ -926,6 +1051,35 @@ export type ChapterUncheckedUpdateManyWithoutSubjectInput = {
 }
 
 
+/**
+ * Count Type ChapterCountOutputType
+ */
+
+export type ChapterCountOutputType = {
+  progress: number
+}
+
+export type ChapterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  progress?: boolean | ChapterCountOutputTypeCountProgressArgs
+}
+
+/**
+ * ChapterCountOutputType without action
+ */
+export type ChapterCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChapterCountOutputType
+   */
+  select?: Prisma.ChapterCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ChapterCountOutputType without action
+ */
+export type ChapterCountOutputTypeCountProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChapterProgressWhereInput
+}
+
 
 export type ChapterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -946,6 +1100,8 @@ export type ChapterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   updatedAt?: boolean
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   quiz?: boolean | Prisma.Chapter$quizArgs<ExtArgs>
+  progress?: boolean | Prisma.Chapter$progressArgs<ExtArgs>
+  _count?: boolean | Prisma.ChapterCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chapter"]>
 
 export type ChapterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1011,6 +1167,8 @@ export type ChapterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type ChapterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   quiz?: boolean | Prisma.Chapter$quizArgs<ExtArgs>
+  progress?: boolean | Prisma.Chapter$progressArgs<ExtArgs>
+  _count?: boolean | Prisma.ChapterCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ChapterIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
@@ -1024,6 +1182,7 @@ export type $ChapterPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     subject: Prisma.$SubjectPayload<ExtArgs>
     quiz: Prisma.$QuizPayload<ExtArgs> | null
+    progress: Prisma.$ChapterProgressPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1438,6 +1597,7 @@ export interface Prisma__ChapterClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   subject<T extends Prisma.SubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   quiz<T extends Prisma.Chapter$quizArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Chapter$quizArgs<ExtArgs>>): Prisma.Prisma__QuizClient<runtime.Types.Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  progress<T extends Prisma.Chapter$progressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Chapter$progressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChapterProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1900,6 +2060,30 @@ export type Chapter$quizArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   include?: Prisma.QuizInclude<ExtArgs> | null
   where?: Prisma.QuizWhereInput
+}
+
+/**
+ * Chapter.progress
+ */
+export type Chapter$progressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChapterProgress
+   */
+  select?: Prisma.ChapterProgressSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChapterProgress
+   */
+  omit?: Prisma.ChapterProgressOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChapterProgressInclude<ExtArgs> | null
+  where?: Prisma.ChapterProgressWhereInput
+  orderBy?: Prisma.ChapterProgressOrderByWithRelationInput | Prisma.ChapterProgressOrderByWithRelationInput[]
+  cursor?: Prisma.ChapterProgressWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChapterProgressScalarFieldEnum | Prisma.ChapterProgressScalarFieldEnum[]
 }
 
 /**

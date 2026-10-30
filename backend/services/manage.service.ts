@@ -1,7 +1,7 @@
 import { prisma } from "../utils/prisma";
 import { HttpError } from "../utils/httpError";
 import { generateSubjectCode } from "../utils/subjectCode";
-import { storedQuestionsSchema } from "../utils/learning.validators";
+import { storedQuestionsSchema } from "../utils/learning.validator";
 import type { ChapterInput, QuizInput, SubjectInput } from "../utils/manage.validators";
 import { syncSubjectStatus } from "./subject.service";
 

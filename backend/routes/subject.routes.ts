@@ -3,7 +3,7 @@ import rateLimit from "express-rate-limit";
 import { joinByCode, joinPublic, leave, listMine, listPublic } from "../controllers/subject.controller";
 import { validate } from "../middlewares/validate";
 import { requireRole } from "../middlewares/role";
-import { joinByCodeSchema } from "../utils/learning.validators";
+import { joinByCodeSchema } from "../utils/learning.validator";
 
 const router = Router();
 

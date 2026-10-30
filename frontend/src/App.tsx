@@ -24,6 +24,7 @@ import Subjects from "./pages/Subjects";
 import Quiz from "./pages/Quiz";
 import SubjectTeacher from "./pages/Teacher";
 import UsersAdmin from "./pages/Admin";
+import Home from "./pages/Home";
 import { authApi, type User } from "./services/authApi";
 
 const glyph = (icon: React.ComponentProps<typeof HugeiconsIcon>["icon"]) => (
@@ -71,22 +72,22 @@ function Shell() {
     ];
 
     const student = [
-      { icon: glyph(Home09Icon), label: "Home", active: true, onClick: () => navigate("/"), menu: demoMenu },
-      { icon: glyph(Book03Icon), label: "Chapters", active: true, onClick: () => navigate("/subjects"), menu: demoMenu },
-      { icon: glyph(NoteIcon), label: "Articles", active: true, onClick: () => console.log("Articles") },
-      { icon: glyph(UserCircleIcon), label: "Profile", onClick: () => console.log("Profile") },
+      { icon: glyph(Home09Icon), label: "Home", active: true, onClick: () => navigate("/home"), menu: demoMenu },
+      { icon: glyph(Book03Icon), label: "Subjects", active: true, onClick: () => navigate("/subjects"), menu: demoMenu },
+      { icon: glyph(NoteIcon), label: "Articles", active: true, onClick: () => console.log("/articles") },
+      { icon: glyph(UserCircleIcon), label: "Profile", onClick: () => console.log("/profile") },
     ];
 
     const teacher = [
-      { icon: glyph(DashboardSquareEditIcon), label: "Dashboard", onClick: () => console.log("Dashboard") },
-      { icon: glyph(UserAccountIcon), label: "Profile", onClick: () => console.log("Profile") },
+      { icon: glyph(DashboardSquareEditIcon), label: "Dashboard", onClick: () => console.log("/teacher/dashboard") },
       { icon: glyph(BookEditIcon), label: "Subjects", onClick: () => navigate("/teacher/subjects") },
+      { icon: glyph(UserAccountIcon), label: "Profile", onClick: () => console.log("/teacher/profile") },
     ];
 
     const admin = [
-      { icon: glyph(DashboardCircleEditIcon), label: "Dashboard", onClick: () => console.log("Dashboard") },
+      { icon: glyph(DashboardCircleEditIcon), label: "Dashboard", onClick: () => console.log("admin/dashboard") },
       { icon: glyph(EditUser02Icon), label: "Users", onClick: () => navigate("/admin/users") },
-      { icon: glyph(LicenseDraftIcon), label: "Licenses", onClick: () => console.log("Licenses") },
+      { icon: glyph(LicenseDraftIcon), label: "Subjects", onClick: () => console.log("admin/subjects") },
     ];
 
     switch (role) {
@@ -153,6 +154,7 @@ function Shell() {
       <div className="app-content">
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/subjects" element={<Subjects />} />
           <Route path="/teacher/subjects" element={<SubjectTeacher />} />

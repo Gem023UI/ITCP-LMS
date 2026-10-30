@@ -7,6 +7,7 @@ import chapterRoutes from "./chapter.routes";
 import quizRoutes from "./quiz.routes";
 import manageRoutes from "./manage.routes";
 import adminRoutes from "./admin.routes";
+import progressRoutes from "./progress.routes";
 
 const router = Router();
 
@@ -16,6 +17,7 @@ const guard = [requireAuth, requireActive];
 router.use("/subjects", ...guard, subjectRoutes);
 router.use("/chapters", ...guard, chapterRoutes);
 router.use("/quizzes", ...guard, quizRoutes);
+router.use("/progress", ...guard, requireRole("STUDENT"), progressRoutes);
 router.use("/manage", ...guard, requireRole("TEACHER", "ADMIN"), manageRoutes);
 router.use("/admin", ...guard, requireRole("ADMIN"), adminRoutes);
 

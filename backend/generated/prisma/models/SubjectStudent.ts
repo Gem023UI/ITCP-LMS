@@ -20,8 +20,18 @@ export type SubjectStudentModel = runtime.Types.Result.DefaultSelection<Prisma.$
 
 export type AggregateSubjectStudent = {
   _count: SubjectStudentCountAggregateOutputType | null
+  _avg: SubjectStudentAvgAggregateOutputType | null
+  _sum: SubjectStudentSumAggregateOutputType | null
   _min: SubjectStudentMinAggregateOutputType | null
   _max: SubjectStudentMaxAggregateOutputType | null
+}
+
+export type SubjectStudentAvgAggregateOutputType = {
+  progress: number | null
+}
+
+export type SubjectStudentSumAggregateOutputType = {
+  progress: number | null
 }
 
 export type SubjectStudentMinAggregateOutputType = {
@@ -29,6 +39,7 @@ export type SubjectStudentMinAggregateOutputType = {
   subjectId: string | null
   userId: string | null
   status: $Enums.StudentStatus | null
+  progress: number | null
   joinedAt: Date | null
   finishedAt: Date | null
 }
@@ -38,6 +49,7 @@ export type SubjectStudentMaxAggregateOutputType = {
   subjectId: string | null
   userId: string | null
   status: $Enums.StudentStatus | null
+  progress: number | null
   joinedAt: Date | null
   finishedAt: Date | null
 }
@@ -47,17 +59,27 @@ export type SubjectStudentCountAggregateOutputType = {
   subjectId: number
   userId: number
   status: number
+  progress: number
   joinedAt: number
   finishedAt: number
   _all: number
 }
 
 
+export type SubjectStudentAvgAggregateInputType = {
+  progress?: true
+}
+
+export type SubjectStudentSumAggregateInputType = {
+  progress?: true
+}
+
 export type SubjectStudentMinAggregateInputType = {
   id?: true
   subjectId?: true
   userId?: true
   status?: true
+  progress?: true
   joinedAt?: true
   finishedAt?: true
 }
@@ -67,6 +89,7 @@ export type SubjectStudentMaxAggregateInputType = {
   subjectId?: true
   userId?: true
   status?: true
+  progress?: true
   joinedAt?: true
   finishedAt?: true
 }
@@ -76,6 +99,7 @@ export type SubjectStudentCountAggregateInputType = {
   subjectId?: true
   userId?: true
   status?: true
+  progress?: true
   joinedAt?: true
   finishedAt?: true
   _all?: true
@@ -119,6 +143,18 @@ export type SubjectStudentAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: SubjectStudentAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: SubjectStudentSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: SubjectStudentMinAggregateInputType
@@ -149,6 +185,8 @@ export type SubjectStudentGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   _count?: SubjectStudentCountAggregateInputType | true
+  _avg?: SubjectStudentAvgAggregateInputType
+  _sum?: SubjectStudentSumAggregateInputType
   _min?: SubjectStudentMinAggregateInputType
   _max?: SubjectStudentMaxAggregateInputType
 }
@@ -158,9 +196,12 @@ export type SubjectStudentGroupByOutputType = {
   subjectId: string
   userId: string
   status: $Enums.StudentStatus
+  progress: number
   joinedAt: Date
   finishedAt: Date | null
   _count: SubjectStudentCountAggregateOutputType | null
+  _avg: SubjectStudentAvgAggregateOutputType | null
+  _sum: SubjectStudentSumAggregateOutputType | null
   _min: SubjectStudentMinAggregateOutputType | null
   _max: SubjectStudentMaxAggregateOutputType | null
 }
@@ -188,6 +229,7 @@ export type SubjectStudentWhereInput = {
   subjectId?: Prisma.StringFilter<"SubjectStudent"> | string
   userId?: Prisma.StringFilter<"SubjectStudent"> | string
   status?: Prisma.EnumStudentStatusFilter<"SubjectStudent"> | $Enums.StudentStatus
+  progress?: Prisma.IntFilter<"SubjectStudent"> | number
   joinedAt?: Prisma.DateTimeFilter<"SubjectStudent"> | Date | string
   finishedAt?: Prisma.DateTimeNullableFilter<"SubjectStudent"> | Date | string | null
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
@@ -199,6 +241,7 @@ export type SubjectStudentOrderByWithRelationInput = {
   subjectId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  progress?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   subject?: Prisma.SubjectOrderByWithRelationInput
@@ -214,6 +257,7 @@ export type SubjectStudentWhereUniqueInput = Prisma.AtLeast<{
   subjectId?: Prisma.StringFilter<"SubjectStudent"> | string
   userId?: Prisma.StringFilter<"SubjectStudent"> | string
   status?: Prisma.EnumStudentStatusFilter<"SubjectStudent"> | $Enums.StudentStatus
+  progress?: Prisma.IntFilter<"SubjectStudent"> | number
   joinedAt?: Prisma.DateTimeFilter<"SubjectStudent"> | Date | string
   finishedAt?: Prisma.DateTimeNullableFilter<"SubjectStudent"> | Date | string | null
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
@@ -225,11 +269,14 @@ export type SubjectStudentOrderByWithAggregationInput = {
   subjectId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  progress?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SubjectStudentCountOrderByAggregateInput
+  _avg?: Prisma.SubjectStudentAvgOrderByAggregateInput
   _max?: Prisma.SubjectStudentMaxOrderByAggregateInput
   _min?: Prisma.SubjectStudentMinOrderByAggregateInput
+  _sum?: Prisma.SubjectStudentSumOrderByAggregateInput
 }
 
 export type SubjectStudentScalarWhereWithAggregatesInput = {
@@ -240,6 +287,7 @@ export type SubjectStudentScalarWhereWithAggregatesInput = {
   subjectId?: Prisma.StringWithAggregatesFilter<"SubjectStudent"> | string
   userId?: Prisma.StringWithAggregatesFilter<"SubjectStudent"> | string
   status?: Prisma.EnumStudentStatusWithAggregatesFilter<"SubjectStudent"> | $Enums.StudentStatus
+  progress?: Prisma.IntWithAggregatesFilter<"SubjectStudent"> | number
   joinedAt?: Prisma.DateTimeWithAggregatesFilter<"SubjectStudent"> | Date | string
   finishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SubjectStudent"> | Date | string | null
 }
@@ -247,6 +295,7 @@ export type SubjectStudentScalarWhereWithAggregatesInput = {
 export type SubjectStudentCreateInput = {
   id?: string
   status?: $Enums.StudentStatus
+  progress?: number
   joinedAt?: Date | string
   finishedAt?: Date | string | null
   subject: Prisma.SubjectCreateNestedOneWithoutStudentsInput
@@ -258,6 +307,7 @@ export type SubjectStudentUncheckedCreateInput = {
   subjectId: string
   userId: string
   status?: $Enums.StudentStatus
+  progress?: number
   joinedAt?: Date | string
   finishedAt?: Date | string | null
 }
@@ -265,6 +315,7 @@ export type SubjectStudentUncheckedCreateInput = {
 export type SubjectStudentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subject?: Prisma.SubjectUpdateOneRequiredWithoutStudentsNestedInput
@@ -276,6 +327,7 @@ export type SubjectStudentUncheckedUpdateInput = {
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -285,6 +337,7 @@ export type SubjectStudentCreateManyInput = {
   subjectId: string
   userId: string
   status?: $Enums.StudentStatus
+  progress?: number
   joinedAt?: Date | string
   finishedAt?: Date | string | null
 }
@@ -292,6 +345,7 @@ export type SubjectStudentCreateManyInput = {
 export type SubjectStudentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -301,6 +355,7 @@ export type SubjectStudentUncheckedUpdateManyInput = {
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -325,8 +380,13 @@ export type SubjectStudentCountOrderByAggregateInput = {
   subjectId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  progress?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrder
+}
+
+export type SubjectStudentAvgOrderByAggregateInput = {
+  progress?: Prisma.SortOrder
 }
 
 export type SubjectStudentMaxOrderByAggregateInput = {
@@ -334,6 +394,7 @@ export type SubjectStudentMaxOrderByAggregateInput = {
   subjectId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  progress?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrder
 }
@@ -343,8 +404,13 @@ export type SubjectStudentMinOrderByAggregateInput = {
   subjectId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  progress?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrder
+}
+
+export type SubjectStudentSumOrderByAggregateInput = {
+  progress?: Prisma.SortOrder
 }
 
 export type SubjectStudentCreateNestedManyWithoutUserInput = {
@@ -442,6 +508,7 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
 export type SubjectStudentCreateWithoutUserInput = {
   id?: string
   status?: $Enums.StudentStatus
+  progress?: number
   joinedAt?: Date | string
   finishedAt?: Date | string | null
   subject: Prisma.SubjectCreateNestedOneWithoutStudentsInput
@@ -451,6 +518,7 @@ export type SubjectStudentUncheckedCreateWithoutUserInput = {
   id?: string
   subjectId: string
   status?: $Enums.StudentStatus
+  progress?: number
   joinedAt?: Date | string
   finishedAt?: Date | string | null
 }
@@ -489,6 +557,7 @@ export type SubjectStudentScalarWhereInput = {
   subjectId?: Prisma.StringFilter<"SubjectStudent"> | string
   userId?: Prisma.StringFilter<"SubjectStudent"> | string
   status?: Prisma.EnumStudentStatusFilter<"SubjectStudent"> | $Enums.StudentStatus
+  progress?: Prisma.IntFilter<"SubjectStudent"> | number
   joinedAt?: Prisma.DateTimeFilter<"SubjectStudent"> | Date | string
   finishedAt?: Prisma.DateTimeNullableFilter<"SubjectStudent"> | Date | string | null
 }
@@ -496,6 +565,7 @@ export type SubjectStudentScalarWhereInput = {
 export type SubjectStudentCreateWithoutSubjectInput = {
   id?: string
   status?: $Enums.StudentStatus
+  progress?: number
   joinedAt?: Date | string
   finishedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutSubjectStudentsInput
@@ -505,6 +575,7 @@ export type SubjectStudentUncheckedCreateWithoutSubjectInput = {
   id?: string
   userId: string
   status?: $Enums.StudentStatus
+  progress?: number
   joinedAt?: Date | string
   finishedAt?: Date | string | null
 }
@@ -539,6 +610,7 @@ export type SubjectStudentCreateManyUserInput = {
   id?: string
   subjectId: string
   status?: $Enums.StudentStatus
+  progress?: number
   joinedAt?: Date | string
   finishedAt?: Date | string | null
 }
@@ -546,6 +618,7 @@ export type SubjectStudentCreateManyUserInput = {
 export type SubjectStudentUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subject?: Prisma.SubjectUpdateOneRequiredWithoutStudentsNestedInput
@@ -555,6 +628,7 @@ export type SubjectStudentUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -563,6 +637,7 @@ export type SubjectStudentUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -571,6 +646,7 @@ export type SubjectStudentCreateManySubjectInput = {
   id?: string
   userId: string
   status?: $Enums.StudentStatus
+  progress?: number
   joinedAt?: Date | string
   finishedAt?: Date | string | null
 }
@@ -578,6 +654,7 @@ export type SubjectStudentCreateManySubjectInput = {
 export type SubjectStudentUpdateWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutSubjectStudentsNestedInput
@@ -587,6 +664,7 @@ export type SubjectStudentUncheckedUpdateWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -595,6 +673,7 @@ export type SubjectStudentUncheckedUpdateManyWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+  progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -606,6 +685,7 @@ export type SubjectStudentSelect<ExtArgs extends runtime.Types.Extensions.Intern
   subjectId?: boolean
   userId?: boolean
   status?: boolean
+  progress?: boolean
   joinedAt?: boolean
   finishedAt?: boolean
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
@@ -617,6 +697,7 @@ export type SubjectStudentSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   subjectId?: boolean
   userId?: boolean
   status?: boolean
+  progress?: boolean
   joinedAt?: boolean
   finishedAt?: boolean
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
@@ -628,6 +709,7 @@ export type SubjectStudentSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   subjectId?: boolean
   userId?: boolean
   status?: boolean
+  progress?: boolean
   joinedAt?: boolean
   finishedAt?: boolean
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
@@ -639,11 +721,12 @@ export type SubjectStudentSelectScalar = {
   subjectId?: boolean
   userId?: boolean
   status?: boolean
+  progress?: boolean
   joinedAt?: boolean
   finishedAt?: boolean
 }
 
-export type SubjectStudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectId" | "userId" | "status" | "joinedAt" | "finishedAt", ExtArgs["result"]["subjectStudent"]>
+export type SubjectStudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectId" | "userId" | "status" | "progress" | "joinedAt" | "finishedAt", ExtArgs["result"]["subjectStudent"]>
 export type SubjectStudentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -668,6 +751,7 @@ export type $SubjectStudentPayload<ExtArgs extends runtime.Types.Extensions.Inte
     subjectId: string
     userId: string
     status: $Enums.StudentStatus
+    progress: number
     joinedAt: Date
     finishedAt: Date | null
   }, ExtArgs["result"]["subjectStudent"]>
@@ -1099,6 +1183,7 @@ export interface SubjectStudentFieldRefs {
   readonly subjectId: Prisma.FieldRef<"SubjectStudent", 'String'>
   readonly userId: Prisma.FieldRef<"SubjectStudent", 'String'>
   readonly status: Prisma.FieldRef<"SubjectStudent", 'StudentStatus'>
+  readonly progress: Prisma.FieldRef<"SubjectStudent", 'Int'>
   readonly joinedAt: Prisma.FieldRef<"SubjectStudent", 'DateTime'>
   readonly finishedAt: Prisma.FieldRef<"SubjectStudent", 'DateTime'>
 }

@@ -6,7 +6,7 @@ import {
   storedQuestionsSchema,
   type StoredQuestion,
   type SubmittedAnswer,
-} from "../utils/learning.validators";
+} from "../utils/learning.validator";
 
 const norm = (s: string) => s.trim().replace(/\s+/g, " ").toUpperCase();
 

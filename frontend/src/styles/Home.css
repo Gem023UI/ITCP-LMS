@@ -1,0 +1,73 @@
+.home {
+  min-height: 100vh;
+  padding: 56px clamp(24px, 6vw, 96px) 96px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+}
+
+.home__heading {
+  margin: 0 0 24px;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.home__message {
+  margin: 0;
+  opacity: 0.85;
+}
+.home__message a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* ---- streak + heatmap ---- */
+.home__streak {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 5vw, 72px);
+}
+.home__streak-info {
+  flex: none;
+}
+.home__streak-number {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  line-height: 0.85;
+}
+.home__streak-number span {
+  font-size: clamp(6rem, 12vw, 10rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.home__streak-number small {
+  font-size: 1.2rem;
+  font-weight: 800;
+  padding-bottom: 0.9rem;
+}
+.home__heatmap {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---- subjects (inline blocks, latest -> earliest) ---- */
+.home__subjects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+
+@media (max-width: 900px) {
+  .home__streak {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .home__heatmap {
+    width: 100%;
+  }
+}
