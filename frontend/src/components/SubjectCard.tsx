@@ -18,7 +18,8 @@ export interface SubjectCardProps {
   className?: string;
   badge?: string;
   actions?: React.ReactNode;
-  progress?: number | null;
+  finishedCount?: number;
+  progress?: { completed: number; total: number } | null;
   onAction?: () => void;
 }
 
@@ -32,6 +33,7 @@ export default function SubjectCard({
   className,
   badge,
   progress,
+  finishedCount = 0,
   actions,
   onAction,
 }: SubjectCardProps) {
@@ -62,7 +64,9 @@ export default function SubjectCard({
       <div className="subject-card__inner">
         {badge && <span className="subject-card__badge">{badge}</span>}
         {progress != null && (
-          <span className="subject-card__progress">{progress}% progress</span>
+          <span className="subject-card__progress">
+            {progress.completed}/{progress.total} chapters
+          </span>
         )}
 
         {yt ? (
@@ -94,7 +98,7 @@ export default function SubjectCard({
           <p className="subject-card__desc">{description}</p>
           {progress == null && (
             <span className="subject-card__count">
-              <strong>{studentCount}</strong> CURRENTLY TAKING
+              <strong>{finishedCount}</strong> FINISHED · <strong>{studentCount}</strong> CURRENTLY TAKING
             </span>
           )}
           {actions ? (

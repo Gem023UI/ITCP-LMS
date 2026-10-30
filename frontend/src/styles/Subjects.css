@@ -34,12 +34,13 @@
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* public subjects: inline-block flow */
-.subjects__public {
+.subjects__public,
+.subjects__mine {
   display: block;
   padding-top: 16px;
 }
-.subjects__public .subject-card--inline {
+.subjects__public .subject-card--inline,
+.subjects__mine .subject-card--inline {
   display: inline-block;
   vertical-align: top;
   margin: 0 24px 28px 0;

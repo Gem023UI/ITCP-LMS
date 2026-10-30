@@ -12,10 +12,14 @@ export type SubjectSummary = {
   mediaUrl: string;
   visibility: "PUBLIC" | "PRIVATE";
   studentCount: number;
+  finishedCount: number;
 };
 export type MySubject = SubjectSummary & {
   status: "ONGOING" | "FINISHED";
   joinedAt: string;
+  finishedCount: number;
+  completedChapters: number;
+  totalChapters: number;
 };
 
 export type ApiChapter = CloudComputingChapter & {

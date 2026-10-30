@@ -142,9 +142,9 @@ export async function getHome(userId: string) {
     if (d >= from) activity[d] = (activity[d] ?? 0) + 1;
   }
 
-  // streak: consecutive active days ending today; nothing today -> 0
   let streak = 0;
-  for (let d = today; (activity[d] ?? 0) > 0; d = shiftDay(d, -1)) streak++;
+  let d = (activity[today] ?? 0) > 0 ? today : shiftDay(today, -1);
+  for (; (activity[d] ?? 0) > 0; d = shiftDay(d, -1)) streak++;
 
   // subject progress (self-heals the stored value, e.g. after a quiz submit)
   const allIds = enrollments.flatMap((e) => e.subject.chapters.map((c) => c.id));
@@ -169,16 +169,21 @@ export async function getHome(userId: string) {
     today,
     streak,
     activity,
-    subjects: rows.map(({ e, progress }) => ({
-      id: e.subject.id,
-      title: e.subject.title,
-      description: e.subject.description,
-      mediaUrl: e.subject.mediaUrl,
-      visibility: e.subject.visibility,
-      studentCount: e.subject._count.students,
-      status: e.status,
-      joinedAt: e.joinedAt,
-      progress,
-    })),
+    subjects: rows.map(({ e, progress }) => {
+      const ids = e.subject.chapters.map((c) => c.id);
+      return {
+        id: e.subject.id,
+        title: e.subject.title,
+        description: e.subject.description,
+        mediaUrl: e.subject.mediaUrl,
+        visibility: e.subject.visibility,
+        studentCount: e.subject._count.students,
+        status: e.status,
+        joinedAt: e.joinedAt,
+        progress, // % still stored on subject_students
+        completedChapters: ids.filter((id) => (percents.get(id) ?? 0) >= 100).length,
+        totalChapters: ids.length,
+      };
+    }),
   };
 }

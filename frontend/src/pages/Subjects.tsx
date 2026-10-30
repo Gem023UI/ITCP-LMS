@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import SubjectCard from "../components/SubjectCard";
-import SubjectCarousel from "../components/SubjectCarousel";
 import LiquidGlass from "../components/LiquidGlass";
 import MetallicBlueButton from "../components/MetallicBlueButton";
 import { ApiError } from "../services/authApi";
@@ -121,11 +120,22 @@ export default function Subjects() {
         {error && <p className="subjects__error">{error}</p>}
         {loading ? (
           <p className="subjects__empty">Loading subjects…</p>
-        ) : mine.length ? (
-          <SubjectCarousel
-            subjects={mine}
-            onLearn={(s) => navigate(`/chapters?subject=${s.id}`)}
-          />
+                ) : mine.length ? (
+          <div className="subjects__mine">
+            {mine.map((s) => (
+              <SubjectCard
+                key={s.id}
+                className="subject-card--inline"
+                title={s.title}
+                description={s.description}
+                mediaUrl={s.mediaUrl}
+                studentCount={s.studentCount}
+                progress={{ completed: s.completedChapters, total: s.totalChapters }}
+                actionLabel="Learn Today"
+                onAction={() => navigate(`/chapters?subject=${s.id}`)}
+              />
+            ))}
+          </div>
         ) : (
           <p className="subjects__empty">
             You're not taking any subjects yet. Join one below or add one with a code.
@@ -150,6 +160,7 @@ export default function Subjects() {
                 actionLabel="Add Subject"
                 busy={busyId === s.id}
                 onAction={() => enroll(s.id)}
+                finishedCount={s.finishedCount}
               />
             ))}
           </div>

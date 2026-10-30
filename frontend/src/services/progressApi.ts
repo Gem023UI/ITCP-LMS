@@ -3,7 +3,11 @@ import { request, type MySubject } from "./learningApi";
 const API_URL =
   (import.meta.env.VITE_API_URL as string | undefined) ?? "http://localhost:4000";
 
-export type HomeSubject = MySubject & { progress: number };
+export type HomeSubject = Omit<MySubject, "finishedCount"> & {
+  progress: number;
+  completedChapters: number;
+  totalChapters: number;
+};
 
 export type HomeData = {
   /** today's date (YYYY-MM-DD) in the server's timezone */
