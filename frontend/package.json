@@ -12,13 +12,18 @@
   "dependencies": {
     "@hookform/resolvers": "^6.0.0",
     "@tanstack/react-query": "^5.104.5",
+    "@visx/group": "^4.0.0",
+    "@visx/heatmap": "^4.0.0",
+    "@visx/responsive": "^4.0.0",
     "axios": "^1.20.0",
+    "d3-scale": "^4.0.2",
     "hugeicons-react": "^0.4.0",
-    "motion": "^14.6.0",
+    "motion": "^14.9.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-hook-form": "^7.90.0",
     "react-router-dom": "^7.18.4",
+    "three": "^0.187.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
@@ -26,6 +31,7 @@
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.187.0",
     "@vitejs/plugin-react": "^6.1.2",
     "eslint": "^10.13.0",
     "eslint-plugin-react-hooks": "^7.1.1",

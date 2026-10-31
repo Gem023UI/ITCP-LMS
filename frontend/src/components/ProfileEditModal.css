@@ -1,0 +1,111 @@
+.edit-profile__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.6);
+}
+.edit-profile__modal {
+  width: min(92vw, 460px);
+  max-height: 90vh;
+  border-radius: 20px;
+}
+.edit-profile__modal .liquid-glass__content {
+  display: block;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.edit-profile__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  color: #fff;
+  text-align: left;
+}
+.edit-profile__form h3,
+.edit-profile__form h4 {
+  margin: 0;
+  text-transform: uppercase;
+}
+.edit-profile__form h4 {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.edit-profile__avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.edit-profile__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+.edit-profile__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.edit-profile__avatar-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.edit-profile__avatar-actions small {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.edit-profile__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.edit-profile__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8rem;
+  opacity: 0.95;
+}
+.edit-profile__field input {
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-size: 1rem;
+}
+.edit-profile__field input:focus {
+  outline: 2px solid #0a84ff;
+  outline-offset: 1px;
+}
+.edit-profile__error {
+  color: #ff6b6b;
+  font-size: 0.75rem;
+}
+.edit-profile__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+@media (max-width: 480px) {
+  .edit-profile__grid {
+    grid-template-columns: 1fr;
+  }
+}

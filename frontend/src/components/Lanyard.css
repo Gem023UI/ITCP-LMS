@@ -1,13 +1,11 @@
-.gradient-ascii-container {
+.lanyard {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
-.gradient-ascii-canvas {
-  position: absolute;
-  inset: 0;
+.lanyard-canvas {
   display: block;
   width: 100%;
   height: 100%;

@@ -1,0 +1,56 @@
+.articles {
+  position: absolute;
+  inset: 0;
+  padding: 48px 56px 80px 120px; /* left space for the dock */
+  color: #fff;
+}
+.articles__heading {
+  margin: 0 0 8px;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.articles__error {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+}
+
+/* inline-block flow, same as the subjects page */
+.articles__list {
+  display: block;
+  padding-top: 16px;
+}
+.articles__list .article-card--inline {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 24px 28px 0;
+}
+
+.articles__write {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.articles__hint {
+  margin: 0;
+  opacity: 0.75;
+}
+.articles__create {
+  flex: none;
+  min-width: 180px;
+  text-transform: uppercase;
+}
+
+.articles__trending {
+  margin-bottom: 40px;
+}
+
+@media (max-width: 720px) {
+  .articles__write {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

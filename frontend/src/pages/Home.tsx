@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import ActivityHeatmap from "../components/ActivityHeatMap";
+import ActivityHeatmap from "../components/StreakCalendar";
 import SubjectCard from "../components/SubjectCard";
 import { ApiError } from "../services/authApi";
 import { progressApi, type HomeData } from "../services/progressApi";
@@ -73,7 +73,7 @@ export default function Home() {
                 description={s.description}
                 mediaUrl={s.mediaUrl}
                 studentCount={s.studentCount}
-                progress={s.progress}
+                progress={{ completed: s.completedChapters, total: s.totalChapters }}
                 actionLabel="Continue"
                 onAction={() => navigate(`/chapters?subject=${s.id}`)}
               />

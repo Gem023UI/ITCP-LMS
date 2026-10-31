@@ -26,6 +26,9 @@ import Quiz from "./pages/Quiz";
 import SubjectTeacher from "./pages/Teacher";
 import UsersAdmin from "./pages/Admin";
 import Home from "./pages/Home";
+import Article from "./pages/Articles";
+import ArticleDetails from "./pages/ArticleDetails";
+import Profile from "./pages/Profile";
 import { authApi, type User } from "./services/authApi";
 
 const glyph = (icon: React.ComponentProps<typeof HugeiconsIcon>["icon"]) => (
@@ -84,8 +87,8 @@ function Shell() {
     const student = [
       { icon: glyph(Home09Icon), label: "Home", active: true, onClick: () => navigate("/home"), menu: demoMenu },
       { icon: glyph(Book03Icon), label: "Subjects", active: true, onClick: () => navigate("/subjects"), menu: demoMenu },
-      { icon: glyph(NoteIcon), label: "Articles", active: true, onClick: () => console.log("/articles") },
-      { icon: glyph(UserCircleIcon), label: "Profile", onClick: () => console.log("/profile") },
+      { icon: glyph(NoteIcon), label: "Articles", active: true, onClick: () => navigate("/articles") },
+      { icon: glyph(UserCircleIcon), label: "Profile", onClick: () => navigate("/profile") },
       { separator: true},
       { icon: glyph(ArrowLeftBigIcon), label: "Log Out", onClick: handleLogout },
     ];
@@ -178,6 +181,9 @@ function Shell() {
           <Route path="/chapters" element={<Chapters />} />
           <Route path="/chapters/:lessonId" element={<Lessons />} />
           <Route path="/quiz/:chapterId" element={<Quiz />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/articles" element={<Article />} />
+          <Route path="/articles/:articleId" element={<ArticleDetails />} />
         </Routes>
       </div>
     </>
