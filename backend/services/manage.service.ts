@@ -11,8 +11,8 @@ const isUniqueViolation = (err: unknown) =>
   typeof err === "object" && err !== null && "code" in err && err.code === "P2002";
 
 // admins may edit/delete anything; only the owning teacher may create
-const isOwner = (a: Actor, ownerId: string | null) => a.role === "TEACHER" && ownerId === a.userId;
-const canManage = (a: Actor, ownerId: string | null) => a.role === "ADMIN" || isOwner(a, ownerId);
+const isOwner = (a: Actor, teacherId: string | null) => a.role === "TEACHER" && teacherId === a.userId;
+const canManage = (a: Actor, teacherId: string | null) => a.role === "ADMIN" || isOwner(a, teacherId);
 
 const subjectInclude = {
   _count: { select: { students: { where: { status: "ONGOING" } }, chapters: true } },
@@ -42,7 +42,7 @@ const toDto = (s: SubjectRow) => ({
 async function getManagedSubject(actor: Actor, id: string, create = false) {
   const subject = await prisma.subject.findUnique({ where: { id } });
   if (!subject) throw new HttpError(404, "Subject not found");
-  const ok = create ? isOwner(actor, subject.ownerId) : canManage(actor, subject.ownerId);
+  const ok = create ? isOwner(actor, subject.teacherId) : canManage(actor, subject.teacherId);
   if (!ok) throw new HttpError(403, "You can't manage this subject");
   return subject;
 }
@@ -50,24 +50,24 @@ async function getManagedSubject(actor: Actor, id: string, create = false) {
 async function getManagedChapter(actor: Actor, id: string) {
   const chapter = await prisma.chapter.findUnique({
     where: { id },
-    include: { subject: { select: { ownerId: true } } },
+    include: { subject: { select: { teacherId: true } } },
   });
   if (!chapter) throw new HttpError(404, "Chapter not found");
-  if (!canManage(actor, chapter.subject.ownerId)) throw new HttpError(403, "You can't manage this chapter");
+  if (!canManage(actor, chapter.subject.teacherId)) throw new HttpError(403, "You can't manage this chapter");
   return chapter;
 }
 
 // quiz added/removed changes what "finished" means for enrolled students
 async function resyncStudents(subjectId: string) {
-  const rows = await prisma.subjectStudent.findMany({ where: { subjectId }, select: { userId: true } });
-  await Promise.all(rows.map((r) => syncSubjectStatus(r.userId, subjectId)));
+  const rows = await prisma.subjectStudent.findMany({ where: { subjectId }, select: { studentId: true } });
+  await Promise.all(rows.map((r) => syncSubjectStatus(r.studentId, subjectId)));
 }
 
 /* ---------- subjects ---------- */
 
 export async function listSubjects(actor: Actor) {
   const rows = await prisma.subject.findMany({
-    where: actor.role === "ADMIN" ? {} : { ownerId: actor.userId },
+    where: actor.role === "ADMIN" ? {} : { teacherId: actor.userId },
     orderBy: { createdAt: "desc" },
     include: subjectInclude,
   });
@@ -83,7 +83,6 @@ export async function getSubjectDetail(actor: Actor, id: string) {
       orderBy: { chapterNo: "asc" },
       select: {
         id: true,
-        chapterId: true,
         chapterNo: true,
         title: true,
         durationMinutes: true,
@@ -100,7 +99,7 @@ export async function createSubject(actor: Actor, input: SubjectInput) {
       const row = await prisma.subject.create({
         data: {
           ...input,
-          ownerId: actor.userId,
+          teacherId: actor.userId,
           code: input.visibility === "PRIVATE" ? generateSubjectCode() : null,
         },
         include: subjectInclude,
@@ -140,7 +139,7 @@ export async function deleteSubject(actor: Actor, id: string) {
 
 /* ---------- chapters ---------- */
 
-const DUPLICATE_CHAPTER = "Chapter ID or number is already used in this subject";
+const DUPLICATE_CHAPTER = "Chapter number is already used in this subject";
 
 export async function getChapterForEdit(actor: Actor, id: string) {
   const { subject: _s, createdAt: _c, updatedAt: _u, ...chapter } = await getManagedChapter(actor, id);
@@ -184,6 +183,8 @@ export async function getQuizForEdit(actor: Actor, chapterId: string) {
   if (!quiz) return null;
   return {
     questions: storedQuestionsSchema.parse(quiz.questions),
+    deadline: quiz.deadline,
+    deadlineMode: quiz.deadlineMode,
     attemptCount: quiz._count.attempts,
   };
 }
@@ -199,15 +200,17 @@ export async function saveQuiz(actor: Actor, chapterId: string, input: QuizInput
     if (existing._count.attempts > 0) {
       throw new HttpError(409, "Students already took this quiz. Delete it to rebuild it.");
     }
-  } else if (!isOwner(actor, chapter.subject.ownerId)) {
+  } else if (!isOwner(actor, chapter.subject.teacherId)) {
     throw new HttpError(403, "Only the subject's teacher can create a quiz");
   }
 
   const questions = input.questions.map((q, i) => ({ questionNo: i + 1, ...q }));
+  const deadline = input.deadline ? new Date(input.deadline) : null; // null = no deadline
+  const deadlineMode = input.deadlineMode ?? "STRICT";
   await prisma.quiz.upsert({
     where: { chapterId },
-    create: { chapterId, questions },
-    update: { questions },
+    create: { chapterId, questions, deadline, deadlineMode },
+    update: { questions, deadline, deadlineMode },
   });
   await resyncStudents(chapter.subjectId);
 }

@@ -17,7 +17,6 @@ export const subjectInputSchema = z.strictObject({
 });
 
 export const chapterInputSchema = z.strictObject({
-  chapterId: text("Chapter ID", 60),
   chapterNo: z.number({ error: "Chapter number is required" }).int().positive().max(999),
   cardImage: text("Card image", 2000),
   title: text("Title", 200),
@@ -66,6 +65,8 @@ const quizQuestionInput = z
 
 export const quizInputSchema = z.strictObject({
   questions: z.array(quizQuestionInput).min(1, "Add at least one question").max(100),
+  deadline: z.iso.datetime().nullable().optional(), // null / omitted = no deadline
+  deadlineMode: z.enum(["STRICT", "LATE"]).default("STRICT"),
 });
 
 export const setStatusSchema = z.strictObject({

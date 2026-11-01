@@ -238,20 +238,26 @@ async function main() {
           videoUrl: PLACEHOLDER_VIDEO,
           slideUrl: `https://example.com/slides/${slug(s.title)}/chapter-${n}.pdf`,
           objectives: [
-            `Explain the core ideas behind ${title}`,
-            "Identify common real-world use cases",
-            "Apply the concepts in a short exercise",
+            { objective: `Explain the core ideas behind ${title}` },
+            { objective: "Identify common real-world use cases" },
+            { objective: "Apply the concepts in a short exercise" },
           ],
           sections: [
-            { heading: "Introduction", content: `This chapter introduces ${title.toLowerCase()} and why it matters in ${s.title}.` },
-            { heading: "Core Concepts", content: `The main building blocks of ${title.toLowerCase()} and how they fit together.` },
-            { heading: "Summary", content: `A recap of the key points covered in ${title.toLowerCase()}.` },
-          ],
+            ["Introduction", `This chapter introduces ${title.toLowerCase()} and why it matters in ${s.title}.`],
+            ["Core Concepts", `The main building blocks of ${title.toLowerCase()} and how they fit together.`],
+            ["Summary", `A recap of the key points covered in ${title.toLowerCase()}.`],
+          ].map(([header, paragraph], idx) => ({
+            sectionNo: String(idx + 1),
+            header,
+            imageUrl: [{ url: pic(`${key}-s${idx + 1}`, 800, 450) }],
+            imageSource: [{ source: "Placeholder image (picsum.photos)" }],
+            content: [{ paragraph }],
+          })),
           keyTerms: [
-            { term: title, definition: `The central topic of chapter ${n}.` },
-            { term: s.title, definition: `The subject this chapter belongs to.` },
+            { word: title, definition: `The central topic of chapter ${n}.`, source: "" },
+            { word: s.title, definition: "The subject this chapter belongs to.", source: "" },
           ],
-          references: [{ title: `Further reading: ${title}`, url: `https://example.com/references/${key}` }],
+          references: [{ author: `Further reading: ${title}`, link: `https://example.com/references/${key}` }],
         },
       });
 
@@ -262,8 +268,8 @@ async function main() {
             deadline: null, // no deadline
             deadlineMode: "STRICT", // ignored while deadline is null
             questions: [
-              { questionNo: 1, type: "MULTIPLE_CHOICE", question: s.mc.question, choices: s.mc.choices, correctAnswer: s.mc.answer },
-              { questionNo: 2, type: "IDENTIFICATION", question: s.ident.question, choices: null, correctAnswer: s.ident.answer },
+              { questionNo: 1, type: "multiple_choice", question: s.mc.question, choices: s.mc.choices, correctAnswer: s.mc.answer },
+              { questionNo: 2, type: "identification", question: s.ident.question, choices: [], correctAnswer: s.ident.answer },
             ],
           },
         });

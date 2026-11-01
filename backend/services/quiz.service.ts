@@ -43,13 +43,14 @@ async function loadContext(userId: string, role: string, chapterId: string) {
 export async function getQuiz(userId: string, role: string, chapterId: string) {
   const { chapter, quiz, questions } = await loadContext(userId, role, chapterId);
   const attempt = await prisma.quizAttempt.findUnique({
-    where: { quizId_userId: { quizId: quiz.id, userId } },
+    where: { quizId_studentId: { quizId: quiz.id, studentId: userId } },
   });
 
   const result = attempt
     ? {
         score: attempt.score,
         total: attempt.total,
+        isLate: attempt.isLate,
         submittedAt: attempt.createdAt,
         items: grade(questions, storedAnswersSchema.parse(attempt.answers)).items,
       }
@@ -60,7 +61,8 @@ export async function getQuiz(userId: string, role: string, chapterId: string) {
     chapterId: chapter.id,
     chapterTitle: chapter.title,
     subjectId: chapter.subjectId,
-    // correct answers are never sent before submission
+    deadline: quiz.deadline,
+    deadlineMode: quiz.deadlineMode,
     questions: questions.map(({ questionNo, type, question, choices }) => ({
       questionNo,
       type,
@@ -78,12 +80,17 @@ export async function submitQuiz(
   answers: SubmittedAnswer[],
 ) {
   const { chapter, quiz, questions } = await loadContext(userId, role, chapterId);
+  if (role !== "STUDENT") throw new HttpError(403, "Only students can submit quizzes");
+  const pastDeadline = !!quiz.deadline && new Date() > quiz.deadline;
+  if (pastDeadline && quiz.deadlineMode === "STRICT") {
+    throw new HttpError(403, "The deadline for this quiz has passed");
+  }
   const { score, total, items } = grade(questions, answers);
 
   let attempt;
   try {
     attempt = await prisma.quizAttempt.create({
-      data: { quizId: quiz.id, userId, score, total, answers },
+      data: { quizId: quiz.id, studentId: userId, score, total, answers, isLate: pastDeadline },
     });
   } catch (err) {
     if (isUniqueViolation(err)) throw new HttpError(409, "You've already taken this quiz");
@@ -91,5 +98,5 @@ export async function submitQuiz(
   }
 
   const subjectFinished = await syncSubjectStatus(userId, chapter.subjectId);
-  return { score, total, submittedAt: attempt.createdAt, items, subjectFinished };
+  return { score, total, isLate: attempt.isLate, submittedAt: attempt.createdAt, items, subjectFinished };
 }

@@ -7,7 +7,7 @@ const chapterInclude = (userId: string) =>
     quiz: {
       select: {
         id: true,
-        attempts: { where: { userId }, select: { score: true, total: true } },
+        attempts: { where: { studentId: userId }, select: { score: true, total: true, isLate: true } },
       },
     },
   }) as const;
@@ -20,7 +20,6 @@ type Row = NonNullable<Awaited<ReturnType<typeof findChapter>>>;
 const toChapterDto = (c: Row) => ({
   id: c.id,
   subjectId: c.subjectId,
-  chapterId: c.chapterId,
   chapterNo: c.chapterNo,
   cardImage: c.cardImage,
   title: c.title,

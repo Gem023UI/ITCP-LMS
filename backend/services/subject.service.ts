@@ -42,7 +42,7 @@ async function chapterProgress(userId: string, subjectIds: string[]) {
       select: { chapterId: true, chapter: { select: { subjectId: true } } },
     }),
     prisma.quizAttempt.findMany({
-      where: { userId, quiz: { chapter: { subjectId: { in: subjectIds } } } },
+      where: { studentId: userId, quiz: { chapter: { subjectId: { in: subjectIds } } } },
       select: { quiz: { select: { chapterId: true, chapter: { select: { subjectId: true } } } } },
     }),
   ]);
@@ -62,7 +62,7 @@ async function chapterProgress(userId: string, subjectIds: string[]) {
 
 export async function listMySubjects(userId: string) {
   const rows = await prisma.subjectStudent.findMany({
-    where: { userId },
+    where: { studentId: userId },
     orderBy: { joinedAt: "desc" },
     include: { subject: { include: withCount } },
   });
@@ -79,7 +79,7 @@ export async function listMySubjects(userId: string) {
 
 export async function listPublicSubjects(userId: string) {
   const rows = await prisma.subject.findMany({
-    where: { visibility: "PUBLIC", students: { none: { userId } } },
+    where: { visibility: "PUBLIC", students: { none: { studentId: userId } } },
     orderBy: { createdAt: "desc" },
     include: withCount,
   });
@@ -88,7 +88,7 @@ export async function listPublicSubjects(userId: string) {
 }
 async function enroll(userId: string, subjectId: string) {
   try {
-    await prisma.subjectStudent.create({ data: { userId, subjectId } });
+    await prisma.subjectStudent.create({ data: { studentId: userId, subjectId } });
   } catch (err) {
     if (isUniqueViolation(err)) throw new HttpError(409, "You're already taking this subject");
     throw err;
@@ -120,13 +120,13 @@ export async function assertEnrolled(userId: string, role: string, subjectId: st
   if (role === "TEACHER") {
     const subject = await prisma.subject.findUnique({
       where: { id: subjectId },
-      select: { ownerId: true },
+      select: { teacherId: true },
     });
-    if (subject?.ownerId === userId) return;
+    if (subject?.teacherId === userId) return;
     throw new HttpError(403, "You can only view your own subjects");
   }
   const row = await prisma.subjectStudent.findUnique({
-    where: { subjectId_userId: { subjectId, userId } },
+    where: { subjectId_studentId: { subjectId, studentId: userId } },
     select: { id: true },
   });
   if (!row) throw new HttpError(403, "You're not enrolled in this subject");
@@ -135,17 +135,17 @@ export async function assertEnrolled(userId: string, role: string, subjectId: st
 export async function syncSubjectStatus(userId: string, subjectId: string) {
   const [total, taken] = await Promise.all([
     prisma.quiz.count({ where: { chapter: { subjectId } } }),
-    prisma.quizAttempt.count({ where: { userId, quiz: { chapter: { subjectId } } } }),
+    prisma.quizAttempt.count({ where: { studentId: userId, quiz: { chapter: { subjectId } } } }),
   ]);
   const finished = total > 0 && taken >= total;
   if (finished) {
     await prisma.subjectStudent.updateMany({
-      where: { subjectId, userId, status: { not: "FINISHED" } },
+      where: { subjectId, studentId: userId, status: { not: "FINISHED" } },
       data: { status: "FINISHED", finishedAt: new Date() },
     });
   } else {
     await prisma.subjectStudent.updateMany({
-      where: { subjectId, userId, status: "FINISHED" },
+      where: { subjectId, studentId: userId, status: "FINISHED" },
       data: { status: "ONGOING", finishedAt: null },
     });
   }

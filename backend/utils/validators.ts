@@ -36,10 +36,19 @@ const password = z
   .regex(/[^A-Za-z0-9\s]/, "At least 1 special character")
   .refine((p) => Buffer.byteLength(p, "utf8") <= 72, "Password is too long");
 
+const name = (label: string) =>
+  z
+    .string({ error: `${label} is required` })
+    .transform((s) => clean(s).trim().replace(/\s+/g, " "))
+    .pipe(z.string().min(1, `${label} is required`).max(50, `${label} is too long`));
+
+
 export const registerSchema = z
   .strictObject({
     tuptId,
     email,
+    firstName: name("First name"),
+    lastName: name("Last name"),
     password,
     confirmPassword: z.string({ error: "Confirm your password" }),
   })
@@ -48,13 +57,19 @@ export const registerSchema = z
     message: "Passwords do not match",
   });
 
-export const loginSchema = z.strictObject({
-  tuptId,
-  password: z
-    .string({ error: "Password is required" })
-    .min(1, "Password is required")
-    .max(72, "Password is too long"),
-});
+export const loginSchema = z
+  .strictObject({
+    tuptId: tuptId.optional(), // students / teachers
+    email: email.optional(), // admin has no TUPT ID, so login by email
+    password: z
+      .string({ error: "Password is required" })
+      .min(1, "Password is required")
+      .max(72, "Password is too long"),
+  })
+  .refine((d) => d.tuptId || d.email, {
+    path: ["tuptId"],
+    message: "TUPT ID or email is required",
+  });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;

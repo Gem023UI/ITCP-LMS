@@ -17,8 +17,11 @@ export class AuthError extends Error {
 
 type DbUser = {
   id: string;
-  tuptId: string;
+  tuptId: string | null;
   email: string;
+  firstName: string;
+  lastName: string;
+  imageUrl: string | null;
   role: string;
   status: string;
   createdAt: Date;
@@ -28,12 +31,21 @@ export const toPublicUser = (u: DbUser) => ({
   id: u.id,
   tuptId: u.tuptId,
   email: u.email,
+  firstName: u.firstName,
+  lastName: u.lastName,
+  imageUrl: u.imageUrl,
   role: u.role,
   status: u.status,
   createdAt: u.createdAt,
 });
 
-export async function registerUser(tuptId: string, email: string, password: string) {
+export async function registerUser(
+  tuptId: string,
+  email: string,
+  password: string,
+  firstName: string,
+  lastName: string,
+) {
   const existing = await prisma.user.findMany({
     where: { OR: [{ tuptId }, { email }] },
     select: { tuptId: true, email: true },
@@ -49,7 +61,9 @@ export async function registerUser(tuptId: string, email: string, password: stri
 
   const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
   try {
-    const user = await prisma.user.create({ data: { tuptId, email, passwordHash } });
+    const user = await prisma.user.create({
+      data: { tuptId, email, passwordHash, firstName, lastName, role: "STUDENT", student: { create: {} } },
+    });
     return toPublicUser(user);
   } catch (err) {
     // P2002 = unique violation (a concurrent request won the race)
@@ -60,10 +74,12 @@ export async function registerUser(tuptId: string, email: string, password: stri
   }
 }
 
-export async function loginUser(tuptId: string, password: string) {
-  const user = await prisma.user.findUnique({ where: { tuptId } });
+export async function loginUser(identifier: string, password: string) {
+  const user = await prisma.user.findFirst({
+    where: { OR: [{ tuptId: identifier }, { email: identifier }] },
+  });
   const ok = await bcrypt.compare(password, user?.passwordHash ?? DUMMY_HASH);
-  if (!user || !ok) throw new AuthError(401, "Invalid TUPT ID or password");
+  if (!user || !ok) throw new AuthError(401, "Invalid TUPT ID/email or password");
   if (user.status === "INACTIVE")
     throw new AuthError(403, "Your account is inactive. Please contact your administrator.");
   if (user.status === "DEACTIVATED")

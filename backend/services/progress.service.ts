@@ -22,11 +22,11 @@ const toDbDate = (day: string) => new Date(`${day}T00:00:00Z`);
 async function chapterPercents(userId: string, chapterIds: string[]) {
   const [rows, attempts] = await Promise.all([
     prisma.chapterProgress.findMany({
-      where: { userId, chapterId: { in: chapterIds } },
+      where: { studentId: userId, chapterId: { in: chapterIds } },
       select: { chapterId: true, percent: true },
     }),
     prisma.quizAttempt.findMany({
-      where: { userId, quiz: { chapterId: { in: chapterIds } } },
+      where: { studentId: userId, quiz: { chapterId: { in: chapterIds } } },
       select: { quiz: { select: { chapterId: true } } },
     }),
   ]);
@@ -53,20 +53,20 @@ export async function saveChapterPercent(userId: string, chapterId: string, perc
   if (!chapter) throw new HttpError(404, "Chapter not found");
 
   const enrollment = await prisma.subjectStudent.findUnique({
-    where: { subjectId_userId: { subjectId: chapter.subjectId, userId } },
+    where: { subjectId_studentId: { subjectId: chapter.subjectId, studentId: userId } },
     select: { id: true },
   });
   if (!enrollment) throw new HttpError(403, "You are not enrolled in this subject");
 
   // progress never goes backwards
   const existing = await prisma.chapterProgress.findUnique({
-    where: { userId_chapterId: { userId, chapterId } },
+    where: { studentId_chapterId: { studentId: userId, chapterId } },
     select: { percent: true },
   });
   const next = Math.max(existing?.percent ?? 0, percent);
   await prisma.chapterProgress.upsert({
-    where: { userId_chapterId: { userId, chapterId } },
-    create: { userId, chapterId, percent: next },
+    where: { studentId_chapterId: { studentId: userId, chapterId } },
+    create: { studentId: userId, chapterId, percent: next },
     update: { percent: next },
   });
 
@@ -86,8 +86,8 @@ export async function saveChapterPercent(userId: string, chapterId: string, perc
   if (percent > 0) {
     const date = toDbDate(toDay(new Date()));
     await prisma.studyActivity.upsert({
-      where: { userId_date: { userId, date } },
-      create: { userId, date, count: 1 },
+      where: { studentId_date: { studentId: userId, date } },
+      create: { studentId: userId, date, count: 1 },
       update: { count: { increment: 1 } },
     });
   }
@@ -101,7 +101,7 @@ export async function getHome(userId: string) {
 
   const [enrollments, logs, attempts] = await Promise.all([
     prisma.subjectStudent.findMany({
-      where: { userId, status: "ONGOING" },
+      where: { studentId: userId, status: "ONGOING" },
       orderBy: { joinedAt: "desc" }, // latest -> earliest
       select: {
         id: true,
@@ -122,11 +122,11 @@ export async function getHome(userId: string) {
       },
     }),
     prisma.studyActivity.findMany({
-      where: { userId, date: { gte: toDbDate(from) } },
+      where: { studentId: userId, date: { gte: toDbDate(from) } },
       select: { date: true, count: true },
     }),
     prisma.quizAttempt.findMany({
-      where: { userId, createdAt: { gte: new Date(Date.parse(`${from}T00:00:00Z`) - DAY) } },
+      where: { studentId: userId, createdAt: { gte: new Date(Date.parse(`${from}T00:00:00Z`) - DAY) } },
       select: { createdAt: true },
     }),
   ]);
