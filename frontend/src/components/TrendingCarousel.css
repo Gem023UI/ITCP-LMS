@@ -1,48 +1,40 @@
-.trending {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.articles__trending {
+  overflow-x: clip; /* stops the 100vw track from adding a sideways page scrollbar */
 }
+
+.trending {
+  width: 100vw;
+  margin-left: calc(60% - 50vw);
+}
+
 .trending__track {
-  flex: 1;
-  min-width: 0;
   display: flex;
   gap: 24px;
-  padding: 16px 8px 24px; /* room for the card hover scale */
-  scroll-snap-type: x mandatory;
+  padding: 16px 24px 24px; /* room for the card hover scale */
+  overflow-x: auto;
   scrollbar-width: none;
+  cursor: grab;
+  overscroll-behavior-x: contain;
+  /* free scrolling: no scroll-snap, cards stop wherever you let go */
 }
 .trending__track::-webkit-scrollbar {
   display: none;
 }
 .trending__track .article-card--slide {
-  scroll-snap-align: start;
-}
-
-.trending__nav {
   flex: none;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  background: transparent;
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
-}
-.trending__nav:hover:not(:disabled) {
-  transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.15);
-}
-.trending__nav:disabled {
-  opacity: 0.25;
-  cursor: default;
 }
 
-@media (max-width: 720px) {
-  .trending__nav {
-    display: none; /* swipe instead */
-  }
+/* no native image / link dragging ghost while dragging the carousel */
+.trending__track img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* while dragging: grabbing cursor, no accidental hover/selection */
+.trending__track.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+.trending__track.is-dragging .article-card--slide {
+  pointer-events: none;
 }

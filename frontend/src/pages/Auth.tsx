@@ -92,7 +92,7 @@ function Hint({
   );
 }
 
-/* ---------- Text field (TUPT ID, email) ---------- */
+/* ---------- Text field (names, TUPT ID, email) ---------- */
 type TextFieldProps = {
   id: string;
   label: string;
@@ -213,7 +213,7 @@ export default function Auth() {
   const [regServerErrors, setRegServerErrors] = React.useState<Record<string, string>>({});
   const [regFormError, setRegFormError] = React.useState("");
 
-  // login
+  // login (the identifier is a TUPT ID or an email)
   const [loginTupt, setLoginTupt] = React.useState("");
   const [loginTuptTouched, setLoginTuptTouched] = React.useState(false);
   const [loginPassword, setLoginPassword] = React.useState("");
@@ -229,9 +229,23 @@ export default function Auth() {
 
   /* ----- register field states ----- */
   const regFirstError = validateName("First name", regFirst);
-  const regFirstState = textFieldState(regFirst, regFirstError, regFirstTouched, "Looks good", regServerErrors.firstName);
+  const regFirstState = textFieldState(
+    regFirst,
+    regFirstError,
+    regFirstTouched,
+    "Looks good",
+    regServerErrors.firstName,
+  );
+
   const regLastError = validateName("Last name", regLast);
-  const regLastState = textFieldState(regLast, regLastError, regLastTouched, "Looks good", regServerErrors.lastName);
+  const regLastState = textFieldState(
+    regLast,
+    regLastError,
+    regLastTouched,
+    "Looks good",
+    regServerErrors.lastName,
+  );
+
   const regTuptError = validateTuptId(regTupt);
   const regTuptState = textFieldState(
     regTupt,
@@ -335,7 +349,10 @@ export default function Auth() {
     setSubmitting(true);
     setLoginFormError("");
     try {
-      const { user } = await authApi.login({ ...toLoginIdentifier(loginTupt), password: loginPassword });
+      const { user } = await authApi.login({
+        ...toLoginIdentifier(loginTupt),
+        password: loginPassword,
+      });
       navigate(homeFor(user.role));
     } catch (err) {
       setLoginFormError(
@@ -370,16 +387,33 @@ export default function Auth() {
             <p className="auth-sub">Create your account to begin learning.</p>
             <hr />
             <form onSubmit={handleRegister} noValidate>
-
               <div className="auth-row">
-                <TextField id="reg-first" label="First name" value={regFirst}
-                  onChange={(v) => { setRegFirst(v); clearRegServerError("firstName"); }}
-                  onBlur={() => setRegFirstTouched(true)} state={regFirstState}
-                  autoComplete="given-name" maxLength={50} />
-                <TextField id="reg-last" label="Last name" value={regLast}
-                  onChange={(v) => { setRegLast(v); clearRegServerError("lastName"); }}
-                  onBlur={() => setRegLastTouched(true)} state={regLastState}
-                  autoComplete="family-name" maxLength={50} />
+                <TextField
+                  id="reg-first"
+                  label="First name"
+                  value={regFirst}
+                  onChange={(v) => {
+                    setRegFirst(v);
+                    clearRegServerError("firstName");
+                  }}
+                  onBlur={() => setRegFirstTouched(true)}
+                  state={regFirstState}
+                  autoComplete="given-name"
+                  maxLength={50}
+                />
+                <TextField
+                  id="reg-last"
+                  label="Last name"
+                  value={regLast}
+                  onChange={(v) => {
+                    setRegLast(v);
+                    clearRegServerError("lastName");
+                  }}
+                  onBlur={() => setRegLastTouched(true)}
+                  state={regLastState}
+                  autoComplete="family-name"
+                  maxLength={50}
+                />
               </div>
 
               <TextField
@@ -454,23 +488,23 @@ export default function Auth() {
           {/* Login */}
           <section className="auth-panel auth-panel--login" aria-hidden={!isLogin}>
             <h1>Welcome Back</h1>
-            <p className="auth-sub">Log in with your TUPT ID to continue.</p>
+            <p className="auth-sub">Log in with your TUPT ID or email to continue.</p>
             <hr />
             <form onSubmit={handleLogin} noValidate>
               <TextField
                 id="login-tupt"
-                label="TUPT ID"
+                label="TUPT ID or email"
                 value={loginTupt}
                 onChange={(v) => {
-                  setLoginTupt(formatTuptId(v));
+                  setLoginTupt(v);
                   setLoginFormError("");
                 }}
                 onBlur={() => setLoginTuptTouched(true)}
                 state={loginTuptState}
                 inputMode="text"
                 autoComplete="username"
-                maxLength={12}
-                placeholder="TUPT-XX-XXXX"
+                maxLength={254}
+                placeholder="TUPT-XX-XXXX or email"
               />
 
               <PasswordField

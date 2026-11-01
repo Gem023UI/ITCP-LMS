@@ -1,156 +1,175 @@
 import * as React from "react";
 import LiquidGlass from "./LiquidGlass";
 import MetallicBlueButton from "./MetallicBlueButton";
+import type { ArticleInput } from "../services/articleApi";
+import { errText } from "../utils/errorText";
 import "./CreateArticleModal.css";
 
-const MAX_COVER_BYTES = 2 * 1024 * 1024;
-const MAX_DESC = 160;
+const MAX_SECTIONS = 30;
+const URL_RE = /^https?:\/\/\S+$/i;
 
-export type CreateArticleValues = {
-  title: string;
-  description: string;
-  body: string;
-  coverUrl: string | null;
-  coverFile: File | null;
-};
+type SectionDraft = { header: string; imageUrl: string; content: string };
+const blankSection = (): SectionDraft => ({ header: "", imageUrl: "", content: "" });
 
 interface Props {
+  /** pass an article to edit it; omit to write a new one */
+  initial?: ArticleInput;
   onClose: () => void;
-  onPublish: (values: CreateArticleValues) => void;
+  onSubmit: (values: ArticleInput) => Promise<void>;
 }
 
-export default function CreateArticleModal({ onClose, onPublish }: Props) {
-  const [title, setTitle] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [body, setBody] = React.useState("");
-  const [coverUrl, setCoverUrl] = React.useState<string | null>(null);
-  const [coverFile, setCoverFile] = React.useState<File | null>(null);
+export default function CreateArticleModal({ initial, onClose, onSubmit }: Props) {
+  const editing = !!initial;
+  const [title, setTitle] = React.useState(initial?.title ?? "");
+  const [coverUrl, setCoverUrl] = React.useState(initial?.coverImageUrl ?? "");
+  const [sections, setSections] = React.useState<SectionDraft[]>(
+    initial
+      ? initial.sections.map((s) => ({ header: s.header, imageUrl: s.imageUrl ?? "", content: s.content }))
+      : [blankSection()],
+  );
   const [errors, setErrors] = React.useState<Record<string, string>>({});
-  const fileRef = React.useRef<HTMLInputElement>(null);
-  const pendingUrl = React.useRef<string | null>(null); // object URL created in this modal
-
-  const discardPending = () => {
-    if (pendingUrl.current) URL.revokeObjectURL(pendingUrl.current);
-    pendingUrl.current = null;
-  };
-
-  const close = React.useCallback(() => {
-    discardPending();
-    onClose();
-  }, [onClose]);
+  const [formError, setFormError] = React.useState<string | null>(null);
+  const [busy, setBusy] = React.useState(false);
 
   React.useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [close]);
+  }, [onClose]);
 
-  const pickFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    e.target.value = ""; // allow re-picking the same file
-    if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      setErrors((p) => ({ ...p, cover: "Please choose an image file" }));
-      return;
-    }
-    if (file.size > MAX_COVER_BYTES) {
-      setErrors((p) => ({ ...p, cover: "Image must be 2 MB or smaller" }));
-      return;
-    }
-    discardPending();
-    pendingUrl.current = URL.createObjectURL(file);
-    setCoverFile(file);
-    setCoverUrl(pendingUrl.current);
-    setErrors((p) => {
-      const { cover: _c, ...rest } = p;
-      return rest;
-    });
-  };
+  const patchSection = (i: number, p: Partial<SectionDraft>) =>
+    setSections((ss) => ss.map((s, j) => (j === i ? { ...s, ...p } : s)));
 
-  const removeCover = () => {
-    discardPending();
-    setCoverFile(null);
-    setCoverUrl(null);
-  };
-
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (busy) return;
+
     const next: Record<string, string> = {};
     if (!title.trim()) next.title = "Title is required";
-    if (!description.trim()) next.description = "Description is required";
-    if (!body.trim()) next.body = "Write something for your article";
+    if (!URL_RE.test(coverUrl.trim())) next.cover = "Enter a valid image URL (http or https)";
+    sections.forEach((s, i) => {
+      if (!s.header.trim()) next[`header-${i}`] = "Section header is required";
+      if (!s.content.trim()) next[`content-${i}`] = "Section content is required";
+      if (s.imageUrl.trim() && !URL_RE.test(s.imageUrl.trim())) next[`image-${i}`] = "Enter a valid image URL";
+    });
     setErrors(next);
     if (Object.keys(next).length) return;
 
-    // TODO: replace with the real API call (create article + cover upload)
-    console.log("Publish article", { title: title.trim(), description: description.trim(), coverFile });
-
-    pendingUrl.current = null; // ownership of the object URL moves to the store
-    onPublish({ title, description, body, coverUrl, coverFile });
+    setBusy(true);
+    setFormError(null);
+    try {
+      await onSubmit({
+        title: title.trim(),
+        coverImageUrl: coverUrl.trim(),
+        sections: sections.map((s) => ({
+          header: s.header.trim(),
+          imageUrl: s.imageUrl.trim() || null,
+          content: s.content.trim(),
+        })),
+      });
+    } catch (err) {
+      setFormError(errText(err));
+      setBusy(false);
+    }
   };
 
   return (
-    <div className="create-article__overlay" onClick={close}>
+    <div className="create-article__overlay" onClick={onClose}>
       <LiquidGlass className="create-article__modal" onClick={(e) => e.stopPropagation()}>
         <form className="create-article__form" onSubmit={submit} noValidate>
-          <h3>Write an article</h3>
-
-          <div className="create-article__field">
-            Cover image (optional)
-            <input ref={fileRef} type="file" accept="image/*" hidden onChange={pickFile} />
-            {coverUrl ? (
-              <div className="create-article__cover">
-                <img src={coverUrl} alt="Cover preview" />
-                <button type="button" className="create-article__remove" onClick={removeCover}>
-                  Remove
-                </button>
-              </div>
-            ) : (
-              <button type="button" className="create-article__drop" onClick={() => fileRef.current?.click()}>
-                Upload cover image
-                <small>PNG or JPG, up to 2 MB</small>
-              </button>
-            )}
-            {errors.cover && <span className="create-article__error">{errors.cover}</span>}
-          </div>
+          <h3>{editing ? "Edit article" : "Write an article"}</h3>
 
           <label className="create-article__field">
             Title
-            <input value={title} maxLength={100} onChange={(e) => setTitle(e.target.value)} />
+            <input value={title} maxLength={200} onChange={(e) => setTitle(e.target.value)} />
             {errors.title && <span className="create-article__error">{errors.title}</span>}
           </label>
 
           <label className="create-article__field">
-            Short description
-            <textarea
-              rows={2}
-              value={description}
-              maxLength={MAX_DESC}
-              onChange={(e) => setDescription(e.target.value)}
+            Cover image URL
+            <input
+              value={coverUrl}
+              placeholder="https://…"
+              onChange={(e) => setCoverUrl(e.target.value)}
             />
-            <small className="create-article__count">
-              {description.length}/{MAX_DESC}
-            </small>
-            {errors.description && <span className="create-article__error">{errors.description}</span>}
+            {errors.cover && <span className="create-article__error">{errors.cover}</span>}
           </label>
+          {URL_RE.test(coverUrl.trim()) && (
+            <div className="create-article__cover">
+              <img src={coverUrl.trim()} alt="Cover preview" />
+            </div>
+          )}
 
-          <label className="create-article__field">
-            Content
-            <textarea
-              className="create-article__body"
-              rows={8}
-              value={body}
-              placeholder="Leave a blank line between paragraphs."
-              onChange={(e) => setBody(e.target.value)}
-            />
-            {errors.body && <span className="create-article__error">{errors.body}</span>}
-          </label>
+          {sections.map((s, i) => (
+            <div key={i} className="create-article__section">
+              <div className="create-article__section-head">
+                <strong>Section {i + 1}</strong>
+                {sections.length > 1 && (
+                  <button
+                    type="button"
+                    className="create-article__link"
+                    onClick={() => setSections((ss) => ss.filter((_, j) => j !== i))}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+
+              <label className="create-article__field">
+                Header
+                <input
+                  value={s.header}
+                  maxLength={200}
+                  onChange={(e) => patchSection(i, { header: e.target.value })}
+                />
+                {errors[`header-${i}`] && <span className="create-article__error">{errors[`header-${i}`]}</span>}
+              </label>
+
+              <label className="create-article__field">
+                Image URL (optional)
+                <input
+                  value={s.imageUrl}
+                  placeholder="https://…"
+                  onChange={(e) => patchSection(i, { imageUrl: e.target.value })}
+                />
+                {errors[`image-${i}`] && <span className="create-article__error">{errors[`image-${i}`]}</span>}
+              </label>
+
+              <label className="create-article__field">
+                Content
+                <textarea
+                  className="create-article__body"
+                  rows={6}
+                  value={s.content}
+                  placeholder="Leave a blank line between paragraphs."
+                  onChange={(e) => patchSection(i, { content: e.target.value })}
+                />
+                {errors[`content-${i}`] && (
+                  <span className="create-article__error">{errors[`content-${i}`]}</span>
+                )}
+              </label>
+            </div>
+          ))}
+
+          {sections.length < MAX_SECTIONS && (
+            <button
+              type="button"
+              className="create-article__link"
+              onClick={() => setSections((ss) => [...ss, blankSection()])}
+            >
+              + Add section
+            </button>
+          )}
+
+          {formError && <span className="create-article__error">{formError}</span>}
 
           <div className="create-article__actions">
-            <LiquidGlass as="button" type="button" onClick={close}>
+            <LiquidGlass as="button" type="button" onClick={onClose}>
               Cancel
             </LiquidGlass>
-            <MetallicBlueButton type="submit">Publish</MetallicBlueButton>
+            <MetallicBlueButton type="submit" disabled={busy}>
+              {busy ? "Saving…" : editing ? "Save changes" : "Publish"}
+            </MetallicBlueButton>
           </div>
         </form>
       </LiquidGlass>

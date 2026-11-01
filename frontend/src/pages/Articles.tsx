@@ -4,86 +4,155 @@ import ArticleCard from "../components/ArticleCard";
 import CreateArticleModal from "../components/CreateArticleModal";
 import TrendingCarousel from "../components/TrendingCarousel";
 import MetallicBlueButton from "../components/MetallicBlueButton";
+import LiquidGlass from "../components/LiquidGlass";
 import { useAuth } from "../hooks/useAuth";
-import { homeFor } from "../utils/roleRoutes";
-import { addArticle, useArticles } from "../data/articleStore";
+import { ApiError } from "../services/authApi";
+import {
+  articlesApi,
+  authorName,
+  type ArticleInput,
+  type ArticleSummary,
+} from "../services/articleApi";
+import { errText } from "../utils/errorText";
 import "../styles/Articles.css";
+
+const PAGE_SIZE = 12;
+const TRENDING_MIN_LIKES = 10;
 
 export default function Articles() {
   const navigate = useNavigate();
   const { user, loading: authLoading, error: authError } = useAuth();
-  const articles = useArticles();
+
+  const [trending, setTrending] = React.useState<ArticleSummary[]>([]);
+  const [articles, setArticles] = React.useState<ArticleSummary[]>([]);
+  const [page, setPage] = React.useState(1);
+  const [total, setTotal] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
+  const [loadingMore, setLoadingMore] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
   const [creating, setCreating] = React.useState(false);
 
-  const trending = React.useMemo(
-    () => articles.filter((a) => a.likes >= 10).sort((a, b) => b.likes - a.likes),
-    [articles],
+  // teachers and students publish; admins can only read
+  const canWrite = user?.role === "STUDENT" || user?.role === "TEACHER";
+
+  const fail = React.useCallback(
+    (e: unknown) => {
+      if (e instanceof ApiError && e.status === 401) navigate("/auth", { replace: true });
+      else setError(errText(e));
+    },
+    [navigate],
   );
 
   React.useEffect(() => {
     if (authLoading) return;
     if (!user) {
-      if (authError?.status !== 403) navigate("/auth", { replace: true });
-      return;
+      if (authError?.status === 403) {
+        setError(authError.message);
+        setLoading(false);
+      } else navigate("/auth", { replace: true });
     }
-    if (user.role !== "STUDENT") navigate(homeFor(user.role), { replace: true });
   }, [authLoading, user, authError, navigate]);
+
+  const userId = user?.id;
+  React.useEffect(() => {
+    if (!userId) return;
+    let cancelled = false;
+    setLoading(true);
+    Promise.all([
+      articlesApi.list({ sort: "popular", limit: 10 }),
+      articlesApi.list({ sort: "latest", page: 1, limit: PAGE_SIZE }),
+    ])
+      .then(([popular, latest]) => {
+        if (cancelled) return;
+        setTrending(popular.articles.filter((a) => a.likesCount >= TRENDING_MIN_LIKES));
+        setArticles(latest.articles);
+        setTotal(latest.total);
+        setPage(1);
+        setError(null);
+      })
+      .catch((e) => !cancelled && fail(e))
+      .finally(() => !cancelled && setLoading(false));
+    return () => {
+      cancelled = true;
+    };
+  }, [userId, fail]);
+
+  const loadMore = async () => {
+    setLoadingMore(true);
+    try {
+      const next = await articlesApi.list({ sort: "latest", page: page + 1, limit: PAGE_SIZE });
+      setArticles((prev) => {
+        const seen = new Set(prev.map((a) => a.id));
+        return [...prev, ...next.articles.filter((a) => !seen.has(a.id))];
+      });
+      setPage(next.page);
+      setTotal(next.total);
+    } catch (e) {
+      fail(e);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
+  const publish = async (values: ArticleInput) => {
+    const { article } = await articlesApi.create(values);
+    setCreating(false);
+    navigate(`/articles/${article.id}`);
+  };
 
   return (
     <div className="articles">
-      {authError?.status === 403 && <p className="articles__error">{authError.message}</p>}
+      {error && <p className="articles__error">{error}</p>}
 
       <section className="articles__trending">
         <h2 className="articles__heading">Trending Articles</h2>
         {trending.length ? (
           <TrendingCarousel articles={trending} onOpen={(a) => navigate(`/articles/${a.id}`)} />
         ) : (
-          <p className="articles__hint">No trending articles yet.</p>
+          <p className="articles__hint">{loading ? "Loading…" : "No trending articles yet."}</p>
         )}
       </section>
 
-      <section className="articles__write">
-        <div>
-          <h2 className="articles__heading">Write an article</h2>
-          <p className="articles__hint">Share what you've learned with other students.</p>
-        </div>
-        <MetallicBlueButton className="articles__create" onClick={() => setCreating(true)}>
-          Create Article
-        </MetallicBlueButton>
-      </section>
+      {canWrite && (
+        <section className="articles__write">
+          <div>
+            <h2 className="articles__heading">Write an article</h2>
+            <p className="articles__hint">Share what you've learned with others.</p>
+          </div>
+          <MetallicBlueButton className="articles__create" onClick={() => setCreating(true)}>
+            Create Article
+          </MetallicBlueButton>
+        </section>
+      )}
 
       <section className="articles__section">
         <h2 className="articles__heading">Articles</h2>
-        <div className="articles__list">
-          {articles.map((a) => (
-            <ArticleCard
-              key={a.id}
-              className="article-card--inline"
-              title={a.title}
-              description={a.description}
-              coverUrl={a.coverUrl}
-              readMinutes={a.readMinutes}
-              likes={a.likes}
-              onOpen={() => navigate(`/articles/${a.id}`)}
-            />
-          ))}
-        </div>
+        {!loading && articles.length === 0 ? (
+          <p className="articles__hint">No articles yet.</p>
+        ) : (
+          <div className="articles__list">
+            {articles.map((a) => (
+              <ArticleCard
+                key={a.id}
+                className="article-card--inline"
+                title={a.title}
+                description={a.excerpt}
+                coverUrl={a.coverImageUrl}
+                author={authorName(a.author)}
+                likes={a.likesCount}
+                onOpen={() => navigate(`/articles/${a.id}`)}
+              />
+            ))}
+          </div>
+        )}
+        {articles.length < total && (
+          <LiquidGlass as="button" type="button" disabled={loadingMore} onClick={loadMore}>
+            {loadingMore ? "Loading…" : "Load more"}
+          </LiquidGlass>
+        )}
       </section>
 
-      {creating && (
-        <CreateArticleModal
-          onClose={() => setCreating(false)}
-          onPublish={(v) => {
-            addArticle({
-              title: v.title,
-              description: v.description,
-              body: v.body,
-              coverUrl: v.coverUrl,
-            });
-            setCreating(false);
-          }}
-        />
-      )}
+      {creating && <CreateArticleModal onClose={() => setCreating(false)} onSubmit={publish} />}
     </div>
   );
 }
