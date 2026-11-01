@@ -8,6 +8,8 @@ datasource db {
   provider = "postgresql"
 }
 
+// ───────────── Enums ─────────────
+
 enum Role {
   STUDENT
   ADMIN
@@ -20,26 +22,6 @@ enum UserStatus {
   DEACTIVATED
 }
 
-model User {
-  id           String   @id @default(uuid())
-  tuptId       String   @unique
-  email        String   @unique
-  passwordHash String
-  role         Role     @default(STUDENT)
-  status       UserStatus @default(ACTIVE)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  subjectStudents SubjectStudent[]
-  quizAttempts    QuizAttempt[]
-  ownedSubjects   Subject[]
-
-  chapterProgress ChapterProgress[]
-  studyActivity   StudyActivity[]
-
-  @@map("users")
-}
-
 enum SubjectVisibility {
   PUBLIC
   PRIVATE
@@ -50,29 +32,80 @@ enum StudentStatus {
   FINISHED
 }
 
+enum DeadlineMode {
+  STRICT // no submissions after the deadline
+  LATE // submissions after the deadline are accepted and flagged late
+}
+
+// ───────────── Users ─────────────
+
+model User {
+  id           String     @id @default(uuid())
+  tuptId       String?    @unique // TUPT-XX-XXXX; null for ADMIN (CHECK in migration)
+  email        String     @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  imageUrl     String?
+  role         Role       @default(STUDENT)
+  status       UserStatus @default(ACTIVE)
+  createdAt    DateTime   @default(now()) // date joined
+  updatedAt    DateTime   @updatedAt
+
+  student      Student?
+  teacher      Teacher?
+  articles     Article[]
+  articleLikes ArticleLike[]
+
+  @@map("users")
+}
+
+// Shared primary key: students.userId = users.id (strict 1:1). ADMIN has no extra table.
+model Student {
+  userId String @id
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  subjects        SubjectStudent[]
+  quizAttempts    QuizAttempt[]
+  chapterProgress ChapterProgress[]
+  studyActivity   StudyActivity[]
+
+  @@map("students")
+}
+
+model Teacher {
+  userId String @id
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  subjects Subject[]
+
+  @@map("teachers")
+}
+
+// ───────────── Subjects / Chapters / Quizzes ─────────────
+
 model Subject {
   id          String            @id @default(uuid())
-  ownerId     String?
+  teacherId   String
   code        String?           @unique // NULL when PUBLIC, required when PRIVATE (CHECK in migration)
   title       String
   description String
-  mediaUrl    String            // direct video file URL
+  mediaUrl    String // direct video URL or YouTube embed link
   visibility  SubjectVisibility @default(PUBLIC)
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 
+  teacher  Teacher          @relation(fields: [teacherId], references: [userId], onDelete: Restrict)
   chapters Chapter[]
   students SubjectStudent[]
-  owner    User?            @relation(fields: [ownerId], references: [id], onDelete: SetNull)
 
-  @@index([ownerId])
+  @@index([teacherId])
   @@map("subjects")
 }
 
 model Chapter {
   id              String   @id @default(uuid())
   subjectId       String
-  chapterId       String   // "chapter-01"
   chapterNo       Int
   cardImage       String
   title           String
@@ -87,40 +120,23 @@ model Chapter {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  quiz    Quiz?
+  subject  Subject           @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  quiz     Quiz? // one chapter -> one quiz (with many questions inside)
+  progress ChapterProgress[]
 
-  @@unique([subjectId, chapterId])
   @@unique([subjectId, chapterNo])
   @@index([subjectId])
   @@map("chapters")
-
-  progress ChapterProgress[]
-}
-
-model SubjectStudent {
-  id         String        @id @default(uuid())
-  subjectId  String
-  userId     String
-  status     StudentStatus @default(ONGOING)
-  progress   Int           @default(0)
-  joinedAt   DateTime      @default(now())
-  finishedAt DateTime?
-
-  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([subjectId, userId])
-  @@index([userId])
-  @@map("subject_students")
 }
 
 model Quiz {
-  id        String   @id @default(uuid())
-  chapterId String   @unique // strictly one quiz per chapter
-  questions Json     // [{ questionNo, type, question, choices, correctAnswer }]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String       @id @default(uuid())
+  chapterId    String       @unique // strictly one quiz per chapter
+  questions    Json // [{ questionNo, type, question, choices, correctAnswer }]
+  deadline     DateTime? // null = no deadline
+  deadlineMode DeadlineMode @default(STRICT) // ignored when deadline is null
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 
   chapter  Chapter       @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   attempts QuizAttempt[]
@@ -131,42 +147,98 @@ model Quiz {
 model QuizAttempt {
   id        String   @id @default(uuid())
   quizId    String
-  userId    String
+  studentId String
   score     Int
   total     Int
-  answers   Json     // [{ questionNo, answer }]
+  answers   Json // [{ questionNo, answer }]
+  isLate    Boolean  @default(false) // true when submitted after deadline in LATE mode
   createdAt DateTime @default(now())
 
-  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz    Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  student Student @relation(fields: [studentId], references: [userId], onDelete: Cascade)
 
-  @@unique([quizId, userId]) // one attempt per quiz
-  @@index([userId])
+  @@unique([quizId, studentId]) // one attempt per quiz
+  @@index([studentId])
   @@map("quiz_attempts")
+}
+
+// ───────────── Student-only data ─────────────
+
+model SubjectStudent {
+  id         String        @id @default(uuid())
+  subjectId  String
+  studentId  String
+  status     StudentStatus @default(ONGOING)
+  progress   Int           @default(0)
+  joinedAt   DateTime      @default(now())
+  finishedAt DateTime?
+
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  student Student @relation(fields: [studentId], references: [userId], onDelete: Cascade)
+
+  @@unique([subjectId, studentId])
+  @@index([studentId])
+  @@map("subject_students")
 }
 
 model ChapterProgress {
   id        String   @id @default(uuid())
-  userId    String
+  studentId String
   chapterId String
   percent   Int      @default(0)
   updatedAt DateTime @updatedAt
 
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  student Student @relation(fields: [studentId], references: [userId], onDelete: Cascade)
   chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, chapterId])
+  @@unique([studentId, chapterId])
+  @@index([chapterId])
   @@map("chapter_progress")
 }
 
 model StudyActivity {
-  id     String   @id @default(uuid())
-  userId String
-  date   DateTime @db.Date
-  count  Int      @default(1)
+  id        String   @id @default(uuid())
+  studentId String
+  date      DateTime @db.Date
+  count     Int      @default(1)
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  student Student @relation(fields: [studentId], references: [userId], onDelete: Cascade)
 
-  @@unique([userId, date])
+  @@unique([studentId, date])
   @@map("study_activity")
+}
+
+// ───────────── Articles ─────────────
+
+// Authors must be TEACHER or STUDENT (enforced in the service layer; ADMIN cannot publish).
+model Article {
+  id            String   @id @default(uuid())
+  authorId      String
+  title         String
+  coverImageUrl String
+  sections      Json // [{ header, imageUrl, content }]
+  likesCount    Int      @default(0) // cached; source of truth is article_likes (CHECK >= 0 in migration)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  author User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  likes  ArticleLike[]
+
+  @@index([authorId])
+  @@index([createdAt])
+  @@index([likesCount])
+  @@map("articles")
+}
+
+model ArticleLike {
+  articleId String
+  userId    String
+  createdAt DateTime @default(now())
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, userId]) // one like per user per article
+  @@index([userId])
+  @@map("article_likes")
 }

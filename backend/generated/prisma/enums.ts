@@ -41,3 +41,11 @@ export const StudentStatus = {
 } as const
 
 export type StudentStatus = (typeof StudentStatus)[keyof typeof StudentStatus]
+
+
+export const DeadlineMode = {
+  STRICT: 'STRICT',
+  LATE: 'LATE'
+} as const
+
+export type DeadlineMode = (typeof DeadlineMode)[keyof typeof DeadlineMode]

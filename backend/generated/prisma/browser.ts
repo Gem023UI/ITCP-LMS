@@ -23,6 +23,16 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model Student
+ * 
+ */
+export type Student = Prisma.StudentModel
+/**
+ * Model Teacher
+ * 
+ */
+export type Teacher = Prisma.TeacherModel
+/**
  * Model Subject
  * 
  */
@@ -32,11 +42,6 @@ export type Subject = Prisma.SubjectModel
  * 
  */
 export type Chapter = Prisma.ChapterModel
-/**
- * Model SubjectStudent
- * 
- */
-export type SubjectStudent = Prisma.SubjectStudentModel
 /**
  * Model Quiz
  * 
@@ -48,6 +53,11 @@ export type Quiz = Prisma.QuizModel
  */
 export type QuizAttempt = Prisma.QuizAttemptModel
 /**
+ * Model SubjectStudent
+ * 
+ */
+export type SubjectStudent = Prisma.SubjectStudentModel
+/**
  * Model ChapterProgress
  * 
  */
@@ -57,3 +67,13 @@ export type ChapterProgress = Prisma.ChapterProgressModel
  * 
  */
 export type StudyActivity = Prisma.StudyActivityModel
+/**
+ * Model Article
+ * 
+ */
+export type Article = Prisma.ArticleModel
+/**
+ * Model ArticleLike
+ * 
+ */
+export type ArticleLike = Prisma.ArticleLikeModel

@@ -37,7 +37,7 @@ export type SubjectStudentSumAggregateOutputType = {
 export type SubjectStudentMinAggregateOutputType = {
   id: string | null
   subjectId: string | null
-  userId: string | null
+  studentId: string | null
   status: $Enums.StudentStatus | null
   progress: number | null
   joinedAt: Date | null
@@ -47,7 +47,7 @@ export type SubjectStudentMinAggregateOutputType = {
 export type SubjectStudentMaxAggregateOutputType = {
   id: string | null
   subjectId: string | null
-  userId: string | null
+  studentId: string | null
   status: $Enums.StudentStatus | null
   progress: number | null
   joinedAt: Date | null
@@ -57,7 +57,7 @@ export type SubjectStudentMaxAggregateOutputType = {
 export type SubjectStudentCountAggregateOutputType = {
   id: number
   subjectId: number
-  userId: number
+  studentId: number
   status: number
   progress: number
   joinedAt: number
@@ -77,7 +77,7 @@ export type SubjectStudentSumAggregateInputType = {
 export type SubjectStudentMinAggregateInputType = {
   id?: true
   subjectId?: true
-  userId?: true
+  studentId?: true
   status?: true
   progress?: true
   joinedAt?: true
@@ -87,7 +87,7 @@ export type SubjectStudentMinAggregateInputType = {
 export type SubjectStudentMaxAggregateInputType = {
   id?: true
   subjectId?: true
-  userId?: true
+  studentId?: true
   status?: true
   progress?: true
   joinedAt?: true
@@ -97,7 +97,7 @@ export type SubjectStudentMaxAggregateInputType = {
 export type SubjectStudentCountAggregateInputType = {
   id?: true
   subjectId?: true
-  userId?: true
+  studentId?: true
   status?: true
   progress?: true
   joinedAt?: true
@@ -194,7 +194,7 @@ export type SubjectStudentGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 export type SubjectStudentGroupByOutputType = {
   id: string
   subjectId: string
-  userId: string
+  studentId: string
   status: $Enums.StudentStatus
   progress: number
   joinedAt: Date
@@ -227,47 +227,47 @@ export type SubjectStudentWhereInput = {
   NOT?: Prisma.SubjectStudentWhereInput | Prisma.SubjectStudentWhereInput[]
   id?: Prisma.StringFilter<"SubjectStudent"> | string
   subjectId?: Prisma.StringFilter<"SubjectStudent"> | string
-  userId?: Prisma.StringFilter<"SubjectStudent"> | string
+  studentId?: Prisma.StringFilter<"SubjectStudent"> | string
   status?: Prisma.EnumStudentStatusFilter<"SubjectStudent"> | $Enums.StudentStatus
   progress?: Prisma.IntFilter<"SubjectStudent"> | number
   joinedAt?: Prisma.DateTimeFilter<"SubjectStudent"> | Date | string
   finishedAt?: Prisma.DateTimeNullableFilter<"SubjectStudent"> | Date | string | null
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
 }
 
 export type SubjectStudentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   progress?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   subject?: Prisma.SubjectOrderByWithRelationInput
-  user?: Prisma.UserOrderByWithRelationInput
+  student?: Prisma.StudentOrderByWithRelationInput
 }
 
 export type SubjectStudentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  subjectId_userId?: Prisma.SubjectStudentSubjectIdUserIdCompoundUniqueInput
+  subjectId_studentId?: Prisma.SubjectStudentSubjectIdStudentIdCompoundUniqueInput
   AND?: Prisma.SubjectStudentWhereInput | Prisma.SubjectStudentWhereInput[]
   OR?: Prisma.SubjectStudentWhereInput[]
   NOT?: Prisma.SubjectStudentWhereInput | Prisma.SubjectStudentWhereInput[]
   subjectId?: Prisma.StringFilter<"SubjectStudent"> | string
-  userId?: Prisma.StringFilter<"SubjectStudent"> | string
+  studentId?: Prisma.StringFilter<"SubjectStudent"> | string
   status?: Prisma.EnumStudentStatusFilter<"SubjectStudent"> | $Enums.StudentStatus
   progress?: Prisma.IntFilter<"SubjectStudent"> | number
   joinedAt?: Prisma.DateTimeFilter<"SubjectStudent"> | Date | string
   finishedAt?: Prisma.DateTimeNullableFilter<"SubjectStudent"> | Date | string | null
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "subjectId_userId">
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+}, "id" | "subjectId_studentId">
 
 export type SubjectStudentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   progress?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
@@ -285,7 +285,7 @@ export type SubjectStudentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SubjectStudentScalarWhereWithAggregatesInput | Prisma.SubjectStudentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"SubjectStudent"> | string
   subjectId?: Prisma.StringWithAggregatesFilter<"SubjectStudent"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"SubjectStudent"> | string
+  studentId?: Prisma.StringWithAggregatesFilter<"SubjectStudent"> | string
   status?: Prisma.EnumStudentStatusWithAggregatesFilter<"SubjectStudent"> | $Enums.StudentStatus
   progress?: Prisma.IntWithAggregatesFilter<"SubjectStudent"> | number
   joinedAt?: Prisma.DateTimeWithAggregatesFilter<"SubjectStudent"> | Date | string
@@ -299,13 +299,13 @@ export type SubjectStudentCreateInput = {
   joinedAt?: Date | string
   finishedAt?: Date | string | null
   subject: Prisma.SubjectCreateNestedOneWithoutStudentsInput
-  user: Prisma.UserCreateNestedOneWithoutSubjectStudentsInput
+  student: Prisma.StudentCreateNestedOneWithoutSubjectsInput
 }
 
 export type SubjectStudentUncheckedCreateInput = {
   id?: string
   subjectId: string
-  userId: string
+  studentId: string
   status?: $Enums.StudentStatus
   progress?: number
   joinedAt?: Date | string
@@ -319,13 +319,13 @@ export type SubjectStudentUpdateInput = {
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subject?: Prisma.SubjectUpdateOneRequiredWithoutStudentsNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutSubjectStudentsNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutSubjectsNestedInput
 }
 
 export type SubjectStudentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -335,7 +335,7 @@ export type SubjectStudentUncheckedUpdateInput = {
 export type SubjectStudentCreateManyInput = {
   id?: string
   subjectId: string
-  userId: string
+  studentId: string
   status?: $Enums.StudentStatus
   progress?: number
   joinedAt?: Date | string
@@ -353,7 +353,7 @@ export type SubjectStudentUpdateManyMutationInput = {
 export type SubjectStudentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -370,15 +370,15 @@ export type SubjectStudentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type SubjectStudentSubjectIdUserIdCompoundUniqueInput = {
+export type SubjectStudentSubjectIdStudentIdCompoundUniqueInput = {
   subjectId: string
-  userId: string
+  studentId: string
 }
 
 export type SubjectStudentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   progress?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
@@ -392,7 +392,7 @@ export type SubjectStudentAvgOrderByAggregateInput = {
 export type SubjectStudentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   progress?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
@@ -402,7 +402,7 @@ export type SubjectStudentMaxOrderByAggregateInput = {
 export type SubjectStudentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   progress?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
@@ -413,45 +413,45 @@ export type SubjectStudentSumOrderByAggregateInput = {
   progress?: Prisma.SortOrder
 }
 
-export type SubjectStudentCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.SubjectStudentCreateWithoutUserInput, Prisma.SubjectStudentUncheckedCreateWithoutUserInput> | Prisma.SubjectStudentCreateWithoutUserInput[] | Prisma.SubjectStudentUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.SubjectStudentCreateOrConnectWithoutUserInput | Prisma.SubjectStudentCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.SubjectStudentCreateManyUserInputEnvelope
+export type SubjectStudentCreateNestedManyWithoutStudentInput = {
+  create?: Prisma.XOR<Prisma.SubjectStudentCreateWithoutStudentInput, Prisma.SubjectStudentUncheckedCreateWithoutStudentInput> | Prisma.SubjectStudentCreateWithoutStudentInput[] | Prisma.SubjectStudentUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.SubjectStudentCreateOrConnectWithoutStudentInput | Prisma.SubjectStudentCreateOrConnectWithoutStudentInput[]
+  createMany?: Prisma.SubjectStudentCreateManyStudentInputEnvelope
   connect?: Prisma.SubjectStudentWhereUniqueInput | Prisma.SubjectStudentWhereUniqueInput[]
 }
 
-export type SubjectStudentUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.SubjectStudentCreateWithoutUserInput, Prisma.SubjectStudentUncheckedCreateWithoutUserInput> | Prisma.SubjectStudentCreateWithoutUserInput[] | Prisma.SubjectStudentUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.SubjectStudentCreateOrConnectWithoutUserInput | Prisma.SubjectStudentCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.SubjectStudentCreateManyUserInputEnvelope
+export type SubjectStudentUncheckedCreateNestedManyWithoutStudentInput = {
+  create?: Prisma.XOR<Prisma.SubjectStudentCreateWithoutStudentInput, Prisma.SubjectStudentUncheckedCreateWithoutStudentInput> | Prisma.SubjectStudentCreateWithoutStudentInput[] | Prisma.SubjectStudentUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.SubjectStudentCreateOrConnectWithoutStudentInput | Prisma.SubjectStudentCreateOrConnectWithoutStudentInput[]
+  createMany?: Prisma.SubjectStudentCreateManyStudentInputEnvelope
   connect?: Prisma.SubjectStudentWhereUniqueInput | Prisma.SubjectStudentWhereUniqueInput[]
 }
 
-export type SubjectStudentUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.SubjectStudentCreateWithoutUserInput, Prisma.SubjectStudentUncheckedCreateWithoutUserInput> | Prisma.SubjectStudentCreateWithoutUserInput[] | Prisma.SubjectStudentUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.SubjectStudentCreateOrConnectWithoutUserInput | Prisma.SubjectStudentCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.SubjectStudentUpsertWithWhereUniqueWithoutUserInput | Prisma.SubjectStudentUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.SubjectStudentCreateManyUserInputEnvelope
+export type SubjectStudentUpdateManyWithoutStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.SubjectStudentCreateWithoutStudentInput, Prisma.SubjectStudentUncheckedCreateWithoutStudentInput> | Prisma.SubjectStudentCreateWithoutStudentInput[] | Prisma.SubjectStudentUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.SubjectStudentCreateOrConnectWithoutStudentInput | Prisma.SubjectStudentCreateOrConnectWithoutStudentInput[]
+  upsert?: Prisma.SubjectStudentUpsertWithWhereUniqueWithoutStudentInput | Prisma.SubjectStudentUpsertWithWhereUniqueWithoutStudentInput[]
+  createMany?: Prisma.SubjectStudentCreateManyStudentInputEnvelope
   set?: Prisma.SubjectStudentWhereUniqueInput | Prisma.SubjectStudentWhereUniqueInput[]
   disconnect?: Prisma.SubjectStudentWhereUniqueInput | Prisma.SubjectStudentWhereUniqueInput[]
   delete?: Prisma.SubjectStudentWhereUniqueInput | Prisma.SubjectStudentWhereUniqueInput[]
   connect?: Prisma.SubjectStudentWhereUniqueInput | Prisma.SubjectStudentWhereUniqueInput[]
-  update?: Prisma.SubjectStudentUpdateWithWhereUniqueWithoutUserInput | Prisma.SubjectStudentUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.SubjectStudentUpdateManyWithWhereWithoutUserInput | Prisma.SubjectStudentUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.SubjectStudentUpdateWithWhereUniqueWithoutStudentInput | Prisma.SubjectStudentUpdateWithWhereUniqueWithoutStudentInput[]
+  updateMany?: Prisma.SubjectStudentUpdateManyWithWhereWithoutStudentInput | Prisma.SubjectStudentUpdateManyWithWhereWithoutStudentInput[]
   deleteMany?: Prisma.SubjectStudentScalarWhereInput | Prisma.SubjectStudentScalarWhereInput[]
 }
 
-export type SubjectStudentUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.SubjectStudentCreateWithoutUserInput, Prisma.SubjectStudentUncheckedCreateWithoutUserInput> | Prisma.SubjectStudentCreateWithoutUserInput[] | Prisma.SubjectStudentUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.SubjectStudentCreateOrConnectWithoutUserInput | Prisma.SubjectStudentCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.SubjectStudentUpsertWithWhereUniqueWithoutUserInput | Prisma.SubjectStudentUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.SubjectStudentCreateManyUserInputEnvelope
+export type SubjectStudentUncheckedUpdateManyWithoutStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.SubjectStudentCreateWithoutStudentInput, Prisma.SubjectStudentUncheckedCreateWithoutStudentInput> | Prisma.SubjectStudentCreateWithoutStudentInput[] | Prisma.SubjectStudentUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.SubjectStudentCreateOrConnectWithoutStudentInput | Prisma.SubjectStudentCreateOrConnectWithoutStudentInput[]
+  upsert?: Prisma.SubjectStudentUpsertWithWhereUniqueWithoutStudentInput | Prisma.SubjectStudentUpsertWithWhereUniqueWithoutStudentInput[]
+  createMany?: Prisma.SubjectStudentCreateManyStudentInputEnvelope
   set?: Prisma.SubjectStudentWhereUniqueInput | Prisma.SubjectStudentWhereUniqueInput[]
   disconnect?: Prisma.SubjectStudentWhereUniqueInput | Prisma.SubjectStudentWhereUniqueInput[]
   delete?: Prisma.SubjectStudentWhereUniqueInput | Prisma.SubjectStudentWhereUniqueInput[]
   connect?: Prisma.SubjectStudentWhereUniqueInput | Prisma.SubjectStudentWhereUniqueInput[]
-  update?: Prisma.SubjectStudentUpdateWithWhereUniqueWithoutUserInput | Prisma.SubjectStudentUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.SubjectStudentUpdateManyWithWhereWithoutUserInput | Prisma.SubjectStudentUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.SubjectStudentUpdateWithWhereUniqueWithoutStudentInput | Prisma.SubjectStudentUpdateWithWhereUniqueWithoutStudentInput[]
+  updateMany?: Prisma.SubjectStudentUpdateManyWithWhereWithoutStudentInput | Prisma.SubjectStudentUpdateManyWithWhereWithoutStudentInput[]
   deleteMany?: Prisma.SubjectStudentScalarWhereInput | Prisma.SubjectStudentScalarWhereInput[]
 }
 
@@ -501,11 +501,7 @@ export type EnumStudentStatusFieldUpdateOperationsInput = {
   set?: $Enums.StudentStatus
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
-export type SubjectStudentCreateWithoutUserInput = {
+export type SubjectStudentCreateWithoutStudentInput = {
   id?: string
   status?: $Enums.StudentStatus
   progress?: number
@@ -514,7 +510,7 @@ export type SubjectStudentCreateWithoutUserInput = {
   subject: Prisma.SubjectCreateNestedOneWithoutStudentsInput
 }
 
-export type SubjectStudentUncheckedCreateWithoutUserInput = {
+export type SubjectStudentUncheckedCreateWithoutStudentInput = {
   id?: string
   subjectId: string
   status?: $Enums.StudentStatus
@@ -523,30 +519,30 @@ export type SubjectStudentUncheckedCreateWithoutUserInput = {
   finishedAt?: Date | string | null
 }
 
-export type SubjectStudentCreateOrConnectWithoutUserInput = {
+export type SubjectStudentCreateOrConnectWithoutStudentInput = {
   where: Prisma.SubjectStudentWhereUniqueInput
-  create: Prisma.XOR<Prisma.SubjectStudentCreateWithoutUserInput, Prisma.SubjectStudentUncheckedCreateWithoutUserInput>
+  create: Prisma.XOR<Prisma.SubjectStudentCreateWithoutStudentInput, Prisma.SubjectStudentUncheckedCreateWithoutStudentInput>
 }
 
-export type SubjectStudentCreateManyUserInputEnvelope = {
-  data: Prisma.SubjectStudentCreateManyUserInput | Prisma.SubjectStudentCreateManyUserInput[]
+export type SubjectStudentCreateManyStudentInputEnvelope = {
+  data: Prisma.SubjectStudentCreateManyStudentInput | Prisma.SubjectStudentCreateManyStudentInput[]
   skipDuplicates?: boolean
 }
 
-export type SubjectStudentUpsertWithWhereUniqueWithoutUserInput = {
+export type SubjectStudentUpsertWithWhereUniqueWithoutStudentInput = {
   where: Prisma.SubjectStudentWhereUniqueInput
-  update: Prisma.XOR<Prisma.SubjectStudentUpdateWithoutUserInput, Prisma.SubjectStudentUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.SubjectStudentCreateWithoutUserInput, Prisma.SubjectStudentUncheckedCreateWithoutUserInput>
+  update: Prisma.XOR<Prisma.SubjectStudentUpdateWithoutStudentInput, Prisma.SubjectStudentUncheckedUpdateWithoutStudentInput>
+  create: Prisma.XOR<Prisma.SubjectStudentCreateWithoutStudentInput, Prisma.SubjectStudentUncheckedCreateWithoutStudentInput>
 }
 
-export type SubjectStudentUpdateWithWhereUniqueWithoutUserInput = {
+export type SubjectStudentUpdateWithWhereUniqueWithoutStudentInput = {
   where: Prisma.SubjectStudentWhereUniqueInput
-  data: Prisma.XOR<Prisma.SubjectStudentUpdateWithoutUserInput, Prisma.SubjectStudentUncheckedUpdateWithoutUserInput>
+  data: Prisma.XOR<Prisma.SubjectStudentUpdateWithoutStudentInput, Prisma.SubjectStudentUncheckedUpdateWithoutStudentInput>
 }
 
-export type SubjectStudentUpdateManyWithWhereWithoutUserInput = {
+export type SubjectStudentUpdateManyWithWhereWithoutStudentInput = {
   where: Prisma.SubjectStudentScalarWhereInput
-  data: Prisma.XOR<Prisma.SubjectStudentUpdateManyMutationInput, Prisma.SubjectStudentUncheckedUpdateManyWithoutUserInput>
+  data: Prisma.XOR<Prisma.SubjectStudentUpdateManyMutationInput, Prisma.SubjectStudentUncheckedUpdateManyWithoutStudentInput>
 }
 
 export type SubjectStudentScalarWhereInput = {
@@ -555,7 +551,7 @@ export type SubjectStudentScalarWhereInput = {
   NOT?: Prisma.SubjectStudentScalarWhereInput | Prisma.SubjectStudentScalarWhereInput[]
   id?: Prisma.StringFilter<"SubjectStudent"> | string
   subjectId?: Prisma.StringFilter<"SubjectStudent"> | string
-  userId?: Prisma.StringFilter<"SubjectStudent"> | string
+  studentId?: Prisma.StringFilter<"SubjectStudent"> | string
   status?: Prisma.EnumStudentStatusFilter<"SubjectStudent"> | $Enums.StudentStatus
   progress?: Prisma.IntFilter<"SubjectStudent"> | number
   joinedAt?: Prisma.DateTimeFilter<"SubjectStudent"> | Date | string
@@ -568,12 +564,12 @@ export type SubjectStudentCreateWithoutSubjectInput = {
   progress?: number
   joinedAt?: Date | string
   finishedAt?: Date | string | null
-  user: Prisma.UserCreateNestedOneWithoutSubjectStudentsInput
+  student: Prisma.StudentCreateNestedOneWithoutSubjectsInput
 }
 
 export type SubjectStudentUncheckedCreateWithoutSubjectInput = {
   id?: string
-  userId: string
+  studentId: string
   status?: $Enums.StudentStatus
   progress?: number
   joinedAt?: Date | string
@@ -606,7 +602,7 @@ export type SubjectStudentUpdateManyWithWhereWithoutSubjectInput = {
   data: Prisma.XOR<Prisma.SubjectStudentUpdateManyMutationInput, Prisma.SubjectStudentUncheckedUpdateManyWithoutSubjectInput>
 }
 
-export type SubjectStudentCreateManyUserInput = {
+export type SubjectStudentCreateManyStudentInput = {
   id?: string
   subjectId: string
   status?: $Enums.StudentStatus
@@ -615,7 +611,7 @@ export type SubjectStudentCreateManyUserInput = {
   finishedAt?: Date | string | null
 }
 
-export type SubjectStudentUpdateWithoutUserInput = {
+export type SubjectStudentUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   progress?: Prisma.IntFieldUpdateOperationsInput | number
@@ -624,7 +620,7 @@ export type SubjectStudentUpdateWithoutUserInput = {
   subject?: Prisma.SubjectUpdateOneRequiredWithoutStudentsNestedInput
 }
 
-export type SubjectStudentUncheckedUpdateWithoutUserInput = {
+export type SubjectStudentUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
@@ -633,7 +629,7 @@ export type SubjectStudentUncheckedUpdateWithoutUserInput = {
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type SubjectStudentUncheckedUpdateManyWithoutUserInput = {
+export type SubjectStudentUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
@@ -644,7 +640,7 @@ export type SubjectStudentUncheckedUpdateManyWithoutUserInput = {
 
 export type SubjectStudentCreateManySubjectInput = {
   id?: string
-  userId: string
+  studentId: string
   status?: $Enums.StudentStatus
   progress?: number
   joinedAt?: Date | string
@@ -657,12 +653,12 @@ export type SubjectStudentUpdateWithoutSubjectInput = {
   progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  user?: Prisma.UserUpdateOneRequiredWithoutSubjectStudentsNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutSubjectsNestedInput
 }
 
 export type SubjectStudentUncheckedUpdateWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -671,7 +667,7 @@ export type SubjectStudentUncheckedUpdateWithoutSubjectInput = {
 
 export type SubjectStudentUncheckedUpdateManyWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
   progress?: Prisma.IntFieldUpdateOperationsInput | number
   joinedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -683,73 +679,73 @@ export type SubjectStudentUncheckedUpdateManyWithoutSubjectInput = {
 export type SubjectStudentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   subjectId?: boolean
-  userId?: boolean
+  studentId?: boolean
   status?: boolean
   progress?: boolean
   joinedAt?: boolean
   finishedAt?: boolean
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectStudent"]>
 
 export type SubjectStudentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   subjectId?: boolean
-  userId?: boolean
+  studentId?: boolean
   status?: boolean
   progress?: boolean
   joinedAt?: boolean
   finishedAt?: boolean
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectStudent"]>
 
 export type SubjectStudentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   subjectId?: boolean
-  userId?: boolean
+  studentId?: boolean
   status?: boolean
   progress?: boolean
   joinedAt?: boolean
   finishedAt?: boolean
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectStudent"]>
 
 export type SubjectStudentSelectScalar = {
   id?: boolean
   subjectId?: boolean
-  userId?: boolean
+  studentId?: boolean
   status?: boolean
   progress?: boolean
   joinedAt?: boolean
   finishedAt?: boolean
 }
 
-export type SubjectStudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectId" | "userId" | "status" | "progress" | "joinedAt" | "finishedAt", ExtArgs["result"]["subjectStudent"]>
+export type SubjectStudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectId" | "studentId" | "status" | "progress" | "joinedAt" | "finishedAt", ExtArgs["result"]["subjectStudent"]>
 export type SubjectStudentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }
 export type SubjectStudentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }
 export type SubjectStudentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }
 
 export type $SubjectStudentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SubjectStudent"
   objects: {
     subject: Prisma.$SubjectPayload<ExtArgs>
-    user: Prisma.$UserPayload<ExtArgs>
+    student: Prisma.$StudentPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     subjectId: string
-    userId: string
+    studentId: string
     status: $Enums.StudentStatus
     progress: number
     joinedAt: Date
@@ -1149,7 +1145,7 @@ readonly fields: SubjectStudentFieldRefs;
 export interface Prisma__SubjectStudentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   subject<T extends Prisma.SubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1181,7 +1177,7 @@ export interface Prisma__SubjectStudentClient<T, Null = never, ExtArgs extends r
 export interface SubjectStudentFieldRefs {
   readonly id: Prisma.FieldRef<"SubjectStudent", 'String'>
   readonly subjectId: Prisma.FieldRef<"SubjectStudent", 'String'>
-  readonly userId: Prisma.FieldRef<"SubjectStudent", 'String'>
+  readonly studentId: Prisma.FieldRef<"SubjectStudent", 'String'>
   readonly status: Prisma.FieldRef<"SubjectStudent", 'StudentStatus'>
   readonly progress: Prisma.FieldRef<"SubjectStudent", 'Int'>
   readonly joinedAt: Prisma.FieldRef<"SubjectStudent", 'DateTime'>

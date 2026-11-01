@@ -52,13 +52,17 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Student: 'Student',
+  Teacher: 'Teacher',
   Subject: 'Subject',
   Chapter: 'Chapter',
-  SubjectStudent: 'SubjectStudent',
   Quiz: 'Quiz',
   QuizAttempt: 'QuizAttempt',
+  SubjectStudent: 'SubjectStudent',
   ChapterProgress: 'ChapterProgress',
-  StudyActivity: 'StudyActivity'
+  StudyActivity: 'StudyActivity',
+  Article: 'Article',
+  ArticleLike: 'ArticleLike'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -82,6 +86,9 @@ export const UserScalarFieldEnum = {
   tuptId: 'tuptId',
   email: 'email',
   passwordHash: 'passwordHash',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  imageUrl: 'imageUrl',
   role: 'role',
   status: 'status',
   createdAt: 'createdAt',
@@ -91,9 +98,23 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const StudentScalarFieldEnum = {
+  userId: 'userId'
+} as const
+
+export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
+
+
+export const TeacherScalarFieldEnum = {
+  userId: 'userId'
+} as const
+
+export type TeacherScalarFieldEnum = (typeof TeacherScalarFieldEnum)[keyof typeof TeacherScalarFieldEnum]
+
+
 export const SubjectScalarFieldEnum = {
   id: 'id',
-  ownerId: 'ownerId',
+  teacherId: 'teacherId',
   code: 'code',
   title: 'title',
   description: 'description',
@@ -109,7 +130,6 @@ export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeo
 export const ChapterScalarFieldEnum = {
   id: 'id',
   subjectId: 'subjectId',
-  chapterId: 'chapterId',
   chapterNo: 'chapterNo',
   cardImage: 'cardImage',
   title: 'title',
@@ -128,23 +148,12 @@ export const ChapterScalarFieldEnum = {
 export type ChapterScalarFieldEnum = (typeof ChapterScalarFieldEnum)[keyof typeof ChapterScalarFieldEnum]
 
 
-export const SubjectStudentScalarFieldEnum = {
-  id: 'id',
-  subjectId: 'subjectId',
-  userId: 'userId',
-  status: 'status',
-  progress: 'progress',
-  joinedAt: 'joinedAt',
-  finishedAt: 'finishedAt'
-} as const
-
-export type SubjectStudentScalarFieldEnum = (typeof SubjectStudentScalarFieldEnum)[keyof typeof SubjectStudentScalarFieldEnum]
-
-
 export const QuizScalarFieldEnum = {
   id: 'id',
   chapterId: 'chapterId',
   questions: 'questions',
+  deadline: 'deadline',
+  deadlineMode: 'deadlineMode',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -155,19 +164,33 @@ export type QuizScalarFieldEnum = (typeof QuizScalarFieldEnum)[keyof typeof Quiz
 export const QuizAttemptScalarFieldEnum = {
   id: 'id',
   quizId: 'quizId',
-  userId: 'userId',
+  studentId: 'studentId',
   score: 'score',
   total: 'total',
   answers: 'answers',
+  isLate: 'isLate',
   createdAt: 'createdAt'
 } as const
 
 export type QuizAttemptScalarFieldEnum = (typeof QuizAttemptScalarFieldEnum)[keyof typeof QuizAttemptScalarFieldEnum]
 
 
+export const SubjectStudentScalarFieldEnum = {
+  id: 'id',
+  subjectId: 'subjectId',
+  studentId: 'studentId',
+  status: 'status',
+  progress: 'progress',
+  joinedAt: 'joinedAt',
+  finishedAt: 'finishedAt'
+} as const
+
+export type SubjectStudentScalarFieldEnum = (typeof SubjectStudentScalarFieldEnum)[keyof typeof SubjectStudentScalarFieldEnum]
+
+
 export const ChapterProgressScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
+  studentId: 'studentId',
   chapterId: 'chapterId',
   percent: 'percent',
   updatedAt: 'updatedAt'
@@ -178,12 +201,35 @@ export type ChapterProgressScalarFieldEnum = (typeof ChapterProgressScalarFieldE
 
 export const StudyActivityScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
+  studentId: 'studentId',
   date: 'date',
   count: 'count'
 } as const
 
 export type StudyActivityScalarFieldEnum = (typeof StudyActivityScalarFieldEnum)[keyof typeof StudyActivityScalarFieldEnum]
+
+
+export const ArticleScalarFieldEnum = {
+  id: 'id',
+  authorId: 'authorId',
+  title: 'title',
+  coverImageUrl: 'coverImageUrl',
+  sections: 'sections',
+  likesCount: 'likesCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
+
+
+export const ArticleLikeScalarFieldEnum = {
+  articleId: 'articleId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ArticleLikeScalarFieldEnum = (typeof ArticleLikeScalarFieldEnum)[keyof typeof ArticleLikeScalarFieldEnum]
 
 
 export const SortOrder = {

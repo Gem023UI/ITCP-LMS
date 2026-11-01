@@ -27,6 +27,8 @@ export type AggregateQuiz = {
 export type QuizMinAggregateOutputType = {
   id: string | null
   chapterId: string | null
+  deadline: Date | null
+  deadlineMode: $Enums.DeadlineMode | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -34,6 +36,8 @@ export type QuizMinAggregateOutputType = {
 export type QuizMaxAggregateOutputType = {
   id: string | null
   chapterId: string | null
+  deadline: Date | null
+  deadlineMode: $Enums.DeadlineMode | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -42,6 +46,8 @@ export type QuizCountAggregateOutputType = {
   id: number
   chapterId: number
   questions: number
+  deadline: number
+  deadlineMode: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -51,6 +57,8 @@ export type QuizCountAggregateOutputType = {
 export type QuizMinAggregateInputType = {
   id?: true
   chapterId?: true
+  deadline?: true
+  deadlineMode?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -58,6 +66,8 @@ export type QuizMinAggregateInputType = {
 export type QuizMaxAggregateInputType = {
   id?: true
   chapterId?: true
+  deadline?: true
+  deadlineMode?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -66,6 +76,8 @@ export type QuizCountAggregateInputType = {
   id?: true
   chapterId?: true
   questions?: true
+  deadline?: true
+  deadlineMode?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -147,6 +159,8 @@ export type QuizGroupByOutputType = {
   id: string
   chapterId: string
   questions: runtime.JsonValue
+  deadline: Date | null
+  deadlineMode: $Enums.DeadlineMode
   createdAt: Date
   updatedAt: Date
   _count: QuizCountAggregateOutputType | null
@@ -176,6 +190,8 @@ export type QuizWhereInput = {
   id?: Prisma.StringFilter<"Quiz"> | string
   chapterId?: Prisma.StringFilter<"Quiz"> | string
   questions?: Prisma.JsonFilter<"Quiz">
+  deadline?: Prisma.DateTimeNullableFilter<"Quiz"> | Date | string | null
+  deadlineMode?: Prisma.EnumDeadlineModeFilter<"Quiz"> | $Enums.DeadlineMode
   createdAt?: Prisma.DateTimeFilter<"Quiz"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Quiz"> | Date | string
   chapter?: Prisma.XOR<Prisma.ChapterScalarRelationFilter, Prisma.ChapterWhereInput>
@@ -186,6 +202,8 @@ export type QuizOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   questions?: Prisma.SortOrder
+  deadline?: Prisma.SortOrderInput | Prisma.SortOrder
+  deadlineMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   chapter?: Prisma.ChapterOrderByWithRelationInput
@@ -199,6 +217,8 @@ export type QuizWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.QuizWhereInput[]
   NOT?: Prisma.QuizWhereInput | Prisma.QuizWhereInput[]
   questions?: Prisma.JsonFilter<"Quiz">
+  deadline?: Prisma.DateTimeNullableFilter<"Quiz"> | Date | string | null
+  deadlineMode?: Prisma.EnumDeadlineModeFilter<"Quiz"> | $Enums.DeadlineMode
   createdAt?: Prisma.DateTimeFilter<"Quiz"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Quiz"> | Date | string
   chapter?: Prisma.XOR<Prisma.ChapterScalarRelationFilter, Prisma.ChapterWhereInput>
@@ -209,6 +229,8 @@ export type QuizOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   questions?: Prisma.SortOrder
+  deadline?: Prisma.SortOrderInput | Prisma.SortOrder
+  deadlineMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.QuizCountOrderByAggregateInput
@@ -223,6 +245,8 @@ export type QuizScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Quiz"> | string
   chapterId?: Prisma.StringWithAggregatesFilter<"Quiz"> | string
   questions?: Prisma.JsonWithAggregatesFilter<"Quiz">
+  deadline?: Prisma.DateTimeNullableWithAggregatesFilter<"Quiz"> | Date | string | null
+  deadlineMode?: Prisma.EnumDeadlineModeWithAggregatesFilter<"Quiz"> | $Enums.DeadlineMode
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Quiz"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Quiz"> | Date | string
 }
@@ -230,6 +254,8 @@ export type QuizScalarWhereWithAggregatesInput = {
 export type QuizCreateInput = {
   id?: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Date | string | null
+  deadlineMode?: $Enums.DeadlineMode
   createdAt?: Date | string
   updatedAt?: Date | string
   chapter: Prisma.ChapterCreateNestedOneWithoutQuizInput
@@ -240,6 +266,8 @@ export type QuizUncheckedCreateInput = {
   id?: string
   chapterId: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Date | string | null
+  deadlineMode?: $Enums.DeadlineMode
   createdAt?: Date | string
   updatedAt?: Date | string
   attempts?: Prisma.QuizAttemptUncheckedCreateNestedManyWithoutQuizInput
@@ -248,6 +276,8 @@ export type QuizUncheckedCreateInput = {
 export type QuizUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadlineMode?: Prisma.EnumDeadlineModeFieldUpdateOperationsInput | $Enums.DeadlineMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutQuizNestedInput
@@ -258,6 +288,8 @@ export type QuizUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadlineMode?: Prisma.EnumDeadlineModeFieldUpdateOperationsInput | $Enums.DeadlineMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attempts?: Prisma.QuizAttemptUncheckedUpdateManyWithoutQuizNestedInput
@@ -267,6 +299,8 @@ export type QuizCreateManyInput = {
   id?: string
   chapterId: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Date | string | null
+  deadlineMode?: $Enums.DeadlineMode
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -274,6 +308,8 @@ export type QuizCreateManyInput = {
 export type QuizUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadlineMode?: Prisma.EnumDeadlineModeFieldUpdateOperationsInput | $Enums.DeadlineMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -282,6 +318,8 @@ export type QuizUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadlineMode?: Prisma.EnumDeadlineModeFieldUpdateOperationsInput | $Enums.DeadlineMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -295,6 +333,8 @@ export type QuizCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   questions?: Prisma.SortOrder
+  deadline?: Prisma.SortOrder
+  deadlineMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -302,6 +342,8 @@ export type QuizCountOrderByAggregateInput = {
 export type QuizMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
+  deadline?: Prisma.SortOrder
+  deadlineMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -309,6 +351,8 @@ export type QuizMaxOrderByAggregateInput = {
 export type QuizMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
+  deadline?: Prisma.SortOrder
+  deadlineMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -350,6 +394,14 @@ export type QuizUncheckedUpdateOneWithoutChapterNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.QuizUpdateToOneWithWhereWithoutChapterInput, Prisma.QuizUpdateWithoutChapterInput>, Prisma.QuizUncheckedUpdateWithoutChapterInput>
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type EnumDeadlineModeFieldUpdateOperationsInput = {
+  set?: $Enums.DeadlineMode
+}
+
 export type QuizCreateNestedOneWithoutAttemptsInput = {
   create?: Prisma.XOR<Prisma.QuizCreateWithoutAttemptsInput, Prisma.QuizUncheckedCreateWithoutAttemptsInput>
   connectOrCreate?: Prisma.QuizCreateOrConnectWithoutAttemptsInput
@@ -367,6 +419,8 @@ export type QuizUpdateOneRequiredWithoutAttemptsNestedInput = {
 export type QuizCreateWithoutChapterInput = {
   id?: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Date | string | null
+  deadlineMode?: $Enums.DeadlineMode
   createdAt?: Date | string
   updatedAt?: Date | string
   attempts?: Prisma.QuizAttemptCreateNestedManyWithoutQuizInput
@@ -375,6 +429,8 @@ export type QuizCreateWithoutChapterInput = {
 export type QuizUncheckedCreateWithoutChapterInput = {
   id?: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Date | string | null
+  deadlineMode?: $Enums.DeadlineMode
   createdAt?: Date | string
   updatedAt?: Date | string
   attempts?: Prisma.QuizAttemptUncheckedCreateNestedManyWithoutQuizInput
@@ -399,6 +455,8 @@ export type QuizUpdateToOneWithWhereWithoutChapterInput = {
 export type QuizUpdateWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadlineMode?: Prisma.EnumDeadlineModeFieldUpdateOperationsInput | $Enums.DeadlineMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attempts?: Prisma.QuizAttemptUpdateManyWithoutQuizNestedInput
@@ -407,6 +465,8 @@ export type QuizUpdateWithoutChapterInput = {
 export type QuizUncheckedUpdateWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadlineMode?: Prisma.EnumDeadlineModeFieldUpdateOperationsInput | $Enums.DeadlineMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attempts?: Prisma.QuizAttemptUncheckedUpdateManyWithoutQuizNestedInput
@@ -415,6 +475,8 @@ export type QuizUncheckedUpdateWithoutChapterInput = {
 export type QuizCreateWithoutAttemptsInput = {
   id?: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Date | string | null
+  deadlineMode?: $Enums.DeadlineMode
   createdAt?: Date | string
   updatedAt?: Date | string
   chapter: Prisma.ChapterCreateNestedOneWithoutQuizInput
@@ -424,6 +486,8 @@ export type QuizUncheckedCreateWithoutAttemptsInput = {
   id?: string
   chapterId: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Date | string | null
+  deadlineMode?: $Enums.DeadlineMode
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -447,6 +511,8 @@ export type QuizUpdateToOneWithWhereWithoutAttemptsInput = {
 export type QuizUpdateWithoutAttemptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadlineMode?: Prisma.EnumDeadlineModeFieldUpdateOperationsInput | $Enums.DeadlineMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutQuizNestedInput
@@ -456,6 +522,8 @@ export type QuizUncheckedUpdateWithoutAttemptsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deadlineMode?: Prisma.EnumDeadlineModeFieldUpdateOperationsInput | $Enums.DeadlineMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -495,6 +563,8 @@ export type QuizSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   chapterId?: boolean
   questions?: boolean
+  deadline?: boolean
+  deadlineMode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
@@ -506,6 +576,8 @@ export type QuizSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   chapterId?: boolean
   questions?: boolean
+  deadline?: boolean
+  deadlineMode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
@@ -515,6 +587,8 @@ export type QuizSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   chapterId?: boolean
   questions?: boolean
+  deadline?: boolean
+  deadlineMode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
@@ -524,11 +598,13 @@ export type QuizSelectScalar = {
   id?: boolean
   chapterId?: boolean
   questions?: boolean
+  deadline?: boolean
+  deadlineMode?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type QuizOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "chapterId" | "questions" | "createdAt" | "updatedAt", ExtArgs["result"]["quiz"]>
+export type QuizOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "chapterId" | "questions" | "deadline" | "deadlineMode" | "createdAt" | "updatedAt", ExtArgs["result"]["quiz"]>
 export type QuizInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
   attempts?: boolean | Prisma.Quiz$attemptsArgs<ExtArgs>
@@ -551,6 +627,8 @@ export type $QuizPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     chapterId: string
     questions: runtime.JsonValue
+    deadline: Date | null
+    deadlineMode: $Enums.DeadlineMode
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["quiz"]>
@@ -981,6 +1059,8 @@ export interface QuizFieldRefs {
   readonly id: Prisma.FieldRef<"Quiz", 'String'>
   readonly chapterId: Prisma.FieldRef<"Quiz", 'String'>
   readonly questions: Prisma.FieldRef<"Quiz", 'Json'>
+  readonly deadline: Prisma.FieldRef<"Quiz", 'DateTime'>
+  readonly deadlineMode: Prisma.FieldRef<"Quiz", 'DeadlineMode'>
   readonly createdAt: Prisma.FieldRef<"Quiz", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Quiz", 'DateTime'>
 }

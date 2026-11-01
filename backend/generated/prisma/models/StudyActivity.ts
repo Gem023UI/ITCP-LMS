@@ -36,21 +36,21 @@ export type StudyActivitySumAggregateOutputType = {
 
 export type StudyActivityMinAggregateOutputType = {
   id: string | null
-  userId: string | null
+  studentId: string | null
   date: Date | null
   count: number | null
 }
 
 export type StudyActivityMaxAggregateOutputType = {
   id: string | null
-  userId: string | null
+  studentId: string | null
   date: Date | null
   count: number | null
 }
 
 export type StudyActivityCountAggregateOutputType = {
   id: number
-  userId: number
+  studentId: number
   date: number
   count: number
   _all: number
@@ -67,21 +67,21 @@ export type StudyActivitySumAggregateInputType = {
 
 export type StudyActivityMinAggregateInputType = {
   id?: true
-  userId?: true
+  studentId?: true
   date?: true
   count?: true
 }
 
 export type StudyActivityMaxAggregateInputType = {
   id?: true
-  userId?: true
+  studentId?: true
   date?: true
   count?: true
 }
 
 export type StudyActivityCountAggregateInputType = {
   id?: true
-  userId?: true
+  studentId?: true
   date?: true
   count?: true
   _all?: true
@@ -175,7 +175,7 @@ export type StudyActivityGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type StudyActivityGroupByOutputType = {
   id: string
-  userId: string
+  studentId: string
   date: Date
   count: number
   _count: StudyActivityCountAggregateOutputType | null
@@ -205,35 +205,35 @@ export type StudyActivityWhereInput = {
   OR?: Prisma.StudyActivityWhereInput[]
   NOT?: Prisma.StudyActivityWhereInput | Prisma.StudyActivityWhereInput[]
   id?: Prisma.StringFilter<"StudyActivity"> | string
-  userId?: Prisma.StringFilter<"StudyActivity"> | string
+  studentId?: Prisma.StringFilter<"StudyActivity"> | string
   date?: Prisma.DateTimeFilter<"StudyActivity"> | Date | string
   count?: Prisma.IntFilter<"StudyActivity"> | number
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
 }
 
 export type StudyActivityOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   count?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
+  student?: Prisma.StudentOrderByWithRelationInput
 }
 
 export type StudyActivityWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  userId_date?: Prisma.StudyActivityUserIdDateCompoundUniqueInput
+  studentId_date?: Prisma.StudyActivityStudentIdDateCompoundUniqueInput
   AND?: Prisma.StudyActivityWhereInput | Prisma.StudyActivityWhereInput[]
   OR?: Prisma.StudyActivityWhereInput[]
   NOT?: Prisma.StudyActivityWhereInput | Prisma.StudyActivityWhereInput[]
-  userId?: Prisma.StringFilter<"StudyActivity"> | string
+  studentId?: Prisma.StringFilter<"StudyActivity"> | string
   date?: Prisma.DateTimeFilter<"StudyActivity"> | Date | string
   count?: Prisma.IntFilter<"StudyActivity"> | number
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "userId_date">
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+}, "id" | "studentId_date">
 
 export type StudyActivityOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   count?: Prisma.SortOrder
   _count?: Prisma.StudyActivityCountOrderByAggregateInput
@@ -248,7 +248,7 @@ export type StudyActivityScalarWhereWithAggregatesInput = {
   OR?: Prisma.StudyActivityScalarWhereWithAggregatesInput[]
   NOT?: Prisma.StudyActivityScalarWhereWithAggregatesInput | Prisma.StudyActivityScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"StudyActivity"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"StudyActivity"> | string
+  studentId?: Prisma.StringWithAggregatesFilter<"StudyActivity"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"StudyActivity"> | Date | string
   count?: Prisma.IntWithAggregatesFilter<"StudyActivity"> | number
 }
@@ -257,12 +257,12 @@ export type StudyActivityCreateInput = {
   id?: string
   date: Date | string
   count?: number
-  user: Prisma.UserCreateNestedOneWithoutStudyActivityInput
+  student: Prisma.StudentCreateNestedOneWithoutStudyActivityInput
 }
 
 export type StudyActivityUncheckedCreateInput = {
   id?: string
-  userId: string
+  studentId: string
   date: Date | string
   count?: number
 }
@@ -271,19 +271,19 @@ export type StudyActivityUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   count?: Prisma.IntFieldUpdateOperationsInput | number
-  user?: Prisma.UserUpdateOneRequiredWithoutStudyActivityNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutStudyActivityNestedInput
 }
 
 export type StudyActivityUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   count?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type StudyActivityCreateManyInput = {
   id?: string
-  userId: string
+  studentId: string
   date: Date | string
   count?: number
 }
@@ -296,7 +296,7 @@ export type StudyActivityUpdateManyMutationInput = {
 
 export type StudyActivityUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   count?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -311,14 +311,14 @@ export type StudyActivityOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type StudyActivityUserIdDateCompoundUniqueInput = {
-  userId: string
+export type StudyActivityStudentIdDateCompoundUniqueInput = {
+  studentId: string
   date: Date | string
 }
 
 export type StudyActivityCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   count?: Prisma.SortOrder
 }
@@ -329,14 +329,14 @@ export type StudyActivityAvgOrderByAggregateInput = {
 
 export type StudyActivityMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   count?: Prisma.SortOrder
 }
 
 export type StudyActivityMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   count?: Prisma.SortOrder
 }
@@ -345,84 +345,84 @@ export type StudyActivitySumOrderByAggregateInput = {
   count?: Prisma.SortOrder
 }
 
-export type StudyActivityCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.StudyActivityCreateWithoutUserInput, Prisma.StudyActivityUncheckedCreateWithoutUserInput> | Prisma.StudyActivityCreateWithoutUserInput[] | Prisma.StudyActivityUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.StudyActivityCreateOrConnectWithoutUserInput | Prisma.StudyActivityCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.StudyActivityCreateManyUserInputEnvelope
+export type StudyActivityCreateNestedManyWithoutStudentInput = {
+  create?: Prisma.XOR<Prisma.StudyActivityCreateWithoutStudentInput, Prisma.StudyActivityUncheckedCreateWithoutStudentInput> | Prisma.StudyActivityCreateWithoutStudentInput[] | Prisma.StudyActivityUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.StudyActivityCreateOrConnectWithoutStudentInput | Prisma.StudyActivityCreateOrConnectWithoutStudentInput[]
+  createMany?: Prisma.StudyActivityCreateManyStudentInputEnvelope
   connect?: Prisma.StudyActivityWhereUniqueInput | Prisma.StudyActivityWhereUniqueInput[]
 }
 
-export type StudyActivityUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.StudyActivityCreateWithoutUserInput, Prisma.StudyActivityUncheckedCreateWithoutUserInput> | Prisma.StudyActivityCreateWithoutUserInput[] | Prisma.StudyActivityUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.StudyActivityCreateOrConnectWithoutUserInput | Prisma.StudyActivityCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.StudyActivityCreateManyUserInputEnvelope
+export type StudyActivityUncheckedCreateNestedManyWithoutStudentInput = {
+  create?: Prisma.XOR<Prisma.StudyActivityCreateWithoutStudentInput, Prisma.StudyActivityUncheckedCreateWithoutStudentInput> | Prisma.StudyActivityCreateWithoutStudentInput[] | Prisma.StudyActivityUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.StudyActivityCreateOrConnectWithoutStudentInput | Prisma.StudyActivityCreateOrConnectWithoutStudentInput[]
+  createMany?: Prisma.StudyActivityCreateManyStudentInputEnvelope
   connect?: Prisma.StudyActivityWhereUniqueInput | Prisma.StudyActivityWhereUniqueInput[]
 }
 
-export type StudyActivityUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.StudyActivityCreateWithoutUserInput, Prisma.StudyActivityUncheckedCreateWithoutUserInput> | Prisma.StudyActivityCreateWithoutUserInput[] | Prisma.StudyActivityUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.StudyActivityCreateOrConnectWithoutUserInput | Prisma.StudyActivityCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.StudyActivityUpsertWithWhereUniqueWithoutUserInput | Prisma.StudyActivityUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.StudyActivityCreateManyUserInputEnvelope
+export type StudyActivityUpdateManyWithoutStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.StudyActivityCreateWithoutStudentInput, Prisma.StudyActivityUncheckedCreateWithoutStudentInput> | Prisma.StudyActivityCreateWithoutStudentInput[] | Prisma.StudyActivityUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.StudyActivityCreateOrConnectWithoutStudentInput | Prisma.StudyActivityCreateOrConnectWithoutStudentInput[]
+  upsert?: Prisma.StudyActivityUpsertWithWhereUniqueWithoutStudentInput | Prisma.StudyActivityUpsertWithWhereUniqueWithoutStudentInput[]
+  createMany?: Prisma.StudyActivityCreateManyStudentInputEnvelope
   set?: Prisma.StudyActivityWhereUniqueInput | Prisma.StudyActivityWhereUniqueInput[]
   disconnect?: Prisma.StudyActivityWhereUniqueInput | Prisma.StudyActivityWhereUniqueInput[]
   delete?: Prisma.StudyActivityWhereUniqueInput | Prisma.StudyActivityWhereUniqueInput[]
   connect?: Prisma.StudyActivityWhereUniqueInput | Prisma.StudyActivityWhereUniqueInput[]
-  update?: Prisma.StudyActivityUpdateWithWhereUniqueWithoutUserInput | Prisma.StudyActivityUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.StudyActivityUpdateManyWithWhereWithoutUserInput | Prisma.StudyActivityUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.StudyActivityUpdateWithWhereUniqueWithoutStudentInput | Prisma.StudyActivityUpdateWithWhereUniqueWithoutStudentInput[]
+  updateMany?: Prisma.StudyActivityUpdateManyWithWhereWithoutStudentInput | Prisma.StudyActivityUpdateManyWithWhereWithoutStudentInput[]
   deleteMany?: Prisma.StudyActivityScalarWhereInput | Prisma.StudyActivityScalarWhereInput[]
 }
 
-export type StudyActivityUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.StudyActivityCreateWithoutUserInput, Prisma.StudyActivityUncheckedCreateWithoutUserInput> | Prisma.StudyActivityCreateWithoutUserInput[] | Prisma.StudyActivityUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.StudyActivityCreateOrConnectWithoutUserInput | Prisma.StudyActivityCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.StudyActivityUpsertWithWhereUniqueWithoutUserInput | Prisma.StudyActivityUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.StudyActivityCreateManyUserInputEnvelope
+export type StudyActivityUncheckedUpdateManyWithoutStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.StudyActivityCreateWithoutStudentInput, Prisma.StudyActivityUncheckedCreateWithoutStudentInput> | Prisma.StudyActivityCreateWithoutStudentInput[] | Prisma.StudyActivityUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.StudyActivityCreateOrConnectWithoutStudentInput | Prisma.StudyActivityCreateOrConnectWithoutStudentInput[]
+  upsert?: Prisma.StudyActivityUpsertWithWhereUniqueWithoutStudentInput | Prisma.StudyActivityUpsertWithWhereUniqueWithoutStudentInput[]
+  createMany?: Prisma.StudyActivityCreateManyStudentInputEnvelope
   set?: Prisma.StudyActivityWhereUniqueInput | Prisma.StudyActivityWhereUniqueInput[]
   disconnect?: Prisma.StudyActivityWhereUniqueInput | Prisma.StudyActivityWhereUniqueInput[]
   delete?: Prisma.StudyActivityWhereUniqueInput | Prisma.StudyActivityWhereUniqueInput[]
   connect?: Prisma.StudyActivityWhereUniqueInput | Prisma.StudyActivityWhereUniqueInput[]
-  update?: Prisma.StudyActivityUpdateWithWhereUniqueWithoutUserInput | Prisma.StudyActivityUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.StudyActivityUpdateManyWithWhereWithoutUserInput | Prisma.StudyActivityUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.StudyActivityUpdateWithWhereUniqueWithoutStudentInput | Prisma.StudyActivityUpdateWithWhereUniqueWithoutStudentInput[]
+  updateMany?: Prisma.StudyActivityUpdateManyWithWhereWithoutStudentInput | Prisma.StudyActivityUpdateManyWithWhereWithoutStudentInput[]
   deleteMany?: Prisma.StudyActivityScalarWhereInput | Prisma.StudyActivityScalarWhereInput[]
 }
 
-export type StudyActivityCreateWithoutUserInput = {
+export type StudyActivityCreateWithoutStudentInput = {
   id?: string
   date: Date | string
   count?: number
 }
 
-export type StudyActivityUncheckedCreateWithoutUserInput = {
+export type StudyActivityUncheckedCreateWithoutStudentInput = {
   id?: string
   date: Date | string
   count?: number
 }
 
-export type StudyActivityCreateOrConnectWithoutUserInput = {
+export type StudyActivityCreateOrConnectWithoutStudentInput = {
   where: Prisma.StudyActivityWhereUniqueInput
-  create: Prisma.XOR<Prisma.StudyActivityCreateWithoutUserInput, Prisma.StudyActivityUncheckedCreateWithoutUserInput>
+  create: Prisma.XOR<Prisma.StudyActivityCreateWithoutStudentInput, Prisma.StudyActivityUncheckedCreateWithoutStudentInput>
 }
 
-export type StudyActivityCreateManyUserInputEnvelope = {
-  data: Prisma.StudyActivityCreateManyUserInput | Prisma.StudyActivityCreateManyUserInput[]
+export type StudyActivityCreateManyStudentInputEnvelope = {
+  data: Prisma.StudyActivityCreateManyStudentInput | Prisma.StudyActivityCreateManyStudentInput[]
   skipDuplicates?: boolean
 }
 
-export type StudyActivityUpsertWithWhereUniqueWithoutUserInput = {
+export type StudyActivityUpsertWithWhereUniqueWithoutStudentInput = {
   where: Prisma.StudyActivityWhereUniqueInput
-  update: Prisma.XOR<Prisma.StudyActivityUpdateWithoutUserInput, Prisma.StudyActivityUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.StudyActivityCreateWithoutUserInput, Prisma.StudyActivityUncheckedCreateWithoutUserInput>
+  update: Prisma.XOR<Prisma.StudyActivityUpdateWithoutStudentInput, Prisma.StudyActivityUncheckedUpdateWithoutStudentInput>
+  create: Prisma.XOR<Prisma.StudyActivityCreateWithoutStudentInput, Prisma.StudyActivityUncheckedCreateWithoutStudentInput>
 }
 
-export type StudyActivityUpdateWithWhereUniqueWithoutUserInput = {
+export type StudyActivityUpdateWithWhereUniqueWithoutStudentInput = {
   where: Prisma.StudyActivityWhereUniqueInput
-  data: Prisma.XOR<Prisma.StudyActivityUpdateWithoutUserInput, Prisma.StudyActivityUncheckedUpdateWithoutUserInput>
+  data: Prisma.XOR<Prisma.StudyActivityUpdateWithoutStudentInput, Prisma.StudyActivityUncheckedUpdateWithoutStudentInput>
 }
 
-export type StudyActivityUpdateManyWithWhereWithoutUserInput = {
+export type StudyActivityUpdateManyWithWhereWithoutStudentInput = {
   where: Prisma.StudyActivityScalarWhereInput
-  data: Prisma.XOR<Prisma.StudyActivityUpdateManyMutationInput, Prisma.StudyActivityUncheckedUpdateManyWithoutUserInput>
+  data: Prisma.XOR<Prisma.StudyActivityUpdateManyMutationInput, Prisma.StudyActivityUncheckedUpdateManyWithoutStudentInput>
 }
 
 export type StudyActivityScalarWhereInput = {
@@ -430,30 +430,30 @@ export type StudyActivityScalarWhereInput = {
   OR?: Prisma.StudyActivityScalarWhereInput[]
   NOT?: Prisma.StudyActivityScalarWhereInput | Prisma.StudyActivityScalarWhereInput[]
   id?: Prisma.StringFilter<"StudyActivity"> | string
-  userId?: Prisma.StringFilter<"StudyActivity"> | string
+  studentId?: Prisma.StringFilter<"StudyActivity"> | string
   date?: Prisma.DateTimeFilter<"StudyActivity"> | Date | string
   count?: Prisma.IntFilter<"StudyActivity"> | number
 }
 
-export type StudyActivityCreateManyUserInput = {
+export type StudyActivityCreateManyStudentInput = {
   id?: string
   date: Date | string
   count?: number
 }
 
-export type StudyActivityUpdateWithoutUserInput = {
+export type StudyActivityUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   count?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
-export type StudyActivityUncheckedUpdateWithoutUserInput = {
+export type StudyActivityUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   count?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
-export type StudyActivityUncheckedUpdateManyWithoutUserInput = {
+export type StudyActivityUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   count?: Prisma.IntFieldUpdateOperationsInput | number
@@ -463,54 +463,54 @@ export type StudyActivityUncheckedUpdateManyWithoutUserInput = {
 
 export type StudyActivitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
+  studentId?: boolean
   date?: boolean
   count?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studyActivity"]>
 
 export type StudyActivitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
+  studentId?: boolean
   date?: boolean
   count?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studyActivity"]>
 
 export type StudyActivitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
+  studentId?: boolean
   date?: boolean
   count?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studyActivity"]>
 
 export type StudyActivitySelectScalar = {
   id?: boolean
-  userId?: boolean
+  studentId?: boolean
   date?: boolean
   count?: boolean
 }
 
-export type StudyActivityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "date" | "count", ExtArgs["result"]["studyActivity"]>
+export type StudyActivityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "date" | "count", ExtArgs["result"]["studyActivity"]>
 export type StudyActivityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }
 export type StudyActivityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }
 export type StudyActivityIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }
 
 export type $StudyActivityPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "StudyActivity"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
+    student: Prisma.$StudentPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    userId: string
+    studentId: string
     date: Date
     count: number
   }, ExtArgs["result"]["studyActivity"]>
@@ -907,7 +907,7 @@ readonly fields: StudyActivityFieldRefs;
  */
 export interface Prisma__StudyActivityClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -938,7 +938,7 @@ export interface Prisma__StudyActivityClient<T, Null = never, ExtArgs extends ru
  */
 export interface StudyActivityFieldRefs {
   readonly id: Prisma.FieldRef<"StudyActivity", 'String'>
-  readonly userId: Prisma.FieldRef<"StudyActivity", 'String'>
+  readonly studentId: Prisma.FieldRef<"StudyActivity", 'String'>
   readonly date: Prisma.FieldRef<"StudyActivity", 'DateTime'>
   readonly count: Prisma.FieldRef<"StudyActivity", 'Int'>
 }

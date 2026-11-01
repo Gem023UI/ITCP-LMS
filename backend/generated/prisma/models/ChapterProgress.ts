@@ -36,7 +36,7 @@ export type ChapterProgressSumAggregateOutputType = {
 
 export type ChapterProgressMinAggregateOutputType = {
   id: string | null
-  userId: string | null
+  studentId: string | null
   chapterId: string | null
   percent: number | null
   updatedAt: Date | null
@@ -44,7 +44,7 @@ export type ChapterProgressMinAggregateOutputType = {
 
 export type ChapterProgressMaxAggregateOutputType = {
   id: string | null
-  userId: string | null
+  studentId: string | null
   chapterId: string | null
   percent: number | null
   updatedAt: Date | null
@@ -52,7 +52,7 @@ export type ChapterProgressMaxAggregateOutputType = {
 
 export type ChapterProgressCountAggregateOutputType = {
   id: number
-  userId: number
+  studentId: number
   chapterId: number
   percent: number
   updatedAt: number
@@ -70,7 +70,7 @@ export type ChapterProgressSumAggregateInputType = {
 
 export type ChapterProgressMinAggregateInputType = {
   id?: true
-  userId?: true
+  studentId?: true
   chapterId?: true
   percent?: true
   updatedAt?: true
@@ -78,7 +78,7 @@ export type ChapterProgressMinAggregateInputType = {
 
 export type ChapterProgressMaxAggregateInputType = {
   id?: true
-  userId?: true
+  studentId?: true
   chapterId?: true
   percent?: true
   updatedAt?: true
@@ -86,7 +86,7 @@ export type ChapterProgressMaxAggregateInputType = {
 
 export type ChapterProgressCountAggregateInputType = {
   id?: true
-  userId?: true
+  studentId?: true
   chapterId?: true
   percent?: true
   updatedAt?: true
@@ -181,7 +181,7 @@ export type ChapterProgressGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type ChapterProgressGroupByOutputType = {
   id: string
-  userId: string
+  studentId: string
   chapterId: string
   percent: number
   updatedAt: Date
@@ -212,41 +212,41 @@ export type ChapterProgressWhereInput = {
   OR?: Prisma.ChapterProgressWhereInput[]
   NOT?: Prisma.ChapterProgressWhereInput | Prisma.ChapterProgressWhereInput[]
   id?: Prisma.StringFilter<"ChapterProgress"> | string
-  userId?: Prisma.StringFilter<"ChapterProgress"> | string
+  studentId?: Prisma.StringFilter<"ChapterProgress"> | string
   chapterId?: Prisma.StringFilter<"ChapterProgress"> | string
   percent?: Prisma.IntFilter<"ChapterProgress"> | number
   updatedAt?: Prisma.DateTimeFilter<"ChapterProgress"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   chapter?: Prisma.XOR<Prisma.ChapterScalarRelationFilter, Prisma.ChapterWhereInput>
 }
 
 export type ChapterProgressOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   percent?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
+  student?: Prisma.StudentOrderByWithRelationInput
   chapter?: Prisma.ChapterOrderByWithRelationInput
 }
 
 export type ChapterProgressWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  userId_chapterId?: Prisma.ChapterProgressUserIdChapterIdCompoundUniqueInput
+  studentId_chapterId?: Prisma.ChapterProgressStudentIdChapterIdCompoundUniqueInput
   AND?: Prisma.ChapterProgressWhereInput | Prisma.ChapterProgressWhereInput[]
   OR?: Prisma.ChapterProgressWhereInput[]
   NOT?: Prisma.ChapterProgressWhereInput | Prisma.ChapterProgressWhereInput[]
-  userId?: Prisma.StringFilter<"ChapterProgress"> | string
+  studentId?: Prisma.StringFilter<"ChapterProgress"> | string
   chapterId?: Prisma.StringFilter<"ChapterProgress"> | string
   percent?: Prisma.IntFilter<"ChapterProgress"> | number
   updatedAt?: Prisma.DateTimeFilter<"ChapterProgress"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   chapter?: Prisma.XOR<Prisma.ChapterScalarRelationFilter, Prisma.ChapterWhereInput>
-}, "id" | "userId_chapterId">
+}, "id" | "studentId_chapterId">
 
 export type ChapterProgressOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   percent?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -262,7 +262,7 @@ export type ChapterProgressScalarWhereWithAggregatesInput = {
   OR?: Prisma.ChapterProgressScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ChapterProgressScalarWhereWithAggregatesInput | Prisma.ChapterProgressScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ChapterProgress"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"ChapterProgress"> | string
+  studentId?: Prisma.StringWithAggregatesFilter<"ChapterProgress"> | string
   chapterId?: Prisma.StringWithAggregatesFilter<"ChapterProgress"> | string
   percent?: Prisma.IntWithAggregatesFilter<"ChapterProgress"> | number
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ChapterProgress"> | Date | string
@@ -272,13 +272,13 @@ export type ChapterProgressCreateInput = {
   id?: string
   percent?: number
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutChapterProgressInput
+  student: Prisma.StudentCreateNestedOneWithoutChapterProgressInput
   chapter: Prisma.ChapterCreateNestedOneWithoutProgressInput
 }
 
 export type ChapterProgressUncheckedCreateInput = {
   id?: string
-  userId: string
+  studentId: string
   chapterId: string
   percent?: number
   updatedAt?: Date | string
@@ -288,13 +288,13 @@ export type ChapterProgressUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutChapterProgressNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutChapterProgressNestedInput
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutProgressNestedInput
 }
 
 export type ChapterProgressUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -302,7 +302,7 @@ export type ChapterProgressUncheckedUpdateInput = {
 
 export type ChapterProgressCreateManyInput = {
   id?: string
-  userId: string
+  studentId: string
   chapterId: string
   percent?: number
   updatedAt?: Date | string
@@ -316,7 +316,7 @@ export type ChapterProgressUpdateManyMutationInput = {
 
 export type ChapterProgressUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -332,14 +332,14 @@ export type ChapterProgressOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type ChapterProgressUserIdChapterIdCompoundUniqueInput = {
-  userId: string
+export type ChapterProgressStudentIdChapterIdCompoundUniqueInput = {
+  studentId: string
   chapterId: string
 }
 
 export type ChapterProgressCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   percent?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -351,7 +351,7 @@ export type ChapterProgressAvgOrderByAggregateInput = {
 
 export type ChapterProgressMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   percent?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -359,7 +359,7 @@ export type ChapterProgressMaxOrderByAggregateInput = {
 
 export type ChapterProgressMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   percent?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -369,45 +369,45 @@ export type ChapterProgressSumOrderByAggregateInput = {
   percent?: Prisma.SortOrder
 }
 
-export type ChapterProgressCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.ChapterProgressCreateWithoutUserInput, Prisma.ChapterProgressUncheckedCreateWithoutUserInput> | Prisma.ChapterProgressCreateWithoutUserInput[] | Prisma.ChapterProgressUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ChapterProgressCreateOrConnectWithoutUserInput | Prisma.ChapterProgressCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.ChapterProgressCreateManyUserInputEnvelope
+export type ChapterProgressCreateNestedManyWithoutStudentInput = {
+  create?: Prisma.XOR<Prisma.ChapterProgressCreateWithoutStudentInput, Prisma.ChapterProgressUncheckedCreateWithoutStudentInput> | Prisma.ChapterProgressCreateWithoutStudentInput[] | Prisma.ChapterProgressUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.ChapterProgressCreateOrConnectWithoutStudentInput | Prisma.ChapterProgressCreateOrConnectWithoutStudentInput[]
+  createMany?: Prisma.ChapterProgressCreateManyStudentInputEnvelope
   connect?: Prisma.ChapterProgressWhereUniqueInput | Prisma.ChapterProgressWhereUniqueInput[]
 }
 
-export type ChapterProgressUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.ChapterProgressCreateWithoutUserInput, Prisma.ChapterProgressUncheckedCreateWithoutUserInput> | Prisma.ChapterProgressCreateWithoutUserInput[] | Prisma.ChapterProgressUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ChapterProgressCreateOrConnectWithoutUserInput | Prisma.ChapterProgressCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.ChapterProgressCreateManyUserInputEnvelope
+export type ChapterProgressUncheckedCreateNestedManyWithoutStudentInput = {
+  create?: Prisma.XOR<Prisma.ChapterProgressCreateWithoutStudentInput, Prisma.ChapterProgressUncheckedCreateWithoutStudentInput> | Prisma.ChapterProgressCreateWithoutStudentInput[] | Prisma.ChapterProgressUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.ChapterProgressCreateOrConnectWithoutStudentInput | Prisma.ChapterProgressCreateOrConnectWithoutStudentInput[]
+  createMany?: Prisma.ChapterProgressCreateManyStudentInputEnvelope
   connect?: Prisma.ChapterProgressWhereUniqueInput | Prisma.ChapterProgressWhereUniqueInput[]
 }
 
-export type ChapterProgressUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.ChapterProgressCreateWithoutUserInput, Prisma.ChapterProgressUncheckedCreateWithoutUserInput> | Prisma.ChapterProgressCreateWithoutUserInput[] | Prisma.ChapterProgressUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ChapterProgressCreateOrConnectWithoutUserInput | Prisma.ChapterProgressCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.ChapterProgressUpsertWithWhereUniqueWithoutUserInput | Prisma.ChapterProgressUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.ChapterProgressCreateManyUserInputEnvelope
+export type ChapterProgressUpdateManyWithoutStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.ChapterProgressCreateWithoutStudentInput, Prisma.ChapterProgressUncheckedCreateWithoutStudentInput> | Prisma.ChapterProgressCreateWithoutStudentInput[] | Prisma.ChapterProgressUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.ChapterProgressCreateOrConnectWithoutStudentInput | Prisma.ChapterProgressCreateOrConnectWithoutStudentInput[]
+  upsert?: Prisma.ChapterProgressUpsertWithWhereUniqueWithoutStudentInput | Prisma.ChapterProgressUpsertWithWhereUniqueWithoutStudentInput[]
+  createMany?: Prisma.ChapterProgressCreateManyStudentInputEnvelope
   set?: Prisma.ChapterProgressWhereUniqueInput | Prisma.ChapterProgressWhereUniqueInput[]
   disconnect?: Prisma.ChapterProgressWhereUniqueInput | Prisma.ChapterProgressWhereUniqueInput[]
   delete?: Prisma.ChapterProgressWhereUniqueInput | Prisma.ChapterProgressWhereUniqueInput[]
   connect?: Prisma.ChapterProgressWhereUniqueInput | Prisma.ChapterProgressWhereUniqueInput[]
-  update?: Prisma.ChapterProgressUpdateWithWhereUniqueWithoutUserInput | Prisma.ChapterProgressUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.ChapterProgressUpdateManyWithWhereWithoutUserInput | Prisma.ChapterProgressUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.ChapterProgressUpdateWithWhereUniqueWithoutStudentInput | Prisma.ChapterProgressUpdateWithWhereUniqueWithoutStudentInput[]
+  updateMany?: Prisma.ChapterProgressUpdateManyWithWhereWithoutStudentInput | Prisma.ChapterProgressUpdateManyWithWhereWithoutStudentInput[]
   deleteMany?: Prisma.ChapterProgressScalarWhereInput | Prisma.ChapterProgressScalarWhereInput[]
 }
 
-export type ChapterProgressUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.ChapterProgressCreateWithoutUserInput, Prisma.ChapterProgressUncheckedCreateWithoutUserInput> | Prisma.ChapterProgressCreateWithoutUserInput[] | Prisma.ChapterProgressUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ChapterProgressCreateOrConnectWithoutUserInput | Prisma.ChapterProgressCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.ChapterProgressUpsertWithWhereUniqueWithoutUserInput | Prisma.ChapterProgressUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.ChapterProgressCreateManyUserInputEnvelope
+export type ChapterProgressUncheckedUpdateManyWithoutStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.ChapterProgressCreateWithoutStudentInput, Prisma.ChapterProgressUncheckedCreateWithoutStudentInput> | Prisma.ChapterProgressCreateWithoutStudentInput[] | Prisma.ChapterProgressUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.ChapterProgressCreateOrConnectWithoutStudentInput | Prisma.ChapterProgressCreateOrConnectWithoutStudentInput[]
+  upsert?: Prisma.ChapterProgressUpsertWithWhereUniqueWithoutStudentInput | Prisma.ChapterProgressUpsertWithWhereUniqueWithoutStudentInput[]
+  createMany?: Prisma.ChapterProgressCreateManyStudentInputEnvelope
   set?: Prisma.ChapterProgressWhereUniqueInput | Prisma.ChapterProgressWhereUniqueInput[]
   disconnect?: Prisma.ChapterProgressWhereUniqueInput | Prisma.ChapterProgressWhereUniqueInput[]
   delete?: Prisma.ChapterProgressWhereUniqueInput | Prisma.ChapterProgressWhereUniqueInput[]
   connect?: Prisma.ChapterProgressWhereUniqueInput | Prisma.ChapterProgressWhereUniqueInput[]
-  update?: Prisma.ChapterProgressUpdateWithWhereUniqueWithoutUserInput | Prisma.ChapterProgressUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.ChapterProgressUpdateManyWithWhereWithoutUserInput | Prisma.ChapterProgressUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.ChapterProgressUpdateWithWhereUniqueWithoutStudentInput | Prisma.ChapterProgressUpdateWithWhereUniqueWithoutStudentInput[]
+  updateMany?: Prisma.ChapterProgressUpdateManyWithWhereWithoutStudentInput | Prisma.ChapterProgressUpdateManyWithWhereWithoutStudentInput[]
   deleteMany?: Prisma.ChapterProgressScalarWhereInput | Prisma.ChapterProgressScalarWhereInput[]
 }
 
@@ -453,44 +453,44 @@ export type ChapterProgressUncheckedUpdateManyWithoutChapterNestedInput = {
   deleteMany?: Prisma.ChapterProgressScalarWhereInput | Prisma.ChapterProgressScalarWhereInput[]
 }
 
-export type ChapterProgressCreateWithoutUserInput = {
+export type ChapterProgressCreateWithoutStudentInput = {
   id?: string
   percent?: number
   updatedAt?: Date | string
   chapter: Prisma.ChapterCreateNestedOneWithoutProgressInput
 }
 
-export type ChapterProgressUncheckedCreateWithoutUserInput = {
+export type ChapterProgressUncheckedCreateWithoutStudentInput = {
   id?: string
   chapterId: string
   percent?: number
   updatedAt?: Date | string
 }
 
-export type ChapterProgressCreateOrConnectWithoutUserInput = {
+export type ChapterProgressCreateOrConnectWithoutStudentInput = {
   where: Prisma.ChapterProgressWhereUniqueInput
-  create: Prisma.XOR<Prisma.ChapterProgressCreateWithoutUserInput, Prisma.ChapterProgressUncheckedCreateWithoutUserInput>
+  create: Prisma.XOR<Prisma.ChapterProgressCreateWithoutStudentInput, Prisma.ChapterProgressUncheckedCreateWithoutStudentInput>
 }
 
-export type ChapterProgressCreateManyUserInputEnvelope = {
-  data: Prisma.ChapterProgressCreateManyUserInput | Prisma.ChapterProgressCreateManyUserInput[]
+export type ChapterProgressCreateManyStudentInputEnvelope = {
+  data: Prisma.ChapterProgressCreateManyStudentInput | Prisma.ChapterProgressCreateManyStudentInput[]
   skipDuplicates?: boolean
 }
 
-export type ChapterProgressUpsertWithWhereUniqueWithoutUserInput = {
+export type ChapterProgressUpsertWithWhereUniqueWithoutStudentInput = {
   where: Prisma.ChapterProgressWhereUniqueInput
-  update: Prisma.XOR<Prisma.ChapterProgressUpdateWithoutUserInput, Prisma.ChapterProgressUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.ChapterProgressCreateWithoutUserInput, Prisma.ChapterProgressUncheckedCreateWithoutUserInput>
+  update: Prisma.XOR<Prisma.ChapterProgressUpdateWithoutStudentInput, Prisma.ChapterProgressUncheckedUpdateWithoutStudentInput>
+  create: Prisma.XOR<Prisma.ChapterProgressCreateWithoutStudentInput, Prisma.ChapterProgressUncheckedCreateWithoutStudentInput>
 }
 
-export type ChapterProgressUpdateWithWhereUniqueWithoutUserInput = {
+export type ChapterProgressUpdateWithWhereUniqueWithoutStudentInput = {
   where: Prisma.ChapterProgressWhereUniqueInput
-  data: Prisma.XOR<Prisma.ChapterProgressUpdateWithoutUserInput, Prisma.ChapterProgressUncheckedUpdateWithoutUserInput>
+  data: Prisma.XOR<Prisma.ChapterProgressUpdateWithoutStudentInput, Prisma.ChapterProgressUncheckedUpdateWithoutStudentInput>
 }
 
-export type ChapterProgressUpdateManyWithWhereWithoutUserInput = {
+export type ChapterProgressUpdateManyWithWhereWithoutStudentInput = {
   where: Prisma.ChapterProgressScalarWhereInput
-  data: Prisma.XOR<Prisma.ChapterProgressUpdateManyMutationInput, Prisma.ChapterProgressUncheckedUpdateManyWithoutUserInput>
+  data: Prisma.XOR<Prisma.ChapterProgressUpdateManyMutationInput, Prisma.ChapterProgressUncheckedUpdateManyWithoutStudentInput>
 }
 
 export type ChapterProgressScalarWhereInput = {
@@ -498,7 +498,7 @@ export type ChapterProgressScalarWhereInput = {
   OR?: Prisma.ChapterProgressScalarWhereInput[]
   NOT?: Prisma.ChapterProgressScalarWhereInput | Prisma.ChapterProgressScalarWhereInput[]
   id?: Prisma.StringFilter<"ChapterProgress"> | string
-  userId?: Prisma.StringFilter<"ChapterProgress"> | string
+  studentId?: Prisma.StringFilter<"ChapterProgress"> | string
   chapterId?: Prisma.StringFilter<"ChapterProgress"> | string
   percent?: Prisma.IntFilter<"ChapterProgress"> | number
   updatedAt?: Prisma.DateTimeFilter<"ChapterProgress"> | Date | string
@@ -508,12 +508,12 @@ export type ChapterProgressCreateWithoutChapterInput = {
   id?: string
   percent?: number
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutChapterProgressInput
+  student: Prisma.StudentCreateNestedOneWithoutChapterProgressInput
 }
 
 export type ChapterProgressUncheckedCreateWithoutChapterInput = {
   id?: string
-  userId: string
+  studentId: string
   percent?: number
   updatedAt?: Date | string
 }
@@ -544,28 +544,28 @@ export type ChapterProgressUpdateManyWithWhereWithoutChapterInput = {
   data: Prisma.XOR<Prisma.ChapterProgressUpdateManyMutationInput, Prisma.ChapterProgressUncheckedUpdateManyWithoutChapterInput>
 }
 
-export type ChapterProgressCreateManyUserInput = {
+export type ChapterProgressCreateManyStudentInput = {
   id?: string
   chapterId: string
   percent?: number
   updatedAt?: Date | string
 }
 
-export type ChapterProgressUpdateWithoutUserInput = {
+export type ChapterProgressUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutProgressNestedInput
 }
 
-export type ChapterProgressUncheckedUpdateWithoutUserInput = {
+export type ChapterProgressUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ChapterProgressUncheckedUpdateManyWithoutUserInput = {
+export type ChapterProgressUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
@@ -574,7 +574,7 @@ export type ChapterProgressUncheckedUpdateManyWithoutUserInput = {
 
 export type ChapterProgressCreateManyChapterInput = {
   id?: string
-  userId: string
+  studentId: string
   percent?: number
   updatedAt?: Date | string
 }
@@ -583,19 +583,19 @@ export type ChapterProgressUpdateWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutChapterProgressNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutChapterProgressNestedInput
 }
 
 export type ChapterProgressUncheckedUpdateWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ChapterProgressUncheckedUpdateManyWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -604,65 +604,65 @@ export type ChapterProgressUncheckedUpdateManyWithoutChapterInput = {
 
 export type ChapterProgressSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
+  studentId?: boolean
   chapterId?: boolean
   percent?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chapterProgress"]>
 
 export type ChapterProgressSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
+  studentId?: boolean
   chapterId?: boolean
   percent?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chapterProgress"]>
 
 export type ChapterProgressSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
+  studentId?: boolean
   chapterId?: boolean
   percent?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chapterProgress"]>
 
 export type ChapterProgressSelectScalar = {
   id?: boolean
-  userId?: boolean
+  studentId?: boolean
   chapterId?: boolean
   percent?: boolean
   updatedAt?: boolean
 }
 
-export type ChapterProgressOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "chapterId" | "percent" | "updatedAt", ExtArgs["result"]["chapterProgress"]>
+export type ChapterProgressOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "chapterId" | "percent" | "updatedAt", ExtArgs["result"]["chapterProgress"]>
 export type ChapterProgressInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
 }
 export type ChapterProgressIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
 }
 export type ChapterProgressIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
 }
 
 export type $ChapterProgressPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ChapterProgress"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
+    student: Prisma.$StudentPayload<ExtArgs>
     chapter: Prisma.$ChapterPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    userId: string
+    studentId: string
     chapterId: string
     percent: number
     updatedAt: Date
@@ -1060,7 +1060,7 @@ readonly fields: ChapterProgressFieldRefs;
  */
 export interface Prisma__ChapterProgressClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   chapter<T extends Prisma.ChapterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ChapterDefaultArgs<ExtArgs>>): Prisma.Prisma__ChapterClient<runtime.Types.Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1092,7 +1092,7 @@ export interface Prisma__ChapterProgressClient<T, Null = never, ExtArgs extends 
  */
 export interface ChapterProgressFieldRefs {
   readonly id: Prisma.FieldRef<"ChapterProgress", 'String'>
-  readonly userId: Prisma.FieldRef<"ChapterProgress", 'String'>
+  readonly studentId: Prisma.FieldRef<"ChapterProgress", 'String'>
   readonly chapterId: Prisma.FieldRef<"ChapterProgress", 'String'>
   readonly percent: Prisma.FieldRef<"ChapterProgress", 'Int'>
   readonly updatedAt: Prisma.FieldRef<"ChapterProgress", 'DateTime'>

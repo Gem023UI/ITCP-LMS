@@ -39,7 +39,6 @@ export type ChapterSumAggregateOutputType = {
 export type ChapterMinAggregateOutputType = {
   id: string | null
   subjectId: string | null
-  chapterId: string | null
   chapterNo: number | null
   cardImage: string | null
   title: string | null
@@ -54,7 +53,6 @@ export type ChapterMinAggregateOutputType = {
 export type ChapterMaxAggregateOutputType = {
   id: string | null
   subjectId: string | null
-  chapterId: string | null
   chapterNo: number | null
   cardImage: string | null
   title: string | null
@@ -69,7 +67,6 @@ export type ChapterMaxAggregateOutputType = {
 export type ChapterCountAggregateOutputType = {
   id: number
   subjectId: number
-  chapterId: number
   chapterNo: number
   cardImage: number
   title: number
@@ -100,7 +97,6 @@ export type ChapterSumAggregateInputType = {
 export type ChapterMinAggregateInputType = {
   id?: true
   subjectId?: true
-  chapterId?: true
   chapterNo?: true
   cardImage?: true
   title?: true
@@ -115,7 +111,6 @@ export type ChapterMinAggregateInputType = {
 export type ChapterMaxAggregateInputType = {
   id?: true
   subjectId?: true
-  chapterId?: true
   chapterNo?: true
   cardImage?: true
   title?: true
@@ -130,7 +125,6 @@ export type ChapterMaxAggregateInputType = {
 export type ChapterCountAggregateInputType = {
   id?: true
   subjectId?: true
-  chapterId?: true
   chapterNo?: true
   cardImage?: true
   title?: true
@@ -236,7 +230,6 @@ export type ChapterGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type ChapterGroupByOutputType = {
   id: string
   subjectId: string
-  chapterId: string
   chapterNo: number
   cardImage: string
   title: string
@@ -278,7 +271,6 @@ export type ChapterWhereInput = {
   NOT?: Prisma.ChapterWhereInput | Prisma.ChapterWhereInput[]
   id?: Prisma.StringFilter<"Chapter"> | string
   subjectId?: Prisma.StringFilter<"Chapter"> | string
-  chapterId?: Prisma.StringFilter<"Chapter"> | string
   chapterNo?: Prisma.IntFilter<"Chapter"> | number
   cardImage?: Prisma.StringFilter<"Chapter"> | string
   title?: Prisma.StringFilter<"Chapter"> | string
@@ -300,7 +292,6 @@ export type ChapterWhereInput = {
 export type ChapterOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
-  chapterId?: Prisma.SortOrder
   chapterNo?: Prisma.SortOrder
   cardImage?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -321,13 +312,11 @@ export type ChapterOrderByWithRelationInput = {
 
 export type ChapterWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  subjectId_chapterId?: Prisma.ChapterSubjectIdChapterIdCompoundUniqueInput
   subjectId_chapterNo?: Prisma.ChapterSubjectIdChapterNoCompoundUniqueInput
   AND?: Prisma.ChapterWhereInput | Prisma.ChapterWhereInput[]
   OR?: Prisma.ChapterWhereInput[]
   NOT?: Prisma.ChapterWhereInput | Prisma.ChapterWhereInput[]
   subjectId?: Prisma.StringFilter<"Chapter"> | string
-  chapterId?: Prisma.StringFilter<"Chapter"> | string
   chapterNo?: Prisma.IntFilter<"Chapter"> | number
   cardImage?: Prisma.StringFilter<"Chapter"> | string
   title?: Prisma.StringFilter<"Chapter"> | string
@@ -344,12 +333,11 @@ export type ChapterWhereUniqueInput = Prisma.AtLeast<{
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   quiz?: Prisma.XOR<Prisma.QuizNullableScalarRelationFilter, Prisma.QuizWhereInput> | null
   progress?: Prisma.ChapterProgressListRelationFilter
-}, "id" | "subjectId_chapterId" | "subjectId_chapterNo">
+}, "id" | "subjectId_chapterNo">
 
 export type ChapterOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
-  chapterId?: Prisma.SortOrder
   chapterNo?: Prisma.SortOrder
   cardImage?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -376,7 +364,6 @@ export type ChapterScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ChapterScalarWhereWithAggregatesInput | Prisma.ChapterScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Chapter"> | string
   subjectId?: Prisma.StringWithAggregatesFilter<"Chapter"> | string
-  chapterId?: Prisma.StringWithAggregatesFilter<"Chapter"> | string
   chapterNo?: Prisma.IntWithAggregatesFilter<"Chapter"> | number
   cardImage?: Prisma.StringWithAggregatesFilter<"Chapter"> | string
   title?: Prisma.StringWithAggregatesFilter<"Chapter"> | string
@@ -394,7 +381,6 @@ export type ChapterScalarWhereWithAggregatesInput = {
 
 export type ChapterCreateInput = {
   id?: string
-  chapterId: string
   chapterNo: number
   cardImage: string
   title: string
@@ -416,7 +402,6 @@ export type ChapterCreateInput = {
 export type ChapterUncheckedCreateInput = {
   id?: string
   subjectId: string
-  chapterId: string
   chapterNo: number
   cardImage: string
   title: string
@@ -436,7 +421,6 @@ export type ChapterUncheckedCreateInput = {
 
 export type ChapterUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
   cardImage?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -458,7 +442,6 @@ export type ChapterUpdateInput = {
 export type ChapterUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
   cardImage?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -479,7 +462,6 @@ export type ChapterUncheckedUpdateInput = {
 export type ChapterCreateManyInput = {
   id?: string
   subjectId: string
-  chapterId: string
   chapterNo: number
   cardImage: string
   title: string
@@ -497,7 +479,6 @@ export type ChapterCreateManyInput = {
 
 export type ChapterUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
   cardImage?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -516,7 +497,6 @@ export type ChapterUpdateManyMutationInput = {
 export type ChapterUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
   cardImage?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -542,11 +522,6 @@ export type ChapterOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type ChapterSubjectIdChapterIdCompoundUniqueInput = {
-  subjectId: string
-  chapterId: string
-}
-
 export type ChapterSubjectIdChapterNoCompoundUniqueInput = {
   subjectId: string
   chapterNo: number
@@ -555,7 +530,6 @@ export type ChapterSubjectIdChapterNoCompoundUniqueInput = {
 export type ChapterCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
-  chapterId?: Prisma.SortOrder
   chapterNo?: Prisma.SortOrder
   cardImage?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -579,7 +553,6 @@ export type ChapterAvgOrderByAggregateInput = {
 export type ChapterMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
-  chapterId?: Prisma.SortOrder
   chapterNo?: Prisma.SortOrder
   cardImage?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -594,7 +567,6 @@ export type ChapterMaxOrderByAggregateInput = {
 export type ChapterMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
-  chapterId?: Prisma.SortOrder
   chapterNo?: Prisma.SortOrder
   cardImage?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -696,7 +668,6 @@ export type ChapterUpdateOneRequiredWithoutProgressNestedInput = {
 
 export type ChapterCreateWithoutSubjectInput = {
   id?: string
-  chapterId: string
   chapterNo: number
   cardImage: string
   title: string
@@ -716,7 +687,6 @@ export type ChapterCreateWithoutSubjectInput = {
 
 export type ChapterUncheckedCreateWithoutSubjectInput = {
   id?: string
-  chapterId: string
   chapterNo: number
   cardImage: string
   title: string
@@ -766,7 +736,6 @@ export type ChapterScalarWhereInput = {
   NOT?: Prisma.ChapterScalarWhereInput | Prisma.ChapterScalarWhereInput[]
   id?: Prisma.StringFilter<"Chapter"> | string
   subjectId?: Prisma.StringFilter<"Chapter"> | string
-  chapterId?: Prisma.StringFilter<"Chapter"> | string
   chapterNo?: Prisma.IntFilter<"Chapter"> | number
   cardImage?: Prisma.StringFilter<"Chapter"> | string
   title?: Prisma.StringFilter<"Chapter"> | string
@@ -784,7 +753,6 @@ export type ChapterScalarWhereInput = {
 
 export type ChapterCreateWithoutQuizInput = {
   id?: string
-  chapterId: string
   chapterNo: number
   cardImage: string
   title: string
@@ -805,7 +773,6 @@ export type ChapterCreateWithoutQuizInput = {
 export type ChapterUncheckedCreateWithoutQuizInput = {
   id?: string
   subjectId: string
-  chapterId: string
   chapterNo: number
   cardImage: string
   title: string
@@ -840,7 +807,6 @@ export type ChapterUpdateToOneWithWhereWithoutQuizInput = {
 
 export type ChapterUpdateWithoutQuizInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
   cardImage?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -861,7 +827,6 @@ export type ChapterUpdateWithoutQuizInput = {
 export type ChapterUncheckedUpdateWithoutQuizInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
   cardImage?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -880,7 +845,6 @@ export type ChapterUncheckedUpdateWithoutQuizInput = {
 
 export type ChapterCreateWithoutProgressInput = {
   id?: string
-  chapterId: string
   chapterNo: number
   cardImage: string
   title: string
@@ -901,7 +865,6 @@ export type ChapterCreateWithoutProgressInput = {
 export type ChapterUncheckedCreateWithoutProgressInput = {
   id?: string
   subjectId: string
-  chapterId: string
   chapterNo: number
   cardImage: string
   title: string
@@ -936,7 +899,6 @@ export type ChapterUpdateToOneWithWhereWithoutProgressInput = {
 
 export type ChapterUpdateWithoutProgressInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
   cardImage?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -957,7 +919,6 @@ export type ChapterUpdateWithoutProgressInput = {
 export type ChapterUncheckedUpdateWithoutProgressInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subjectId?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
   cardImage?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -976,7 +937,6 @@ export type ChapterUncheckedUpdateWithoutProgressInput = {
 
 export type ChapterCreateManySubjectInput = {
   id?: string
-  chapterId: string
   chapterNo: number
   cardImage: string
   title: string
@@ -994,7 +954,6 @@ export type ChapterCreateManySubjectInput = {
 
 export type ChapterUpdateWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
   cardImage?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1014,7 +973,6 @@ export type ChapterUpdateWithoutSubjectInput = {
 
 export type ChapterUncheckedUpdateWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
   cardImage?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1034,7 +992,6 @@ export type ChapterUncheckedUpdateWithoutSubjectInput = {
 
 export type ChapterUncheckedUpdateManyWithoutSubjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterNo?: Prisma.IntFieldUpdateOperationsInput | number
   cardImage?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1084,7 +1041,6 @@ export type ChapterCountOutputTypeCountProgressArgs<ExtArgs extends runtime.Type
 export type ChapterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   subjectId?: boolean
-  chapterId?: boolean
   chapterNo?: boolean
   cardImage?: boolean
   title?: boolean
@@ -1107,7 +1063,6 @@ export type ChapterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type ChapterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   subjectId?: boolean
-  chapterId?: boolean
   chapterNo?: boolean
   cardImage?: boolean
   title?: boolean
@@ -1127,7 +1082,6 @@ export type ChapterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ChapterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   subjectId?: boolean
-  chapterId?: boolean
   chapterNo?: boolean
   cardImage?: boolean
   title?: boolean
@@ -1147,7 +1101,6 @@ export type ChapterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ChapterSelectScalar = {
   id?: boolean
   subjectId?: boolean
-  chapterId?: boolean
   chapterNo?: boolean
   cardImage?: boolean
   title?: boolean
@@ -1163,7 +1116,7 @@ export type ChapterSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ChapterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectId" | "chapterId" | "chapterNo" | "cardImage" | "title" | "description" | "durationMinutes" | "videoUrl" | "slideUrl" | "objectives" | "sections" | "keyTerms" | "references" | "createdAt" | "updatedAt", ExtArgs["result"]["chapter"]>
+export type ChapterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectId" | "chapterNo" | "cardImage" | "title" | "description" | "durationMinutes" | "videoUrl" | "slideUrl" | "objectives" | "sections" | "keyTerms" | "references" | "createdAt" | "updatedAt", ExtArgs["result"]["chapter"]>
 export type ChapterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   quiz?: boolean | Prisma.Chapter$quizArgs<ExtArgs>
@@ -1187,7 +1140,6 @@ export type $ChapterPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     subjectId: string
-    chapterId: string
     chapterNo: number
     cardImage: string
     title: string
@@ -1629,7 +1581,6 @@ export interface Prisma__ChapterClient<T, Null = never, ExtArgs extends runtime.
 export interface ChapterFieldRefs {
   readonly id: Prisma.FieldRef<"Chapter", 'String'>
   readonly subjectId: Prisma.FieldRef<"Chapter", 'String'>
-  readonly chapterId: Prisma.FieldRef<"Chapter", 'String'>
   readonly chapterNo: Prisma.FieldRef<"Chapter", 'Int'>
   readonly cardImage: Prisma.FieldRef<"Chapter", 'String'>
   readonly title: Prisma.FieldRef<"Chapter", 'String'>
