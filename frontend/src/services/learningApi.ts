@@ -22,12 +22,17 @@ export type MySubject = SubjectSummary & {
   totalChapters: number;
 };
 
+export type DeadlineMode = "STRICT" | "LATE";
+
 export type ApiChapter = CloudComputingChapter & {
   id: string;
   subjectId: string;
   chapterNo: number;
   hasQuiz: boolean;
-  quizResult: { score: number; total: number } | null;
+  quizResult: { score: number; total: number; isLate: boolean } | null;
+  quizDeadline: string | null;
+  quizDeadlineMode: DeadlineMode | null;
+  quizMissed: boolean; // student: deadline passed (STRICT) and not taken
 };
 
 export type QuizQuestion = {
@@ -45,6 +50,7 @@ export type QuizResultItem = {
 export type QuizResult = {
   score: number;
   total: number;
+  isLate: boolean;
   submittedAt: string;
   items: QuizResultItem[];
 };
@@ -53,9 +59,18 @@ export type QuizPayload = {
   chapterId: string;
   chapterTitle: string;
   subjectId: string;
+  deadline: string | null;
+  deadlineMode: DeadlineMode;
+  closed: boolean;
   questions: QuizQuestion[];
   result: QuizResult | null;
 };
+
+type RawChapter = Omit<ApiChapter, "chapterId">;
+const withChapterId = (c: RawChapter): ApiChapter => ({
+  ...c,
+  chapterId: `chapter-${String(c.chapterNo).padStart(2, "0")}`,
+});
 
 export async function request<T>(
   path: string,
@@ -90,8 +105,11 @@ export const subjectsApi = {
 
 export const chaptersApi = {
   bySubject: (subjectId: string) =>
-    request<{ chapters: ApiChapter[] }>(`/chapters?subjectId=${encodeURIComponent(subjectId)}`),
-  get: (id: string) => request<{ chapter: ApiChapter }>(`/chapters/${id}`),
+    request<{ chapters: RawChapter[] }>(`/chapters?subjectId=${encodeURIComponent(subjectId)}`).then(
+      (r) => ({ chapters: r.chapters.map(withChapterId) }),
+    ),
+  get: (id: string) =>
+    request<{ chapter: RawChapter }>(`/chapters/${id}`).then((r) => ({ chapter: withChapterId(r.chapter) })),
 };
 
 export const quizApi = {

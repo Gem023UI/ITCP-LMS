@@ -1,11 +1,11 @@
 import { request, type SubjectSummary } from "./learningApi";
+import type { DeadlineMode } from "./learningApi";
 
 export type ManagedSubject = SubjectSummary & { code: string | null; chapterCount: number };
 export type SubjectInput = Pick<SubjectSummary, "title" | "description" | "mediaUrl" | "visibility">;
 
 export type ChapterListItem = {
   id: string;
-  chapterId: string;
   chapterNo: number;
   title: string;
   durationMinutes: number;
@@ -14,7 +14,6 @@ export type ChapterListItem = {
 export type ManagedSubjectDetail = ManagedSubject & { chapters: ChapterListItem[] };
 
 export type ChapterInput = {
-  chapterId: string;
   chapterNo: number;
   cardImage: string;
   title: string;
@@ -37,13 +36,18 @@ export type QuizQuestionPayload = {
 };
 export type ManagedQuiz = {
   questions: (QuizQuestionPayload & { questionNo: number })[];
+  deadline: string | null; // null = no deadline
+  deadlineMode: DeadlineMode;
   attemptCount: number;
 };
 
 export type AdminUser = {
   id: string;
-  tuptId: string;
+  tuptId: string | null; // null for ADMIN
   email: string;
+  firstName: string;
+  lastName: string;
+  imageUrl: string | null;
   role: "STUDENT" | "TEACHER" | "ADMIN";
   status: "ACTIVE" | "INACTIVE" | "DEACTIVATED";
   createdAt: string;
@@ -70,7 +74,10 @@ export const manageApi = {
 
   getQuiz: (chapterId: string) =>
     request<{ quiz: ManagedQuiz | null }>(`/manage/chapters/${chapterId}/quiz`),
-  saveQuiz: (chapterId: string, body: { questions: QuizQuestionPayload[] }) =>
+  saveQuiz: (
+    chapterId: string,
+    body: { questions: QuizQuestionPayload[]; deadline?: string | null; deadlineMode?: DeadlineMode },
+  ) =>
     request<void>(`/manage/chapters/${chapterId}/quiz`, { method: "PUT", body }),
   deleteQuiz: (chapterId: string) =>
     request<void>(`/manage/chapters/${chapterId}/quiz`, { method: "DELETE" }),

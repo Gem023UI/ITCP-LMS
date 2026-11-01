@@ -36,3 +36,23 @@ export const PASSWORD_RULES = [
 
 export const getMissingPasswordRules = (p: string): string[] =>
   PASSWORD_RULES.filter((r) => !r.test(p)).map((r) => r.label);
+
+export function validateName(label: string, value: string): string | null {
+  const v = value.trim();
+  if (!v) return `${label} is required`;
+  if (v.length > 50) return `${label} is too long`;
+  return null;
+}
+
+export function validateLoginIdentifier(value: string): string | null {
+  const v = value.trim();
+  if (!v) return "TUPT ID or email is required";
+  return TUPT_ID_RE.test(v.toUpperCase()) || EMAIL_RE.test(v)
+    ? null
+    : "Enter your TUPT ID (TUPT-XX-XXXX) or email";
+}
+
+export function toLoginIdentifier(value: string): { tuptId: string } | { email: string } {
+  const v = value.trim();
+  return TUPT_ID_RE.test(v.toUpperCase()) ? { tuptId: v.toUpperCase() } : { email: v.toLowerCase() };
+}

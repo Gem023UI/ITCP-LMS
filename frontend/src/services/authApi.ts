@@ -3,12 +3,16 @@ const API_URL =
 
 export type User = {
   id: string;
-  tuptId: string;
+  tuptId: string | null; // null for ADMIN
   email: string;
+  firstName: string;
+  lastName: string;
+  imageUrl: string | null;
   role: "STUDENT" | "TEACHER" | "ADMIN";
   status: "ACTIVE" | "INACTIVE" | "DEACTIVATED";
   createdAt: string;
 };
+
 export class ApiError extends Error {
   status: number;
   fieldErrors: Record<string, string>;
@@ -44,9 +48,16 @@ async function request<T>(
 }
 
 export const authApi = {
-  register: (body: { tuptId: string; email: string; password: string; confirmPassword: string }) =>
+  register: (body: {
+    tuptId: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    password: string;
+    confirmPassword: string;
+  }) =>
     request<{ user: User }>("/register", { method: "POST", body }),
-  login: (body: { tuptId: string; password: string }) =>
+  login: (body: { tuptId?: string; email?: string; password: string }) =>
     request<{ user: User }>("/login", { method: "POST", body }),
   logout: () => request<void>("/logout", { method: "POST" }),
   me: () => request<{ user: User }>("/me"),
