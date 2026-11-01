@@ -7,6 +7,8 @@ const chapterInclude = (userId: string) =>
     quiz: {
       select: {
         id: true,
+        deadline: true,
+        deadlineMode: true,
         attempts: { where: { studentId: userId }, select: { score: true, total: true, isLate: true } },
       },
     },
@@ -16,6 +18,13 @@ const findChapter = (id: string, userId: string) =>
   prisma.chapter.findUnique({ where: { id }, include: chapterInclude(userId) });
 
 type Row = NonNullable<Awaited<ReturnType<typeof findChapter>>>;
+
+const isMissed = (c: Row) =>
+  !!c.quiz &&
+  c.quiz.attempts.length === 0 &&
+  c.quiz.deadlineMode === "STRICT" &&
+  !!c.quiz.deadline &&
+  c.quiz.deadline < new Date();
 
 const toChapterDto = (c: Row) => ({
   id: c.id,
@@ -35,6 +44,9 @@ const toChapterDto = (c: Row) => ({
   updatedAt: c.updatedAt,
   hasQuiz: !!c.quiz,
   quizResult: c.quiz?.attempts[0] ?? null,
+  quizDeadline: c.quiz?.deadline ?? null,
+  quizDeadlineMode: c.quiz?.deadlineMode ?? null,
+  quizMissed: isMissed(c), // meaningful for students only
 });
 
 export async function listChapters(userId: string, role: string, subjectId: string) {

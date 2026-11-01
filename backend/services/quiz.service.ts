@@ -63,6 +63,8 @@ export async function getQuiz(userId: string, role: string, chapterId: string) {
     subjectId: chapter.subjectId,
     deadline: quiz.deadline,
     deadlineMode: quiz.deadlineMode,
+    closed:
+      !attempt && quiz.deadlineMode === "STRICT" && !!quiz.deadline && new Date() > quiz.deadline,
     questions: questions.map(({ questionNo, type, question, choices }) => ({
       questionNo,
       type,

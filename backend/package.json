@@ -7,7 +7,9 @@
     "dev": "tsx watch server.ts",
     "start": "tsx server.ts",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
+    "db:migrate": "prisma migrate dev && prisma generate",
+    "db:seed": "prisma db seed",
+    "db:reset": "prisma migrate reset --force && prisma db seed",
     "postinstall": "prisma skills sync || exit 0"
   },
   "keywords": [],

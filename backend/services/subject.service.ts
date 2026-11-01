@@ -133,11 +133,20 @@ export async function assertEnrolled(userId: string, role: string, subjectId: st
 }
 
 export async function syncSubjectStatus(userId: string, subjectId: string) {
-  const [total, taken] = await Promise.all([
+  const [total, resolved] = await Promise.all([
     prisma.quiz.count({ where: { chapter: { subjectId } } }),
-    prisma.quizAttempt.count({ where: { studentId: userId, quiz: { chapter: { subjectId } } } }),
+    // resolved = answered, or missed (STRICT and the deadline has passed)
+    prisma.quiz.count({
+     where: {
+        chapter: { subjectId },
+        OR: [
+          { attempts: { some: { studentId: userId } } },
+          { deadlineMode: "STRICT", deadline: { lt: new Date() } },
+        ],
+      },
+    }),
   ]);
-  const finished = total > 0 && taken >= total;
+  const finished = total > 0 && resolved >= total;
   if (finished) {
     await prisma.subjectStudent.updateMany({
       where: { subjectId, studentId: userId, status: { not: "FINISHED" } },

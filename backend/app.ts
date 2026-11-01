@@ -23,6 +23,7 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api", learningRoutes);
+app.use("/api/articles", express.json({ limit: "1mb" }));
 
 app.use(notFound);
 app.use(errorHandler);

@@ -8,6 +8,7 @@ import quizRoutes from "./quiz.routes";
 import manageRoutes from "./manage.routes";
 import adminRoutes from "./admin.routes";
 import progressRoutes from "./progress.routes";
+import articleRoutes from "./article.routes";
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use("/quizzes", ...guard, quizRoutes);
 router.use("/progress", ...guard, requireRole("STUDENT"), progressRoutes);
 router.use("/manage", ...guard, requireRole("TEACHER", "ADMIN"), manageRoutes);
 router.use("/admin", ...guard, requireRole("ADMIN"), adminRoutes);
+router.use("/articles", ...guard, articleRoutes);
 
 export default router;
