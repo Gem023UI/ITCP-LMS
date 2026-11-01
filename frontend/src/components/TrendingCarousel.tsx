@@ -1,11 +1,11 @@
 import * as React from "react";
 import ArticleCard from "./ArticleCard";
-import type { Article } from "../data/articles";
+import { authorName, type ArticleSummary } from "../services/articleApi";
 import "./TrendingCarousel.css";
 
 interface Props {
-  articles: Article[];
-  onOpen: (article: Article) => void;
+  articles: ArticleSummary[];
+  onOpen: (article: ArticleSummary) => void;
 }
 
 export default function TrendingCarousel({ articles, onOpen }: Props) {
@@ -52,10 +52,10 @@ export default function TrendingCarousel({ articles, onOpen }: Props) {
             key={a.id}
             className="article-card--slide"
             title={a.title}
-            description={a.description}
-            coverUrl={a.coverUrl}
-            readMinutes={a.readMinutes}
-            likes={a.likes}
+            description={a.excerpt}
+            coverUrl={a.coverImageUrl}
+            author={authorName(a.author)}
+            likes={a.likesCount}
             onOpen={() => onOpen(a)}
           />
         ))}

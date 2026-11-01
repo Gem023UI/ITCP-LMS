@@ -7,7 +7,10 @@ import { homeFor } from "../utils/roleRoutes";
 import {
   formatTuptId,
   getMissingPasswordRules,
+  toLoginIdentifier,
   validateEmail,
+  validateLoginIdentifier,
+  validateName,
   validateTuptId,
 } from "../utils/authValidators";
 import "../styles/Auth.css";
@@ -197,6 +200,10 @@ export default function Auth() {
   const [submitting, setSubmitting] = React.useState(false);
 
   // register
+  const [regFirst, setRegFirst] = React.useState("");
+  const [regFirstTouched, setRegFirstTouched] = React.useState(false);
+  const [regLast, setRegLast] = React.useState("");
+  const [regLastTouched, setRegLastTouched] = React.useState(false);
   const [regTupt, setRegTupt] = React.useState("");
   const [regTuptTouched, setRegTuptTouched] = React.useState(false);
   const [regEmail, setRegEmail] = React.useState("");
@@ -221,6 +228,10 @@ export default function Auth() {
     });
 
   /* ----- register field states ----- */
+  const regFirstError = validateName("First name", regFirst);
+  const regFirstState = textFieldState(regFirst, regFirstError, regFirstTouched, "Looks good", regServerErrors.firstName);
+  const regLastError = validateName("Last name", regLast);
+  const regLastState = textFieldState(regLast, regLastError, regLastTouched, "Looks good", regServerErrors.lastName);
   const regTuptError = validateTuptId(regTupt);
   const regTuptState = textFieldState(
     regTupt,
@@ -253,6 +264,8 @@ export default function Auth() {
       : { status: "invalid", hint: "Passwords do not match" };
 
   const registerReady =
+    !regFirstError &&
+    !regLastError &&
     !regTuptError &&
     !regEmailError &&
     missing.length === 0 &&
@@ -260,7 +273,7 @@ export default function Auth() {
     regConfirm === regPassword;
 
   /* ----- login field states ----- */
-  const loginTuptError = validateTuptId(loginTupt);
+  const loginTuptError = validateLoginIdentifier(loginTupt); // TUPT ID or email
   const loginTuptState: FieldState =
     (loginTuptTouched || loginSubmitted) && loginTuptError
       ? { status: "invalid", hint: loginTuptError }
@@ -284,6 +297,8 @@ export default function Auth() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setRegFirstTouched(true);
+    setRegLastTouched(true);
     setRegTuptTouched(true);
     setRegEmailTouched(true);
     if (!registerReady || submitting) return;
@@ -294,6 +309,8 @@ export default function Auth() {
       const { user } = await authApi.register({
         tuptId: regTupt,
         email: regEmail.trim(),
+        firstName: regFirst.trim(),
+        lastName: regLast.trim(),
         password: regPassword,
         confirmPassword: regConfirm,
       });
@@ -318,7 +335,7 @@ export default function Auth() {
     setSubmitting(true);
     setLoginFormError("");
     try {
-      const { user } = await authApi.login({ tuptId: loginTupt, password: loginPassword });
+      const { user } = await authApi.login({ ...toLoginIdentifier(loginTupt), password: loginPassword });
       navigate(homeFor(user.role));
     } catch (err) {
       setLoginFormError(
@@ -353,6 +370,18 @@ export default function Auth() {
             <p className="auth-sub">Create your account to begin learning.</p>
             <hr />
             <form onSubmit={handleRegister} noValidate>
+
+              <div className="auth-row">
+                <TextField id="reg-first" label="First name" value={regFirst}
+                  onChange={(v) => { setRegFirst(v); clearRegServerError("firstName"); }}
+                  onBlur={() => setRegFirstTouched(true)} state={regFirstState}
+                  autoComplete="given-name" maxLength={50} />
+                <TextField id="reg-last" label="Last name" value={regLast}
+                  onChange={(v) => { setRegLast(v); clearRegServerError("lastName"); }}
+                  onBlur={() => setRegLastTouched(true)} state={regLastState}
+                  autoComplete="family-name" maxLength={50} />
+              </div>
+
               <TextField
                 id="reg-tupt"
                 label="TUPT ID"

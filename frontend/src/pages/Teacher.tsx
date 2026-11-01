@@ -5,6 +5,7 @@ import LiquidGlass from "../components/LiquidGlass";
 import MetallicBlueButton from "../components/MetallicBlueButton";
 import { useAuth } from "../hooks/useAuth";
 import { ApiError } from "../services/authApi";
+import type { DeadlineMode } from "../services/learningApi";
 import {
   manageApi,
   type ChapterInput,
@@ -118,7 +119,6 @@ function SubjectForm({
 /* ---------- chapter editor ---------- */
 
 type Draft = Record<
-  | "chapterId"
   | "chapterNo"
   | "title"
   | "description"
@@ -136,7 +136,6 @@ type Draft = Record<
 const pretty = (v: unknown) => JSON.stringify(v, null, 2);
 
 const SIMPLE: { key: keyof Draft; label: string; kind?: "number" | "area" }[] = [
-  { key: "chapterId", label: "Chapter ID (e.g. chapter-01)" },
   { key: "chapterNo", label: "Chapter number", kind: "number" },
   { key: "title", label: "Title" },
   { key: "description", label: "Description", kind: "area" },
@@ -154,7 +153,6 @@ const JSON_FIELDS: { key: keyof Draft; label: string }[] = [
 ];
 
 const blankDraft = (nextNo: number): Draft => ({
-  chapterId: `chapter-${String(nextNo).padStart(2, "0")}`,
   chapterNo: String(nextNo),
   title: "",
   description: "",
@@ -195,7 +193,6 @@ function ChapterModal({
       .then(({ chapter: c }) => {
         if (cancelled) return;
         setDraft({
-          chapterId: c.chapterId,
           chapterNo: String(c.chapterNo),
           title: c.title,
           description: c.description,
@@ -223,7 +220,6 @@ function ChapterModal({
     let body: ChapterInput;
     try {
       body = {
-        chapterId: draft.chapterId.trim(),
         chapterNo: Number(draft.chapterNo),
         title: draft.title,
         description: draft.description,
@@ -318,6 +314,12 @@ const toPayload = (q: Q): QuizQuestionPayload =>
     ? { type: q.type, question: q.question, choices: q.choices, correctAnswer: q.choices[q.correctIndex] ?? "" }
     : { type: q.type, question: q.question, choices: [], correctAnswer: q.answerText };
 
+const toLocalInput = (iso: string) => {
+  const d = new Date(iso);
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+};
+
 function QuizModal({
   chapter,
   onClose,
@@ -330,6 +332,9 @@ function QuizModal({
   const [questions, setQuestions] = React.useState<Q[]>([]);
   const [attempts, setAttempts] = React.useState(0);
   const [exists, setExists] = React.useState(false);
+  const [hasDeadline, setHasDeadline] = React.useState(false);
+  const [deadlineLocal, setDeadlineLocal] = React.useState("");
+  const [mode, setMode] = React.useState<DeadlineMode>("STRICT");
   const [loading, setLoading] = React.useState(true);
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -344,6 +349,9 @@ function QuizModal({
         if (quiz) {
           setExists(true);
           setAttempts(quiz.attemptCount);
+          setHasDeadline(!!quiz.deadline);
+          setDeadlineLocal(quiz.deadline ? toLocalInput(quiz.deadline) : "");
+          setMode(quiz.deadlineMode);
           setQuestions(
             quiz.questions.map((q) => ({
               type: q.type,
@@ -374,10 +382,18 @@ function QuizModal({
   };
 
   const save = async () => {
+    if (hasDeadline && !deadlineLocal) {
+      setError("Pick a deadline date and time, or turn the deadline off.");
+      return;
+    }
     setBusy(true);
     setError(null);
     try {
-      await manageApi.saveQuiz(chapter.id, { questions: questions.map(toPayload) });
+      await manageApi.saveQuiz(chapter.id, {
+        questions: questions.map(toPayload),
+        deadline: hasDeadline ? new Date(deadlineLocal).toISOString() : null, // null = no deadline
+        deadlineMode: mode,
+      });
       onChanged();
       onClose();
     } catch (e) {
@@ -412,6 +428,26 @@ function QuizModal({
               rebuild it (this also deletes their scores).
             </p>
           )}
+
+          <div className="manage__question">
+            <label>
+              <input type="checkbox" disabled={locked} checked={hasDeadline}
+                onChange={(e) => setHasDeadline(e.target.checked)} />{" "}
+              Set a deadline
+            </label>
+            {hasDeadline ? (
+              <>
+                <input type="datetime-local" disabled={locked} value={deadlineLocal}
+                  onChange={(e) => setDeadlineLocal(e.target.value)} />
+                <select disabled={locked} value={mode} onChange={(e) => setMode(e.target.value as DeadlineMode)}>
+                  <option value="STRICT">Strict: no submissions after the deadline</option>
+                  <option value="LATE">Late: accept late submissions (marked late)</option>
+                </select>
+              </>
+            ) : (
+              <p className="manage__note">No deadline: students can take it anytime.</p>
+            )}
+          </div>
 
           {questions.map((q, i) => (
             <div key={i} className="manage__question">

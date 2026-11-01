@@ -6,7 +6,7 @@ export interface ArticleCardProps {
   title: string;
   description: string;
   coverUrl: string;
-  readMinutes: number;
+  author: string;
   likes: number;
   className?: string;
   onOpen?: () => void;
@@ -16,7 +16,7 @@ export default function ArticleCard({
   title,
   description,
   coverUrl,
-  readMinutes,
+  author,
   likes,
   className,
   onOpen,
@@ -43,9 +43,9 @@ export default function ArticleCard({
           <h3 className="article-card__title">{title}</h3>
           <p className="article-card__desc">{description}</p>
           <div className="article-card__meta">
-            <span>{readMinutes} MIN READ</span>
+            <span>{author}</span>
             <span>
-              <strong>{likes.toLocaleString()}</strong> LIKES
+              <strong>{(likes ?? 0).toLocaleString()}</strong> LIKES
             </span>
           </div>
         </div>

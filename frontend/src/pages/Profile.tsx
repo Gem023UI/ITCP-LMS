@@ -12,10 +12,6 @@ import { homeFor } from "../utils/roleRoutes";
 import "../styles/Profile.css";
 
 const PLACEHOLDER = {
-  firstName: "Firstname M.I.",
-  lastName: "Lastname",
-  roleLabel: "Student",
-  joined: "March 2026",
   frontImage: "/card-front.png",
   backImage: "/card-back.png",
   strapImage: "/band.png",
@@ -27,10 +23,20 @@ export default function Profile() {
   const [data, setData] = React.useState<HomeData | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
-  const [firstName, setFirstName] = React.useState(PLACEHOLDER.firstName);
-  const [lastName, setLastName] = React.useState(PLACEHOLDER.lastName);
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
   const [avatarUrl, setAvatarUrl] = React.useState<string | null>(null);
   const [editing, setEditing] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!user) return;
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+    setAvatarUrl(user.imageUrl);
+  }, [user]);
+  const joined = user
+    ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
+    : "";
 
   React.useEffect(() => {
     if (authLoading) return;
@@ -69,7 +75,7 @@ export default function Profile() {
             {firstName} {lastName}
           </h1>
           <p className="profile__meta">
-            {PLACEHOLDER.roleLabel} - Joined {PLACEHOLDER.joined}
+            Student - Joined {joined}
           </p>
           <MetallicBlueButton className="profile__edit" onClick={() => setEditing(true)}>
             Edit Profile

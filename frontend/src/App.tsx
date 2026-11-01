@@ -95,6 +95,7 @@ function Shell() {
 
     const teacher = [
       { icon: glyph(DashboardSquareEditIcon), label: "Dashboard", onClick: () => console.log("/teacher/dashboard") },
+      { icon: glyph(NoteIcon), label: "Articles", onClick: () => navigate("/articles") },
       { icon: glyph(BookEditIcon), label: "Subjects", onClick: () => navigate("/teacher/subjects") },
       { icon: glyph(UserAccountIcon), label: "Profile", onClick: () => console.log("/teacher/profile") },
       { separator: true},
@@ -104,6 +105,7 @@ function Shell() {
     const admin = [
       { icon: glyph(DashboardCircleEditIcon), label: "Dashboard", onClick: () => console.log("admin/dashboard") },
       { icon: glyph(EditUser02Icon), label: "Users", onClick: () => navigate("/admin/users") },
+      { icon: glyph(NoteIcon), label: "Articles", onClick: () => navigate("/articles") },
       { icon: glyph(LicenseDraftIcon), label: "Subjects", onClick: () => console.log("admin/subjects") },
       { separator: true},
       { icon: glyph(ArrowLeftBigIcon), label: "Log Out", onClick: handleLogout },

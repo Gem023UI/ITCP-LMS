@@ -76,6 +76,10 @@
   margin-top: 4px;
 }
 
+.article-page__section-img { display: block; width: 100%; max-height: 420px; object-fit: cover; border-radius: 14px; margin: 1rem 0; }
+.article-page__actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 1rem 0 1.5rem; }
+.article-page__danger { color: #ff6b6b; }
+
 @media (max-width: 720px) {
   .article-page,
   .articles {

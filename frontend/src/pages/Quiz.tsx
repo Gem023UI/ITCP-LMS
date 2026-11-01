@@ -6,6 +6,9 @@ import { ApiError } from "../services/authApi";
 import { quizApi, type QuizPayload, type QuizResult } from "../services/learningApi";
 import "../styles/Quiz.css";
 
+const fmt = (iso: string) =>
+  new Date(iso).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" });
+
 export default function Quiz() {
   const navigate = useNavigate();
   const { chapterId } = useParams();
@@ -80,6 +83,7 @@ export default function Quiz() {
           <div className="quiz__score">
             {result.score} / {result.total}
           </div>
+          {result.isLate && <p className="quiz__note">Submitted after the deadline (marked late).</p>}
           {result.items.map((item) => {
             const q = quiz.questions.find((x) => x.questionNo === item.questionNo);
             return (
@@ -97,6 +101,31 @@ export default function Quiz() {
               </LiquidGlass>
             );
           })}
+          <MetallicBlueButton onClick={goBack}>Back to Chapters</MetallicBlueButton>
+        </div>
+      </div>
+    );
+  }
+
+  if (quiz.closed) {
+    return (
+      <div className="quiz">
+        <div className="quiz__inner">
+          <h1 className="quiz__title">{quiz.chapterTitle}</h1>
+            {quiz.deadline && (
+            <p className="quiz__note">
+              Due {fmt(quiz.deadline)} ·{" "}
+              {quiz.deadlineMode === "STRICT"
+                ? "no submissions after the deadline"
+                : "late submissions are accepted and marked late"}
+            </p>
+          )}
+          <LiquidGlass className="quiz__card is-wrong">
+            <div className="quiz__card-body">
+              <p className="quiz__q">This quiz is closed.</p>
+              <p>The deadline was {quiz.deadline && fmt(quiz.deadline)}, and late submissions aren't accepted.</p>
+            </div>
+          </LiquidGlass>
           <MetallicBlueButton onClick={goBack}>Back to Chapters</MetallicBlueButton>
         </div>
       </div>

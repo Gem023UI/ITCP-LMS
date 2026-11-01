@@ -48,6 +48,7 @@ function UserTable({
               <thead>
                 <tr>
                   <th>TUPT ID</th>
+                  <th>Name</th>
                   <th>Email</th>
                   <th>Status</th>
                   <th>Actions</th>
@@ -59,7 +60,8 @@ function UserTable({
                   const saving = savingId === u.id;
                   return (
                     <tr key={u.id}>
-                      <td>{u.tuptId}</td>
+                      <td>{u.tuptId ?? "—"}</td>
+                      <td>{u.firstName} {u.lastName}</td>
                       <td>{u.email}</td>
                       <td>
                         {editing ? (
