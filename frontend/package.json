@@ -17,7 +17,6 @@
     "@visx/responsive": "^4.0.0",
     "axios": "^1.20.0",
     "d3-scale": "^4.0.2",
-    "d3-shape": "^3.2.0",
     "hugeicons-react": "^0.4.0",
     "motion": "^14.9.0",
     "react": "^19.3.1",
