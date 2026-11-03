@@ -87,6 +87,60 @@ export async function getQuizForEdit(actor: Actor, quizId: string) {
   };
 }
 
+/* ---------- records (the teacher's quiz page) ---------- */
+
+const percentOf = (score: number, total: number) => (total > 0 ? Math.round((score / total) * 100) : 0);
+const round1 = (n: number) => Math.round(n * 10) / 10;
+
+/** quiz details + stats + one row per student who took it (sorted by last name) */
+export async function getQuizRecords(actor: Actor, quizId: string) {
+  const quiz = await ownedQuiz(actor, quizId);
+  const [card, enrolled, attempts] = await Promise.all([
+    prisma.quiz.findUniqueOrThrow({ where: { id: quizId }, select: quizCardSelect }),
+    prisma.subjectStudent.count({ where: { subjectId: quiz.subjectId } }),
+    prisma.quizAttempt.findMany({
+      where: { quizId },
+      select: {
+        studentId: true,
+        score: true,
+        total: true,
+        isLate: true,
+        student: { select: { user: { select: { firstName: true, lastName: true } } } },
+      },
+    }),
+  ]);
+
+  const byName = (a: string, b: string) => a.localeCompare(b, "en", { sensitivity: "base" });
+  const records = attempts
+    .map((a) => ({
+      studentId: a.studentId,
+      firstName: a.student.user.firstName,
+      lastName: a.student.user.lastName,
+      score: a.score,
+      total: a.total,
+      percent: percentOf(a.score, a.total),
+      isLate: a.isLate,
+    }))
+    .sort((a, b) => byName(a.lastName, b.lastName) || byName(a.firstName, b.firstName));
+
+  const taken = records.length;
+  const totalItems = Array.isArray(quiz.questions) ? quiz.questions.length : (records[0]?.total ?? 0);
+  const sumScore = records.reduce((n, r) => n + r.score, 0);
+  const sumPercent = records.reduce((n, r) => n + r.percent, 0);
+
+  return {
+    quiz: toQuizCard(card),
+    stats: {
+      enrolled, // students taking the subject
+      taken, // students who took this quiz
+      averageScore: taken ? round1(sumScore / taken) : 0,
+      totalItems,
+      averagePercent: taken ? Math.round(sumPercent / taken) : 0,
+    },
+    records,
+  };
+}
+
 /* ---------- writes ---------- */
 
 export async function createQuiz(actor: Actor, subjectId: string, input: QuizInput) {

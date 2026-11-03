@@ -64,3 +64,7 @@ export const deleteQuiz: RequestHandler = async (req, res) => {
   await quizzes.deleteQuiz(actor(res), idOf(req));
   res.status(204).end();
 };
+
+export const quizRecords: RequestHandler = async (req, res) => {
+  res.json(await quizzes.getQuizRecords(actor(res), idOf(req)));
+};

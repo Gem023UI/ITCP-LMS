@@ -903,6 +903,7 @@ export default function SubjectTeacher() {
               <QuizCard
                 key={q.id}
                 quiz={q}
+                onOpen={() => navigate(`/teacher/quizzes/${q.id}`)}
                 footer={
                   <>
                     <MetallicBlueButton onClick={() => setQuizModal({ id: q.id })}>Edit</MetallicBlueButton>
@@ -1014,4 +1015,4 @@ export default function SubjectTeacher() {
       )}
     </div>
   );
-}
+}

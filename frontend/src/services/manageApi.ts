@@ -61,6 +61,30 @@ export type QuizInput = {
   deadlineMode: DeadlineMode;
 };
 
+/* ---------- quiz records (the teacher's quiz page) ---------- */
+
+export type QuizRecord = {
+  studentId: string;
+  firstName: string;
+  lastName: string;
+  score: number;
+  total: number;
+  percent: number; // whole number, 0-100
+  isLate: boolean;
+};
+
+export type QuizRecords = {
+  quiz: QuizCardData;
+  stats: {
+    enrolled: number; // students taking the subject
+    taken: number; // students who took this quiz
+    averageScore: number; // mean score, 1 decimal
+    totalItems: number;
+    averagePercent: number;
+  };
+  records: QuizRecord[];
+};
+
 export type AdminUser = {
   id: string;
   tuptId: string | null; // null for ADMIN
@@ -119,6 +143,7 @@ export const manageApi = {
   updateDeadline: (quizId: string, deadline: string) =>
     request<unknown>(`/manage/quizzes/${quizId}/deadline`, { method: "PATCH", body: { deadline } }),
   deleteQuiz: (quizId: string) => request<void>(`/manage/quizzes/${quizId}`, { method: "DELETE" }),
+  quizRecords: (quizId: string) => request<QuizRecords>(`/manage/quizzes/${quizId}/records`),
 };
 
 export const adminApi = {
@@ -126,4 +151,4 @@ export const adminApi = {
     request<{ users: AdminUser[] }>(`/admin/users?role=${role}`),
   setStatus: (id: string, status: AdminUser["status"]) =>
     request<{ user: AdminUser }>(`/admin/users/${id}/status`, { method: "PATCH", body: { status } }),
-};
+};

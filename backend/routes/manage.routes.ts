@@ -31,5 +31,6 @@ router.get("/quizzes/:id", teacherOnly, c.getQuiz);
 router.put("/quizzes/:id", teacherOnly, validate(quizInputSchema), c.updateQuiz);
 router.patch("/quizzes/:id/deadline", teacherOnly, validate(quizDeadlineSchema), c.updateDeadline);
 router.delete("/quizzes/:id", teacherOnly, c.deleteQuiz);
+router.get("/quizzes/:id/records", teacherOnly, c.quizRecords);
 
 export default router;

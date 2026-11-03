@@ -33,6 +33,7 @@ import ArticleDetails from "./pages/ArticleDetails";
 import Profile from "./pages/Profile";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import TeacherProfile from "./pages/TeacherProfile";
+import QuizList from "./pages/QuizList";
 import { authApi, type User } from "./services/authApi";
 
 const glyph = (icon: React.ComponentProps<typeof HugeiconsIcon>["icon"]) => (
@@ -192,6 +193,7 @@ function Shell() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
           <Route path="/teacher/profile" element={<TeacherProfile />} />
+          <Route path="/teacher/quizzes/:quizId" element={<QuizList />} />
           <Route path="/articles" element={<Article />} />
           <Route path="/articles/:articleId" element={<ArticleDetails />} />
         </Routes>

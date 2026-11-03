@@ -1,0 +1,187 @@
+.qlist {
+  position: absolute;
+  inset: 0;
+  padding: 48px 56px 80px 120px; /* left space for the dock */
+  color: #fff;
+}
+.qlist__back {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #6cb6ff;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.qlist__error {
+  margin: 6px 0;
+  color: #ff6b6b;
+  font-size: 0.85rem;
+}
+.qlist__note {
+  margin: 8px 0;
+  opacity: 0.75;
+}
+
+.qlist__panel {
+  margin: 14px 0 24px;
+  border-radius: 18px;
+}
+.qlist__panel .liquid-glass__content,
+.qlist__stat .liquid-glass__content {
+  display: block;
+}
+.qlist__panel-body {
+  padding: 22px 24px;
+}
+.qlist__title {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.qlist__subject {
+  margin: 6px 0 18px;
+  font-size: 0.85rem;
+  opacity: 0.65;
+}
+
+/* details */
+.qlist__details {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 24px;
+}
+.qlist__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.qlist__value {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.qlist__chapters {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+.qlist__chapters b {
+  margin-right: 4px;
+  color: #6cb6ff;
+}
+
+/* stats row: taken at the left, average at the right */
+.qlist__stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+.qlist__stat {
+  flex: 1;
+  max-width: 420px;
+  border-radius: 18px;
+}
+.qlist__stat:last-child {
+  text-align: right;
+}
+.qlist__stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 22px;
+}
+.qlist__stat:last-child .qlist__stat-body {
+  align-items: flex-end;
+}
+.qlist__big {
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.qlist__big small {
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0.6;
+}
+.qlist__sub {
+  font-size: 0.78rem;
+  opacity: 0.65;
+}
+
+.qlist__toolbar {
+  display: flex;
+  margin: 20px 0 8px;
+}
+
+/* records table */
+.qlist__section-title {
+  margin: 20px 0 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.qlist__table-wrap {
+  padding: 6px 12px;
+  overflow-x: auto;
+}
+.qlist__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+.qlist__table th,
+.qlist__table td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.qlist__table th {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+.qlist__table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.qlist__table .is-right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.qlist__late {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.14);
+}
+
+@media (max-width: 720px) {
+  .qlist {
+    padding: 32px 20px 80px 96px;
+  }
+  .qlist__details {
+    grid-template-columns: 1fr;
+  }
+  .qlist__stats {
+    flex-direction: column;
+  }
+  .qlist__stat {
+    max-width: none;
+  }
+}

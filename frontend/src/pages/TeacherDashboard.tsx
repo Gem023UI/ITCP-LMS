@@ -201,6 +201,7 @@ export default function TeacherDashboard() {
                   <QuizCard
                     key={q.id}
                     quiz={q}
+                    onOpen={() => navigate(`/teacher/quizzes/${q.id}`)}
                     footer={
                       <>
                         <MetallicBlueButton onClick={() => openExtend(q)}>Edit</MetallicBlueButton>
@@ -262,4 +263,4 @@ export default function TeacherDashboard() {
       )}
     </div>
   );
-}
+}
