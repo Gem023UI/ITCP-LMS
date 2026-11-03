@@ -19,7 +19,7 @@ export interface SubjectCardProps {
   badge?: string;
   actions?: React.ReactNode;
   finishedCount?: number;
-  progress?: { completed: number; total: number } | null;
+  progress?: { completed: number; total: number; quizzes?: { taken: number; total: number } } | null;
   onAction?: () => void;
 }
 
@@ -66,6 +66,12 @@ export default function SubjectCard({
         {progress != null && (
           <span className="subject-card__progress">
             {progress.completed}/{progress.total} chapters
+            {progress.quizzes && (
+              <>
+                {" "}
+                · {progress.quizzes.taken}/{progress.quizzes.total} quizzes
+              </>
+            )}
           </span>
         )}
 

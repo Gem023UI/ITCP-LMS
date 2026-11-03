@@ -4,6 +4,13 @@
   padding: 48px 56px 80px 120px; /* left space for the dock */
   color: #fff;
 }
+
+.articles {
+  --page-pad-left: 120px; /* same as the padding above */
+  --page-pad-right: 56px;
+  overflow-x: clip;
+}
+
 .articles__heading {
   margin: 0 0 8px;
   font-size: 2.4rem;

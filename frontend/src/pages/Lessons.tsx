@@ -6,6 +6,7 @@ import LiquidGlass from "../components/LiquidGlass";
 import { toRoman } from "../data/chapters";
 import { chaptersApi, type ApiChapter } from "../services/learningApi";
 import { progressApi } from "../services/progressApi";
+import { useAuth } from "../hooks/useAuth";
 import "../styles/Lessons.css";
 
 export default function Lessons() {
@@ -14,6 +15,13 @@ export default function Lessons() {
 
   const [chapter, setChapter] = React.useState<ApiChapter | null>(null);
   const [loading, setLoading] = React.useState(true);
+
+  // "Mark as Complete" (students only): one way, this is what counts toward subject progress
+  const { user } = useAuth();
+  const isStudent = user?.role === "STUDENT";
+  const [completed, setCompleted] = React.useState(false);
+  const [completing, setCompleting] = React.useState(false);
+  const [completeError, setCompleteError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (!lessonId) return;
@@ -41,7 +49,21 @@ export default function Lessons() {
     () => navigate(chapter ? `/chapters?subject=${chapter.subjectId}` : "/subjects"),
     [navigate, chapter],
   );
-  const onQuiz = () => navigate(`/quiz/${lessonId}`);
+  const onQuizzes = () => navigate("/quizzes");
+
+  const onComplete = async () => {
+    if (!lessonId || completed || completing) return;
+    setCompleting(true);
+    setCompleteError(null);
+    try {
+      await progressApi.complete(lessonId);
+      setCompleted(true);
+    } catch (e) {
+      setCompleteError(e instanceof Error ? e.message : "Something went wrong");
+    } finally {
+      setCompleting(false);
+    }
+  };
 
   const update = React.useCallback(() => {
     const el = scrollRef.current;
@@ -66,8 +88,9 @@ export default function Lessons() {
     let cancelled = false;
     progressApi
       .chapter(lessonId)
-      .then(({ percent }) => {
+      .then(({ percent, completed: done }) => {
         if (cancelled) return;
+        setCompleted(done);
         sentRef.current = percent;
         requestAnimationFrame(() => {
           const el = scrollRef.current;
@@ -160,13 +183,23 @@ export default function Lessons() {
           ))}
 
           <div className="lessons__cta">
-            <MetallicBlueButton className="lessons__cta-btn" onClick={onQuiz}>
-              Learned Enough? Take on the Quiz!
-            </MetallicBlueButton>
+            {isStudent && (
+              <MetallicBlueButton
+                className={`lessons__cta-btn${completed ? " is-done" : ""}`}
+                disabled={completed || completing}
+                onClick={onComplete}
+              >
+                {completed ? "Completed ✓" : completing ? "Saving…" : "Mark as Complete"}
+              </MetallicBlueButton>
+            )}
+            <LiquidGlass as="button" className="lessons__cta-btn" onClick={onQuizzes}>
+              View Quizzes
+            </LiquidGlass>
             <LiquidGlass as="button" className="lessons__cta-btn" onClick={goBack}>
               Next Lesson
             </LiquidGlass>
           </div>
+          {completeError && <p className="lessons__cta-note">{completeError}</p>}
         </div>
 
         <aside className="lessons__materials">

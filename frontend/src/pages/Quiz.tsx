@@ -11,7 +11,7 @@ const fmt = (iso: string) =>
 
 export default function Quiz() {
   const navigate = useNavigate();
-  const { chapterId } = useParams();
+  const { quizId } = useParams();
 
   const [quiz, setQuiz] = React.useState<QuizPayload | null>(null);
   const [result, setResult] = React.useState<QuizResult | null>(null);
@@ -21,10 +21,10 @@ export default function Quiz() {
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    if (!chapterId) return;
+    if (!quizId) return;
     let cancelled = false;
     quizApi
-      .get(chapterId)
+      .get(quizId)
       .then(({ quiz }) => {
         if (cancelled) return;
         setQuiz(quiz);
@@ -39,21 +39,21 @@ export default function Quiz() {
     return () => {
       cancelled = true;
     };
-  }, [chapterId, navigate]);
+  }, [quizId, navigate]);
 
-  const goBack = () => navigate(quiz ? `/chapters?subject=${quiz.subjectId}` : "/subjects");
+  const goBack = () => navigate("/quizzes");
 
   const allAnswered =
     !!quiz && quiz.questions.every((q) => (answers[q.questionNo] ?? "").trim() !== "");
 
   const submit = async () => {
-    if (!quiz || !chapterId || !allAnswered) return;
+    if (!quiz || !quizId || !allAnswered) return;
     if (!window.confirm("You only get one attempt at this quiz. Submit your answers?")) return;
     setSubmitting(true);
     setError(null);
     try {
       const { result } = await quizApi.submit(
-        chapterId,
+        quizId,
         quiz.questions.map((q) => ({ questionNo: q.questionNo, answer: answers[q.questionNo] })),
       );
       setResult(result);
@@ -70,16 +70,21 @@ export default function Quiz() {
       <div className="quiz quiz--center">
         <p>{error ?? "Quiz not found."}</p>
         <LiquidGlass as="button" onClick={goBack}>
-          Back
+          Back to Quizzes
         </LiquidGlass>
       </div>
     );
+
+  const covers = quiz.chapters.length
+    ? `Covers ${quiz.chapters.map((c) => `Ch ${c.chapterNo}`).join(", ")}`
+    : null;
 
   if (result) {
     return (
       <div className="quiz">
         <div className="quiz__inner">
-          <h1 className="quiz__title">{quiz.chapterTitle}</h1>
+          <h1 className="quiz__title">{quiz.title}</h1>
+          {covers && <p className="quiz__note">{covers}</p>}
           <div className="quiz__score">
             {result.score} / {result.total}
           </div>
@@ -101,7 +106,7 @@ export default function Quiz() {
               </LiquidGlass>
             );
           })}
-          <MetallicBlueButton onClick={goBack}>Back to Chapters</MetallicBlueButton>
+          <MetallicBlueButton onClick={goBack}>Back to Quizzes</MetallicBlueButton>
         </div>
       </div>
     );
@@ -111,22 +116,18 @@ export default function Quiz() {
     return (
       <div className="quiz">
         <div className="quiz__inner">
-          <h1 className="quiz__title">{quiz.chapterTitle}</h1>
-            {quiz.deadline && (
-            <p className="quiz__note">
-              Due {fmt(quiz.deadline)} ·{" "}
-              {quiz.deadlineMode === "STRICT"
-                ? "no submissions after the deadline"
-                : "late submissions are accepted and marked late"}
-            </p>
-          )}
+          <h1 className="quiz__title">{quiz.title}</h1>
+          {covers && <p className="quiz__note">{covers}</p>}
           <LiquidGlass className="quiz__card is-wrong">
             <div className="quiz__card-body">
               <p className="quiz__q">This quiz is closed.</p>
-              <p>The deadline was {quiz.deadline && fmt(quiz.deadline)}, and late submissions aren't accepted.</p>
+              <p>
+                The deadline was {quiz.deadline && fmt(quiz.deadline)}, and late submissions aren't
+                accepted.
+              </p>
             </div>
           </LiquidGlass>
-          <MetallicBlueButton onClick={goBack}>Back to Chapters</MetallicBlueButton>
+          <MetallicBlueButton onClick={goBack}>Back to Quizzes</MetallicBlueButton>
         </div>
       </div>
     );
@@ -135,7 +136,16 @@ export default function Quiz() {
   return (
     <div className="quiz">
       <div className="quiz__inner">
-        <h1 className="quiz__title">{quiz.chapterTitle}</h1>
+        <h1 className="quiz__title">{quiz.title}</h1>
+        {covers && <p className="quiz__note">{covers}</p>}
+        {quiz.deadline && (
+          <p className="quiz__note">
+            Due {fmt(quiz.deadline)} ·{" "}
+            {quiz.deadlineMode === "STRICT"
+              ? "no submissions after the deadline"
+              : "late submissions are accepted and marked late"}
+          </p>
+        )}
         {quiz.questions.map((q) => (
           <LiquidGlass key={q.questionNo} className="quiz__card">
             <div className="quiz__card-body">

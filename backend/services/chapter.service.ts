@@ -4,27 +4,15 @@ import { assertEnrolled } from "./subject.service";
 
 const chapterInclude = (userId: string) =>
   ({
-    quiz: {
-      select: {
-        id: true,
-        deadline: true,
-        deadlineMode: true,
-        attempts: { where: { studentId: userId }, select: { score: true, total: true, isLate: true } },
-      },
-    },
+    // the current student's row: completion + reading position
+    progress: { where: { studentId: userId }, select: { percent: true, completedAt: true } },
+    _count: { select: { quizzes: true } },
   }) as const;
 
 const findChapter = (id: string, userId: string) =>
   prisma.chapter.findUnique({ where: { id }, include: chapterInclude(userId) });
 
 type Row = NonNullable<Awaited<ReturnType<typeof findChapter>>>;
-
-const isMissed = (c: Row) =>
-  !!c.quiz &&
-  c.quiz.attempts.length === 0 &&
-  c.quiz.deadlineMode === "STRICT" &&
-  !!c.quiz.deadline &&
-  c.quiz.deadline < new Date();
 
 const toChapterDto = (c: Row) => ({
   id: c.id,
@@ -42,11 +30,9 @@ const toChapterDto = (c: Row) => ({
   references: c.references,
   createdAt: c.createdAt,
   updatedAt: c.updatedAt,
-  hasQuiz: !!c.quiz,
-  quizResult: c.quiz?.attempts[0] ?? null,
-  quizDeadline: c.quiz?.deadline ?? null,
-  quizDeadlineMode: c.quiz?.deadlineMode ?? null,
-  quizMissed: isMissed(c), // meaningful for students only
+  completed: !!c.progress[0]?.completedAt, // set by "Mark as Complete"
+  completedAt: c.progress[0]?.completedAt ?? null,
+  quizCount: c._count.quizzes, // quizzes that cover this chapter
 });
 
 export async function listChapters(userId: string, role: string, subjectId: string) {

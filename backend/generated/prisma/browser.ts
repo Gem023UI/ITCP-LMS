@@ -48,6 +48,11 @@ export type Chapter = Prisma.ChapterModel
  */
 export type Quiz = Prisma.QuizModel
 /**
+ * Model QuizChapter
+ * 
+ */
+export type QuizChapter = Prisma.QuizChapterModel
+/**
  * Model QuizAttempt
  * 
  */

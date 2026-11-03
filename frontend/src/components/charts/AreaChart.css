@@ -1,0 +1,125 @@
+.area-chart {
+  position: relative;
+  width: 100%;
+  padding: 14px 6px 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  background: rgba(20, 20, 22, 0.72);
+  color: #fff;
+  user-select: none;
+}
+
+.area-chart__legend {
+  display: flex;
+  gap: 18px;
+  padding: 0 16px 4px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+.area-chart__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.area-chart__legend i,
+.area-chart__tip-row i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.area-chart__svg {
+  display: block;
+  width: 100%;
+  touch-action: pan-y;
+  cursor: crosshair;
+}
+.area-chart__grid {
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 1;
+  stroke-dasharray: 4 5;
+}
+.area-chart__cross {
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-width: 1;
+}
+.area-chart__tick {
+  fill: rgba(255, 255, 255, 0.62);
+  font-size: 13px;
+  font-family: inherit;
+  transition: opacity 0.15s ease;
+}
+.area-chart__empty {
+  fill: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+/* date chip sitting on the x axis */
+.area-chart__chip {
+  position: absolute;
+  transform: translateX(-50%);
+  padding: 9px 20px;
+  border-radius: 999px;
+  background: #f4f4f5;
+  color: #111;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+/* quick info card */
+.area-chart__tip {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 0 0 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background: rgba(24, 24, 27, 0.97);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+.area-chart__tip-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.area-chart__tip-head strong {
+  font-size: 0.98rem;
+}
+.area-chart__tip-head span {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+.area-chart__tip-title {
+  padding: 10px 16px 4px;
+  font-size: 0.85rem;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.92);
+}
+.area-chart__tip-title small {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+.area-chart__tip-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 16px;
+  font-size: 0.92rem;
+}
+.area-chart__tip-row span {
+  flex: 1;
+  color: rgba(255, 255, 255, 0.6);
+}
+.area-chart__tip-row b {
+  font-weight: 700;
+}

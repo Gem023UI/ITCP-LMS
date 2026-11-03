@@ -130,7 +130,11 @@ export default function Subjects() {
                 description={s.description}
                 mediaUrl={s.mediaUrl}
                 studentCount={s.studentCount}
-                progress={{ completed: s.completedChapters, total: s.totalChapters }}
+                progress={{
+                  completed: s.completedChapters,
+                  total: s.totalChapters,
+                  quizzes: { taken: s.takenQuizzes, total: s.totalQuizzes },
+                }}
                 actionLabel="Learn Today"
                 onAction={() => navigate(`/chapters?subject=${s.id}`)}
               />

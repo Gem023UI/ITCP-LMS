@@ -1,0 +1,69 @@
+.quizzes {
+  position: absolute;
+  inset: 0;
+  padding: 48px 56px 80px 120px; /* left space for the dock */
+  color: #fff;
+}
+.quizzes__heading {
+  margin: 0 0 28px;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.quizzes__section {
+  margin-bottom: 44px;
+}
+.quizzes__title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 16px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.quizzes__title small {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 0.55;
+}
+.quizzes__count {
+  min-width: 26px;
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+}
+.is-today .quizzes__count {
+  background: #0a84ff;
+}
+
+/* grid style: as many 300px+ columns as fit */
+.quizzes__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.quizzes__grid .quiz-card {
+  width: 100%;
+}
+.quizzes__empty {
+  margin: 0;
+  opacity: 0.7;
+}
+.quizzes__error {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 720px) {
+  .quizzes {
+    padding: 32px 20px 80px 96px;
+  }
+}

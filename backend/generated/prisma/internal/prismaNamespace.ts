@@ -403,6 +403,7 @@ export const ModelName = {
   Subject: 'Subject',
   Chapter: 'Chapter',
   Quiz: 'Quiz',
+  QuizChapter: 'QuizChapter',
   QuizAttempt: 'QuizAttempt',
   SubjectStudent: 'SubjectStudent',
   ChapterProgress: 'ChapterProgress',
@@ -424,7 +425,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "student" | "teacher" | "subject" | "chapter" | "quiz" | "quizAttempt" | "subjectStudent" | "chapterProgress" | "studyActivity" | "article" | "articleLike"
+    modelProps: "user" | "student" | "teacher" | "subject" | "chapter" | "quiz" | "quizChapter" | "quizAttempt" | "subjectStudent" | "chapterProgress" | "studyActivity" | "article" | "articleLike"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -869,6 +870,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.QuizCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.QuizCountAggregateOutputType> | number
+        }
+      }
+    }
+    QuizChapter: {
+      payload: Prisma.$QuizChapterPayload<ExtArgs>
+      fields: Prisma.QuizChapterFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.QuizChapterFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizChapterPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.QuizChapterFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizChapterPayload>
+        }
+        findFirst: {
+          args: Prisma.QuizChapterFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizChapterPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.QuizChapterFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizChapterPayload>
+        }
+        findMany: {
+          args: Prisma.QuizChapterFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizChapterPayload>[]
+        }
+        create: {
+          args: Prisma.QuizChapterCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizChapterPayload>
+        }
+        createMany: {
+          args: Prisma.QuizChapterCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.QuizChapterCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizChapterPayload>[]
+        }
+        delete: {
+          args: Prisma.QuizChapterDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizChapterPayload>
+        }
+        update: {
+          args: Prisma.QuizChapterUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizChapterPayload>
+        }
+        deleteMany: {
+          args: Prisma.QuizChapterDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.QuizChapterUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.QuizChapterUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizChapterPayload>[]
+        }
+        upsert: {
+          args: Prisma.QuizChapterUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizChapterPayload>
+        }
+        aggregate: {
+          args: Prisma.QuizChapterAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateQuizChapter>
+        }
+        groupBy: {
+          args: Prisma.QuizChapterGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.QuizChapterGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.QuizChapterCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.QuizChapterCountAggregateOutputType> | number
         }
       }
     }
@@ -1424,7 +1499,9 @@ export type ChapterScalarFieldEnum = (typeof ChapterScalarFieldEnum)[keyof typeo
 
 export const QuizScalarFieldEnum = {
   id: 'id',
-  chapterId: 'chapterId',
+  subjectId: 'subjectId',
+  quizNo: 'quizNo',
+  title: 'title',
   questions: 'questions',
   deadline: 'deadline',
   deadlineMode: 'deadlineMode',
@@ -1433,6 +1510,14 @@ export const QuizScalarFieldEnum = {
 } as const
 
 export type QuizScalarFieldEnum = (typeof QuizScalarFieldEnum)[keyof typeof QuizScalarFieldEnum]
+
+
+export const QuizChapterScalarFieldEnum = {
+  quizId: 'quizId',
+  chapterId: 'chapterId'
+} as const
+
+export type QuizChapterScalarFieldEnum = (typeof QuizChapterScalarFieldEnum)[keyof typeof QuizChapterScalarFieldEnum]
 
 
 export const QuizAttemptScalarFieldEnum = {
@@ -1467,6 +1552,7 @@ export const ChapterProgressScalarFieldEnum = {
   studentId: 'studentId',
   chapterId: 'chapterId',
   percent: 'percent',
+  completedAt: 'completedAt',
   updatedAt: 'updatedAt'
 } as const
 
@@ -1855,6 +1941,7 @@ export type GlobalOmitConfig = {
   subject?: Prisma.SubjectOmit
   chapter?: Prisma.ChapterOmit
   quiz?: Prisma.QuizOmit
+  quizChapter?: Prisma.QuizChapterOmit
   quizAttempt?: Prisma.QuizAttemptOmit
   subjectStudent?: Prisma.SubjectStudentOmit
   chapterProgress?: Prisma.ChapterProgressOmit

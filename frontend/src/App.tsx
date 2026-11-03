@@ -14,6 +14,7 @@ import {
   UserCircleIcon,
   BookEditIcon,
   ArrowLeftBigIcon,
+  Quiz01Icon,
 } from "@hugeicons/core-free-icons";
 import ShapeGrid from "./components/ShapeGrid";
 import Dock from "./components/Dock";
@@ -23,6 +24,7 @@ import Chapters from "./pages/Chapters";
 import Lessons from "./pages/Lessons";
 import Subjects from "./pages/Subjects";
 import Quiz from "./pages/Quiz";
+import Quizzes from "./pages/Quizzes";
 import SubjectTeacher from "./pages/Teacher";
 import UsersAdmin from "./pages/Admin";
 import Home from "./pages/Home";
@@ -87,6 +89,7 @@ function Shell() {
     const student = [
       { icon: glyph(Home09Icon), label: "Home", active: true, onClick: () => navigate("/home"), menu: demoMenu },
       { icon: glyph(Book03Icon), label: "Subjects", active: true, onClick: () => navigate("/subjects"), menu: demoMenu },
+      { icon: glyph(Quiz01Icon), label: "Quizzes", active: true, onClick: () => navigate("/quizzes") },
       { icon: glyph(NoteIcon), label: "Articles", active: true, onClick: () => navigate("/articles") },
       { icon: glyph(UserCircleIcon), label: "Profile", onClick: () => navigate("/profile") },
       { separator: true},
@@ -182,7 +185,8 @@ function Shell() {
           <Route path="/admin/users" element={<UsersAdmin />} />
           <Route path="/chapters" element={<Chapters />} />
           <Route path="/chapters/:lessonId" element={<Lessons />} />
-          <Route path="/quiz/:chapterId" element={<Quiz />} />
+          <Route path="/quiz/:quizId" element={<Quiz />} />
+          <Route path="/quizzes" element={<Quizzes />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/articles" element={<Article />} />
           <Route path="/articles/:articleId" element={<ArticleDetails />} />

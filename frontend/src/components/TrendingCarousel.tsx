@@ -6,6 +6,8 @@ import "./TrendingCarousel.css";
 interface Props {
   articles: ArticleSummary[];
   onOpen: (article: ArticleSummary) => void;
+  /** content shown at the bottom of every card (e.g. a delete button) */
+  renderFooter?: (article: ArticleSummary) => React.ReactNode;
 }
 
 const DRAG_THRESHOLD = 5; // px of movement before a press becomes a drag
@@ -24,7 +26,7 @@ type DragState = {
   velocity: number; // px/ms, pointer direction
 };
 
-export default function TrendingCarousel({ articles, onOpen }: Props) {
+export default function TrendingCarousel({ articles, onOpen, renderFooter }: Props) {
   const trackRef = React.useRef<HTMLDivElement>(null);
   const raf = React.useRef(0);
   const drag = React.useRef<DragState>({
@@ -160,6 +162,7 @@ export default function TrendingCarousel({ articles, onOpen }: Props) {
             author={authorName(a.author)}
             likes={a.likesCount}
             onOpen={() => onOpen(a)}
+            footer={renderFooter?.(a)}
           />
         ))}
       </div>

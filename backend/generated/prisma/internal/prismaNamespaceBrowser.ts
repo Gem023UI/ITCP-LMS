@@ -57,6 +57,7 @@ export const ModelName = {
   Subject: 'Subject',
   Chapter: 'Chapter',
   Quiz: 'Quiz',
+  QuizChapter: 'QuizChapter',
   QuizAttempt: 'QuizAttempt',
   SubjectStudent: 'SubjectStudent',
   ChapterProgress: 'ChapterProgress',
@@ -150,7 +151,9 @@ export type ChapterScalarFieldEnum = (typeof ChapterScalarFieldEnum)[keyof typeo
 
 export const QuizScalarFieldEnum = {
   id: 'id',
-  chapterId: 'chapterId',
+  subjectId: 'subjectId',
+  quizNo: 'quizNo',
+  title: 'title',
   questions: 'questions',
   deadline: 'deadline',
   deadlineMode: 'deadlineMode',
@@ -159,6 +162,14 @@ export const QuizScalarFieldEnum = {
 } as const
 
 export type QuizScalarFieldEnum = (typeof QuizScalarFieldEnum)[keyof typeof QuizScalarFieldEnum]
+
+
+export const QuizChapterScalarFieldEnum = {
+  quizId: 'quizId',
+  chapterId: 'chapterId'
+} as const
+
+export type QuizChapterScalarFieldEnum = (typeof QuizChapterScalarFieldEnum)[keyof typeof QuizChapterScalarFieldEnum]
 
 
 export const QuizAttemptScalarFieldEnum = {
@@ -193,6 +204,7 @@ export const ChapterProgressScalarFieldEnum = {
   studentId: 'studentId',
   chapterId: 'chapterId',
   percent: 'percent',
+  completedAt: 'completedAt',
   updatedAt: 'updatedAt'
 } as const
 

@@ -216,6 +216,7 @@ export type SubjectWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
   chapters?: Prisma.ChapterListRelationFilter
+  quizzes?: Prisma.QuizListRelationFilter
   students?: Prisma.SubjectStudentListRelationFilter
 }
 
@@ -231,6 +232,7 @@ export type SubjectOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   teacher?: Prisma.TeacherOrderByWithRelationInput
   chapters?: Prisma.ChapterOrderByRelationAggregateInput
+  quizzes?: Prisma.QuizOrderByRelationAggregateInput
   students?: Prisma.SubjectStudentOrderByRelationAggregateInput
 }
 
@@ -249,6 +251,7 @@ export type SubjectWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
   chapters?: Prisma.ChapterListRelationFilter
+  quizzes?: Prisma.QuizListRelationFilter
   students?: Prisma.SubjectStudentListRelationFilter
 }, "id" | "code">
 
@@ -293,6 +296,7 @@ export type SubjectCreateInput = {
   updatedAt?: Date | string
   teacher: Prisma.TeacherCreateNestedOneWithoutSubjectsInput
   chapters?: Prisma.ChapterCreateNestedManyWithoutSubjectInput
+  quizzes?: Prisma.QuizCreateNestedManyWithoutSubjectInput
   students?: Prisma.SubjectStudentCreateNestedManyWithoutSubjectInput
 }
 
@@ -307,6 +311,7 @@ export type SubjectUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutSubjectInput
+  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutSubjectInput
   students?: Prisma.SubjectStudentUncheckedCreateNestedManyWithoutSubjectInput
 }
 
@@ -321,6 +326,7 @@ export type SubjectUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutSubjectsNestedInput
   chapters?: Prisma.ChapterUpdateManyWithoutSubjectNestedInput
+  quizzes?: Prisma.QuizUpdateManyWithoutSubjectNestedInput
   students?: Prisma.SubjectStudentUpdateManyWithoutSubjectNestedInput
 }
 
@@ -335,6 +341,7 @@ export type SubjectUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapters?: Prisma.ChapterUncheckedUpdateManyWithoutSubjectNestedInput
+  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutSubjectNestedInput
   students?: Prisma.SubjectStudentUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
@@ -484,6 +491,20 @@ export type SubjectUpdateOneRequiredWithoutChaptersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SubjectUpdateToOneWithWhereWithoutChaptersInput, Prisma.SubjectUpdateWithoutChaptersInput>, Prisma.SubjectUncheckedUpdateWithoutChaptersInput>
 }
 
+export type SubjectCreateNestedOneWithoutQuizzesInput = {
+  create?: Prisma.XOR<Prisma.SubjectCreateWithoutQuizzesInput, Prisma.SubjectUncheckedCreateWithoutQuizzesInput>
+  connectOrCreate?: Prisma.SubjectCreateOrConnectWithoutQuizzesInput
+  connect?: Prisma.SubjectWhereUniqueInput
+}
+
+export type SubjectUpdateOneRequiredWithoutQuizzesNestedInput = {
+  create?: Prisma.XOR<Prisma.SubjectCreateWithoutQuizzesInput, Prisma.SubjectUncheckedCreateWithoutQuizzesInput>
+  connectOrCreate?: Prisma.SubjectCreateOrConnectWithoutQuizzesInput
+  upsert?: Prisma.SubjectUpsertWithoutQuizzesInput
+  connect?: Prisma.SubjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SubjectUpdateToOneWithWhereWithoutQuizzesInput, Prisma.SubjectUpdateWithoutQuizzesInput>, Prisma.SubjectUncheckedUpdateWithoutQuizzesInput>
+}
+
 export type SubjectCreateNestedOneWithoutStudentsInput = {
   create?: Prisma.XOR<Prisma.SubjectCreateWithoutStudentsInput, Prisma.SubjectUncheckedCreateWithoutStudentsInput>
   connectOrCreate?: Prisma.SubjectCreateOrConnectWithoutStudentsInput
@@ -508,6 +529,7 @@ export type SubjectCreateWithoutTeacherInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   chapters?: Prisma.ChapterCreateNestedManyWithoutSubjectInput
+  quizzes?: Prisma.QuizCreateNestedManyWithoutSubjectInput
   students?: Prisma.SubjectStudentCreateNestedManyWithoutSubjectInput
 }
 
@@ -521,6 +543,7 @@ export type SubjectUncheckedCreateWithoutTeacherInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutSubjectInput
+  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutSubjectInput
   students?: Prisma.SubjectStudentUncheckedCreateNestedManyWithoutSubjectInput
 }
 
@@ -575,6 +598,7 @@ export type SubjectCreateWithoutChaptersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher: Prisma.TeacherCreateNestedOneWithoutSubjectsInput
+  quizzes?: Prisma.QuizCreateNestedManyWithoutSubjectInput
   students?: Prisma.SubjectStudentCreateNestedManyWithoutSubjectInput
 }
 
@@ -588,6 +612,7 @@ export type SubjectUncheckedCreateWithoutChaptersInput = {
   visibility?: $Enums.SubjectVisibility
   createdAt?: Date | string
   updatedAt?: Date | string
+  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutSubjectInput
   students?: Prisma.SubjectStudentUncheckedCreateNestedManyWithoutSubjectInput
 }
 
@@ -617,6 +642,7 @@ export type SubjectUpdateWithoutChaptersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutSubjectsNestedInput
+  quizzes?: Prisma.QuizUpdateManyWithoutSubjectNestedInput
   students?: Prisma.SubjectStudentUpdateManyWithoutSubjectNestedInput
 }
 
@@ -630,6 +656,79 @@ export type SubjectUncheckedUpdateWithoutChaptersInput = {
   visibility?: Prisma.EnumSubjectVisibilityFieldUpdateOperationsInput | $Enums.SubjectVisibility
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutSubjectNestedInput
+  students?: Prisma.SubjectStudentUncheckedUpdateManyWithoutSubjectNestedInput
+}
+
+export type SubjectCreateWithoutQuizzesInput = {
+  id?: string
+  code?: string | null
+  title: string
+  description: string
+  mediaUrl: string
+  visibility?: $Enums.SubjectVisibility
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  teacher: Prisma.TeacherCreateNestedOneWithoutSubjectsInput
+  chapters?: Prisma.ChapterCreateNestedManyWithoutSubjectInput
+  students?: Prisma.SubjectStudentCreateNestedManyWithoutSubjectInput
+}
+
+export type SubjectUncheckedCreateWithoutQuizzesInput = {
+  id?: string
+  teacherId: string
+  code?: string | null
+  title: string
+  description: string
+  mediaUrl: string
+  visibility?: $Enums.SubjectVisibility
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutSubjectInput
+  students?: Prisma.SubjectStudentUncheckedCreateNestedManyWithoutSubjectInput
+}
+
+export type SubjectCreateOrConnectWithoutQuizzesInput = {
+  where: Prisma.SubjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.SubjectCreateWithoutQuizzesInput, Prisma.SubjectUncheckedCreateWithoutQuizzesInput>
+}
+
+export type SubjectUpsertWithoutQuizzesInput = {
+  update: Prisma.XOR<Prisma.SubjectUpdateWithoutQuizzesInput, Prisma.SubjectUncheckedUpdateWithoutQuizzesInput>
+  create: Prisma.XOR<Prisma.SubjectCreateWithoutQuizzesInput, Prisma.SubjectUncheckedCreateWithoutQuizzesInput>
+  where?: Prisma.SubjectWhereInput
+}
+
+export type SubjectUpdateToOneWithWhereWithoutQuizzesInput = {
+  where?: Prisma.SubjectWhereInput
+  data: Prisma.XOR<Prisma.SubjectUpdateWithoutQuizzesInput, Prisma.SubjectUncheckedUpdateWithoutQuizzesInput>
+}
+
+export type SubjectUpdateWithoutQuizzesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  visibility?: Prisma.EnumSubjectVisibilityFieldUpdateOperationsInput | $Enums.SubjectVisibility
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  teacher?: Prisma.TeacherUpdateOneRequiredWithoutSubjectsNestedInput
+  chapters?: Prisma.ChapterUpdateManyWithoutSubjectNestedInput
+  students?: Prisma.SubjectStudentUpdateManyWithoutSubjectNestedInput
+}
+
+export type SubjectUncheckedUpdateWithoutQuizzesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  teacherId?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  visibility?: Prisma.EnumSubjectVisibilityFieldUpdateOperationsInput | $Enums.SubjectVisibility
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chapters?: Prisma.ChapterUncheckedUpdateManyWithoutSubjectNestedInput
   students?: Prisma.SubjectStudentUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
@@ -644,6 +743,7 @@ export type SubjectCreateWithoutStudentsInput = {
   updatedAt?: Date | string
   teacher: Prisma.TeacherCreateNestedOneWithoutSubjectsInput
   chapters?: Prisma.ChapterCreateNestedManyWithoutSubjectInput
+  quizzes?: Prisma.QuizCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateWithoutStudentsInput = {
@@ -657,6 +757,7 @@ export type SubjectUncheckedCreateWithoutStudentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   chapters?: Prisma.ChapterUncheckedCreateNestedManyWithoutSubjectInput
+  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectCreateOrConnectWithoutStudentsInput = {
@@ -686,6 +787,7 @@ export type SubjectUpdateWithoutStudentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutSubjectsNestedInput
   chapters?: Prisma.ChapterUpdateManyWithoutSubjectNestedInput
+  quizzes?: Prisma.QuizUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutStudentsInput = {
@@ -699,6 +801,7 @@ export type SubjectUncheckedUpdateWithoutStudentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapters?: Prisma.ChapterUncheckedUpdateManyWithoutSubjectNestedInput
+  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectCreateManyTeacherInput = {
@@ -722,6 +825,7 @@ export type SubjectUpdateWithoutTeacherInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapters?: Prisma.ChapterUpdateManyWithoutSubjectNestedInput
+  quizzes?: Prisma.QuizUpdateManyWithoutSubjectNestedInput
   students?: Prisma.SubjectStudentUpdateManyWithoutSubjectNestedInput
 }
 
@@ -735,6 +839,7 @@ export type SubjectUncheckedUpdateWithoutTeacherInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapters?: Prisma.ChapterUncheckedUpdateManyWithoutSubjectNestedInput
+  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutSubjectNestedInput
   students?: Prisma.SubjectStudentUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
@@ -756,11 +861,13 @@ export type SubjectUncheckedUpdateManyWithoutTeacherInput = {
 
 export type SubjectCountOutputType = {
   chapters: number
+  quizzes: number
   students: number
 }
 
 export type SubjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   chapters?: boolean | SubjectCountOutputTypeCountChaptersArgs
+  quizzes?: boolean | SubjectCountOutputTypeCountQuizzesArgs
   students?: boolean | SubjectCountOutputTypeCountStudentsArgs
 }
 
@@ -784,6 +891,13 @@ export type SubjectCountOutputTypeCountChaptersArgs<ExtArgs extends runtime.Type
 /**
  * SubjectCountOutputType without action
  */
+export type SubjectCountOutputTypeCountQuizzesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QuizWhereInput
+}
+
+/**
+ * SubjectCountOutputType without action
+ */
 export type SubjectCountOutputTypeCountStudentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SubjectStudentWhereInput
 }
@@ -801,6 +915,7 @@ export type SubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   updatedAt?: boolean
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   chapters?: boolean | Prisma.Subject$chaptersArgs<ExtArgs>
+  quizzes?: boolean | Prisma.Subject$quizzesArgs<ExtArgs>
   students?: boolean | Prisma.Subject$studentsArgs<ExtArgs>
   _count?: boolean | Prisma.SubjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subject"]>
@@ -847,6 +962,7 @@ export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type SubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   chapters?: boolean | Prisma.Subject$chaptersArgs<ExtArgs>
+  quizzes?: boolean | Prisma.Subject$quizzesArgs<ExtArgs>
   students?: boolean | Prisma.Subject$studentsArgs<ExtArgs>
   _count?: boolean | Prisma.SubjectCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -862,6 +978,7 @@ export type $SubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     teacher: Prisma.$TeacherPayload<ExtArgs>
     chapters: Prisma.$ChapterPayload<ExtArgs>[]
+    quizzes: Prisma.$QuizPayload<ExtArgs>[]
     students: Prisma.$SubjectStudentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1270,6 +1387,7 @@ export interface Prisma__SubjectClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   teacher<T extends Prisma.TeacherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherDefaultArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   chapters<T extends Prisma.Subject$chaptersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$chaptersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  quizzes<T extends Prisma.Subject$quizzesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$quizzesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   students<T extends Prisma.Subject$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectStudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1731,6 +1849,30 @@ export type Subject$chaptersArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.ChapterScalarFieldEnum | Prisma.ChapterScalarFieldEnum[]
+}
+
+/**
+ * Subject.quizzes
+ */
+export type Subject$quizzesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Quiz
+   */
+  select?: Prisma.QuizSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Quiz
+   */
+  omit?: Prisma.QuizOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuizInclude<ExtArgs> | null
+  where?: Prisma.QuizWhereInput
+  orderBy?: Prisma.QuizOrderByWithRelationInput | Prisma.QuizOrderByWithRelationInput[]
+  cursor?: Prisma.QuizWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.QuizScalarFieldEnum | Prisma.QuizScalarFieldEnum[]
 }
 
 /**

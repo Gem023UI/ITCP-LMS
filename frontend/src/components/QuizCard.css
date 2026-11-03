@@ -1,0 +1,126 @@
+.quiz-card {
+  --quiz-card-w: 300px;
+  width: var(--quiz-card-w);
+  height: min-content;
+  flex: none;
+  border-radius: 18px;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.quiz-card.is-clickable {
+  cursor: pointer;
+}
+.quiz-card.is-clickable:hover,
+.quiz-card.is-clickable:focus-visible {
+  transform: scale(1.04);
+}
+.quiz-card:focus-visible {
+  outline: 2px solid #0a84ff;
+  outline-offset: 3px;
+}
+.quiz-card .liquid-glass__content {
+  display: block;
+}
+.quiz-card__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 18px 16px;
+  color: #fff;
+  text-align: left;
+}
+.quiz-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.quiz-card__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.quiz-card__subject {
+  margin: -4px 0 0;
+  font-size: 0.75rem;
+  opacity: 0.65;
+}
+.quiz-card__badge {
+  flex: none;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.14);
+}
+.quiz-card__badge.is-ok {
+  color: #6ee7a0;
+  background: rgba(110, 231, 160, 0.14);
+}
+.quiz-card__badge.is-warn {
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.14);
+}
+.quiz-card__badge.is-bad {
+  color: #ff8a8a;
+  background: rgba(255, 138, 138, 0.14);
+}
+
+.quiz-card__covers {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.quiz-card__label {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.quiz-card__covers ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.quiz-card__covers li {
+  font-size: 0.85rem;
+  line-height: 1.25;
+  opacity: 0.9;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.quiz-card__covers li b {
+  margin-right: 4px;
+  color: #6cb6ff;
+}
+.quiz-card__none {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+.quiz-card__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+.quiz-card__footer {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+.quiz-card__footer > * {
+  flex: 1;
+}

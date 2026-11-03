@@ -5,6 +5,8 @@ import type { ChapterCardData } from "../data/chapters";
 const API_URL =
   (import.meta.env.VITE_API_URL as string | undefined) ?? "http://localhost:4000";
 
+export type DeadlineMode = "STRICT" | "LATE";
+
 export type SubjectSummary = {
   id: string;
   title: string;
@@ -17,22 +19,56 @@ export type SubjectSummary = {
 export type MySubject = SubjectSummary & {
   status: "ONGOING" | "FINISHED";
   joinedAt: string;
-  finishedCount: number;
+  /** progress = chapter completions + quiz records, in percent */
+  progress: number;
   completedChapters: number;
   totalChapters: number;
+  takenQuizzes: number;
+  totalQuizzes: number;
 };
-
-export type DeadlineMode = "STRICT" | "LATE";
 
 export type ApiChapter = CloudComputingChapter & {
   id: string;
   subjectId: string;
   chapterNo: number;
-  hasQuiz: boolean;
-  quizResult: { score: number; total: number; isLate: boolean } | null;
-  quizDeadline: string | null;
-  quizDeadlineMode: DeadlineMode | null;
-  quizMissed: boolean; // student: deadline passed (STRICT) and not taken
+  /** set by "Mark as Complete" */
+  completed: boolean;
+  completedAt: string | null;
+  /** how many quizzes cover this chapter */
+  quizCount: number;
+};
+
+/* ---------- quizzes ---------- */
+
+export type QuizChapterRef = { id: string; chapterNo: number; title: string };
+export type QuizGroup = "dueToday" | "upcoming" | "missed" | "completed";
+
+/** what a quiz card shows (same shape for students and teachers) */
+export type QuizCardData = {
+  id: string;
+  quizNo: number;
+  title: string;
+  subjectId: string;
+  subjectTitle: string;
+  deadline: string | null; // null = no deadline
+  deadlineMode: DeadlineMode;
+  chapters: QuizChapterRef[];
+  attemptCount?: number; // teacher side
+};
+export type StudentQuizCard = QuizCardData & {
+  taken: boolean;
+  result: { score: number; total: number; isLate: boolean } | null;
+  /** STRICT quiz past its deadline that was never taken */
+  closed: boolean;
+  group: QuizGroup;
+};
+export type QuizLists = {
+  /** today's date (YYYY-MM-DD) in the server's timezone */
+  today: string;
+  dueToday: StudentQuizCard[];
+  upcoming: StudentQuizCard[];
+  missed: StudentQuizCard[];
+  completed: StudentQuizCard[];
 };
 
 export type QuizQuestion = {
@@ -54,23 +90,12 @@ export type QuizResult = {
   submittedAt: string;
   items: QuizResultItem[];
 };
-export type QuizPayload = {
-  quizId: string;
-  chapterId: string;
-  chapterTitle: string;
-  subjectId: string;
-  deadline: string | null;
-  deadlineMode: DeadlineMode;
+export type QuizPayload = QuizCardData & {
   closed: boolean;
   questions: QuizQuestion[];
   result: QuizResult | null;
 };
-
-type RawChapter = Omit<ApiChapter, "chapterId">;
-const withChapterId = (c: RawChapter): ApiChapter => ({
-  ...c,
-  chapterId: `chapter-${String(c.chapterNo).padStart(2, "0")}`,
-});
+export type SubmitResult = QuizResult & { subjectFinished: boolean; subjectProgress: number };
 
 export async function request<T>(
   path: string,
@@ -103,22 +128,30 @@ export const subjectsApi = {
   leave: (id: string) => request<void>(`/subjects/${id}/leave`, { method: "DELETE" }),
 };
 
+// the API no longer sends `chapterId`; the UI still reads it, so derive the same "chapter-01" value
+type RawChapter = Omit<ApiChapter, "chapterId">;
+const withChapterId = (c: RawChapter): ApiChapter => ({
+  ...c,
+  chapterId: `chapter-${String(c.chapterNo).padStart(2, "0")}`,
+});
+
 export const chaptersApi = {
   bySubject: (subjectId: string) =>
     request<{ chapters: RawChapter[] }>(`/chapters?subjectId=${encodeURIComponent(subjectId)}`).then(
       (r) => ({ chapters: r.chapters.map(withChapterId) }),
     ),
   get: (id: string) =>
-    request<{ chapter: RawChapter }>(`/chapters/${id}`).then((r) => ({ chapter: withChapterId(r.chapter) })),
+    request<{ chapter: RawChapter }>(`/chapters/${id}`).then((r) => ({
+      chapter: withChapterId(r.chapter),
+    })),
 };
 
 export const quizApi = {
-  get: (chapterId: string) => request<{ quiz: QuizPayload }>(`/quizzes/chapter/${chapterId}`),
-  submit: (chapterId: string, answers: { questionNo: number; answer: string }[]) =>
-    request<{ result: QuizResult & { subjectFinished: boolean } }>(
-      `/quizzes/chapter/${chapterId}/submit`,
-      { method: "POST", body: { answers } },
-    ),
+  /** the student's quizzes, split into dueToday / upcoming / missed / completed */
+  list: () => request<QuizLists>("/quizzes"),
+  get: (quizId: string) => request<{ quiz: QuizPayload }>(`/quizzes/${quizId}`),
+  submit: (quizId: string, answers: { questionNo: number; answer: string }[]) =>
+    request<{ result: SubmitResult }>(`/quizzes/${quizId}/submit`, { method: "POST", body: { answers } }),
 };
 
 export const toChapterCard = (c: ApiChapter): ChapterCardData => ({

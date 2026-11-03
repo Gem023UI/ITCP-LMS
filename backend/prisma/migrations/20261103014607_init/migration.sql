@@ -83,7 +83,9 @@ CREATE TABLE "chapters" (
 -- CreateTable
 CREATE TABLE "quizzes" (
     "id" TEXT NOT NULL,
-    "chapterId" TEXT NOT NULL,
+    "subjectId" TEXT NOT NULL,
+    "quizNo" INTEGER NOT NULL,
+    "title" TEXT NOT NULL,
     "questions" JSONB NOT NULL,
     "deadline" TIMESTAMP(3),
     "deadlineMode" "DeadlineMode" NOT NULL DEFAULT 'STRICT',
@@ -91,6 +93,14 @@ CREATE TABLE "quizzes" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "quizzes_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "quiz_chapters" (
+    "quizId" TEXT NOT NULL,
+    "chapterId" TEXT NOT NULL,
+
+    CONSTRAINT "quiz_chapters_pkey" PRIMARY KEY ("quizId","chapterId")
 );
 
 -- CreateTable
@@ -126,6 +136,7 @@ CREATE TABLE "chapter_progress" (
     "studentId" TEXT NOT NULL,
     "chapterId" TEXT NOT NULL,
     "percent" INTEGER NOT NULL DEFAULT 0,
+    "completedAt" TIMESTAMP(3),
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "chapter_progress_pkey" PRIMARY KEY ("id")
@@ -183,7 +194,16 @@ CREATE INDEX "chapters_subjectId_idx" ON "chapters"("subjectId");
 CREATE UNIQUE INDEX "chapters_subjectId_chapterNo_key" ON "chapters"("subjectId", "chapterNo");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "quizzes_chapterId_key" ON "quizzes"("chapterId");
+CREATE INDEX "quizzes_subjectId_idx" ON "quizzes"("subjectId");
+
+-- CreateIndex
+CREATE INDEX "quizzes_deadline_idx" ON "quizzes"("deadline");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "quizzes_subjectId_quizNo_key" ON "quizzes"("subjectId", "quizNo");
+
+-- CreateIndex
+CREATE INDEX "quiz_chapters_chapterId_idx" ON "quiz_chapters"("chapterId");
 
 -- CreateIndex
 CREATE INDEX "quiz_attempts_studentId_idx" ON "quiz_attempts"("studentId");
@@ -199,6 +219,9 @@ CREATE UNIQUE INDEX "subject_students_subjectId_studentId_key" ON "subject_stude
 
 -- CreateIndex
 CREATE INDEX "chapter_progress_chapterId_idx" ON "chapter_progress"("chapterId");
+
+-- CreateIndex
+CREATE INDEX "chapter_progress_completedAt_idx" ON "chapter_progress"("completedAt");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "chapter_progress_studentId_chapterId_key" ON "chapter_progress"("studentId", "chapterId");
@@ -231,7 +254,13 @@ ALTER TABLE "subjects" ADD CONSTRAINT "subjects_teacherId_fkey" FOREIGN KEY ("te
 ALTER TABLE "chapters" ADD CONSTRAINT "chapters_subjectId_fkey" FOREIGN KEY ("subjectId") REFERENCES "subjects"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "quizzes" ADD CONSTRAINT "quizzes_chapterId_fkey" FOREIGN KEY ("chapterId") REFERENCES "chapters"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "quizzes" ADD CONSTRAINT "quizzes_subjectId_fkey" FOREIGN KEY ("subjectId") REFERENCES "subjects"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "quiz_chapters" ADD CONSTRAINT "quiz_chapters_quizId_fkey" FOREIGN KEY ("quizId") REFERENCES "quizzes"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "quiz_chapters" ADD CONSTRAINT "quiz_chapters_chapterId_fkey" FOREIGN KEY ("chapterId") REFERENCES "chapters"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "quiz_attempts" ADD CONSTRAINT "quiz_attempts_quizId_fkey" FOREIGN KEY ("quizId") REFERENCES "quizzes"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -263,10 +292,6 @@ ALTER TABLE "article_likes" ADD CONSTRAINT "article_likes_articleId_fkey" FOREIG
 -- AddForeignKey
 ALTER TABLE "article_likes" ADD CONSTRAINT "article_likes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-
--- Append this to the END of prisma/migrations/<timestamp>_init/migration.sql
-
--- TUPT ID format: TUPT-XX-XXXX (digits); required for everyone except ADMIN
 ALTER TABLE "users" ADD CONSTRAINT "users_tuptid_format"
   CHECK ("tuptId" IS NULL OR "tuptId" ~ '^TUPT-[0-9]{2}-[0-9]{4}$');
 

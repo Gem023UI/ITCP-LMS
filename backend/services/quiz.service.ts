@@ -7,6 +7,8 @@ import {
   type StoredQuestion,
   type SubmittedAnswer,
 } from "../utils/learning.validator";
+import { classifyQuiz, isClosed, quizCardSelect, toQuizCard } from "../utils/quizCard";
+import { toDay } from "../utils/tz";
 
 const norm = (s: string) => s.trim().replace(/\s+/g, " ").toUpperCase();
 
@@ -27,24 +29,67 @@ function grade(questions: StoredQuestion[], answers: SubmittedAnswer[]) {
   return { score: items.filter((i) => i.correct).length, total: questions.length, items };
 }
 
-async function loadContext(userId: string, role: string, chapterId: string) {
-  const chapter = await prisma.chapter.findUnique({
-    where: { id: chapterId },
-    include: { quiz: true },
+const byDeadline = (dir: 1 | -1) => (a: { deadline: Date | null }, b: { deadline: Date | null }) => {
+  const empty = dir === 1 ? Infinity : -Infinity; // no deadline always sorts last
+  const at = a.deadline?.getTime() ?? empty;
+  const bt = b.deadline?.getTime() ?? empty;
+  return at === bt ? 0 : dir * (at - bt);
+};
+
+/** the student's quizzes (from enrolled subjects) split into 4 lists */
+export async function listQuizzes(studentId: string) {
+  const now = new Date();
+  const rows = await prisma.quiz.findMany({
+    where: { subject: { students: { some: { studentId } } } },
+    select: {
+      ...quizCardSelect,
+      attempts: { where: { studentId }, select: { score: true, total: true, isLate: true } },
+    },
   });
-  if (!chapter?.quiz) throw new HttpError(404, "This chapter has no quiz");
-  await assertEnrolled(userId, role, chapter.subjectId);
-  const questions = storedQuestionsSchema
-    .parse(chapter.quiz.questions)
-    .sort((a, b) => a.questionNo - b.questionNo);
-  return { chapter, quiz: chapter.quiz, questions };
+
+  const items = rows.map(({ attempts, ...q }) => {
+    const attempt = attempts[0] ?? null;
+    const taken = !!attempt;
+    return {
+      ...toQuizCard(q),
+      taken,
+      result: attempt,
+      closed: isClosed(q, taken, now), // STRICT, deadline passed, never taken
+      group: classifyQuiz(q, taken, now),
+    };
+  });
+
+  const pick = (g: string) => items.filter((i) => i.group === g);
+  return {
+    today: toDay(now),
+    dueToday: pick("dueToday").sort(byDeadline(1)),
+    upcoming: pick("upcoming").sort(byDeadline(1)),
+    missed: pick("missed").sort(byDeadline(-1)), // most recently missed first
+    completed: pick("completed").sort(byDeadline(-1)),
+  };
 }
 
-export async function getQuiz(userId: string, role: string, chapterId: string) {
-  const { chapter, quiz, questions } = await loadContext(userId, role, chapterId);
-  const attempt = await prisma.quizAttempt.findUnique({
-    where: { quizId_studentId: { quizId: quiz.id, studentId: userId } },
+async function loadContext(userId: string, role: string, quizId: string) {
+  const quiz = await prisma.quiz.findUnique({
+    where: { id: quizId },
+    select: { ...quizCardSelect, questions: true },
   });
+  if (!quiz) throw new HttpError(404, "Quiz not found");
+  await assertEnrolled(userId, role, quiz.subject.id);
+  const questions = storedQuestionsSchema
+    .parse(quiz.questions)
+    .sort((a, b) => a.questionNo - b.questionNo);
+  return { quiz, questions };
+}
+
+export async function getQuiz(userId: string, role: string, quizId: string) {
+  const { quiz, questions } = await loadContext(userId, role, quizId);
+  const attempt =
+    role === "STUDENT"
+      ? await prisma.quizAttempt.findUnique({
+          where: { quizId_studentId: { quizId, studentId: userId } },
+        })
+      : null;
 
   const result = attempt
     ? {
@@ -57,14 +102,9 @@ export async function getQuiz(userId: string, role: string, chapterId: string) {
     : null;
 
   return {
-    quizId: quiz.id,
-    chapterId: chapter.id,
-    chapterTitle: chapter.title,
-    subjectId: chapter.subjectId,
-    deadline: quiz.deadline,
-    deadlineMode: quiz.deadlineMode,
-    closed:
-      !attempt && quiz.deadlineMode === "STRICT" && !!quiz.deadline && new Date() > quiz.deadline,
+    ...toQuizCard(quiz),
+    closed: isClosed(quiz, !!attempt),
+    // correct answers are never sent before submission
     questions: questions.map(({ questionNo, type, question, choices }) => ({
       questionNo,
       type,
@@ -78,27 +118,37 @@ export async function getQuiz(userId: string, role: string, chapterId: string) {
 export async function submitQuiz(
   userId: string,
   role: string,
-  chapterId: string,
+  quizId: string,
   answers: SubmittedAnswer[],
 ) {
-  const { chapter, quiz, questions } = await loadContext(userId, role, chapterId);
   if (role !== "STUDENT") throw new HttpError(403, "Only students can submit quizzes");
+  const { quiz, questions } = await loadContext(userId, role, quizId);
+
   const pastDeadline = !!quiz.deadline && new Date() > quiz.deadline;
   if (pastDeadline && quiz.deadlineMode === "STRICT") {
     throw new HttpError(403, "The deadline for this quiz has passed");
   }
+
   const { score, total, items } = grade(questions, answers);
 
   let attempt;
   try {
     attempt = await prisma.quizAttempt.create({
-      data: { quizId: quiz.id, studentId: userId, score, total, answers, isLate: pastDeadline },
+      data: { quizId, studentId: userId, score, total, answers, isLate: pastDeadline },
     });
   } catch (err) {
     if (isUniqueViolation(err)) throw new HttpError(409, "You've already taken this quiz");
     throw err;
   }
 
-  const subjectFinished = await syncSubjectStatus(userId, chapter.subjectId);
-  return { score, total, isLate: attempt.isLate, submittedAt: attempt.createdAt, items, subjectFinished };
+  const { finished, progress } = await syncSubjectStatus(userId, quiz.subject.id);
+  return {
+    score,
+    total,
+    isLate: attempt.isLate,
+    submittedAt: attempt.createdAt,
+    items,
+    subjectFinished: finished,
+    subjectProgress: progress,
+  };
 }

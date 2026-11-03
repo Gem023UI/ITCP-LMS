@@ -62,7 +62,7 @@ export default function ChapterDetails({
         <Reveal delay={700}>
           <span className="chapter-details__btnwrap">
             <LiquidGlass as="button" className="chapter-details__btn" onClick={onQuiz}>
-              Quiz Time!
+              View Quizzes
             </LiquidGlass>
           </span>
         </Reveal>

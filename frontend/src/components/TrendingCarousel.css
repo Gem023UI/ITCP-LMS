@@ -1,16 +1,18 @@
-.articles__trending {
-  overflow-x: clip; /* stops the 100vw track from adding a sideways page scrollbar */
-}
-
+/*
+ * Full-width, free-scrolling carousel.
+ * The page that uses it sets --page-pad-left / --page-pad-right to its own side padding and
+ * `overflow-x: clip` on its root: the track breaks out to the viewport edges, while the first
+ * card still lines up with the page content and can be scrolled all the way to the edge.
+ */
 .trending {
   width: 100vw;
-  margin-left: calc(60% - 50vw);
+  margin-left: calc(-1 * var(--page-pad-left, 24px));
 }
 
 .trending__track {
   display: flex;
   gap: 24px;
-  padding: 16px 24px 24px; /* room for the card hover scale */
+  padding: 16px var(--page-pad-right, 24px) 24px var(--page-pad-left, 24px); /* room for the card hover scale */
   overflow-x: auto;
   scrollbar-width: none;
   cursor: grab;

@@ -97,6 +97,7 @@ model Subject {
 
   teacher  Teacher          @relation(fields: [teacherId], references: [userId], onDelete: Restrict)
   chapters Chapter[]
+  quizzes  Quiz[]
   students SubjectStudent[]
 
   @@index([teacherId])
@@ -121,7 +122,7 @@ model Chapter {
   updatedAt       DateTime @updatedAt
 
   subject  Subject           @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  quiz     Quiz? // one chapter -> one quiz (with many questions inside)
+  quizzes  QuizChapter[] // quizzes that cover this chapter
   progress ChapterProgress[]
 
   @@unique([subjectId, chapterNo])
@@ -129,19 +130,38 @@ model Chapter {
   @@map("chapters")
 }
 
+// A quiz belongs to a subject (not to a chapter) and covers 1..n of that subject's chapters.
 model Quiz {
   id           String       @id @default(uuid())
-  chapterId    String       @unique // strictly one quiz per chapter
+  subjectId    String
+  quizNo       Int // 1, 2, 3 ... within the subject
+  title        String // defaults to "<Subject> Quiz <quizNo>"
   questions    Json // [{ questionNo, type, question, choices, correctAnswer }]
   deadline     DateTime? // null = no deadline
   deadlineMode DeadlineMode @default(STRICT) // ignored when deadline is null
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
-  chapter  Chapter       @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  subject  Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  coverage QuizChapter[] // the chapters this quiz is about (same subject, enforced in the service)
   attempts QuizAttempt[]
 
+  @@unique([subjectId, quizNo])
+  @@index([subjectId])
+  @@index([deadline])
   @@map("quizzes")
+}
+
+model QuizChapter {
+  quizId    String
+  chapterId String
+
+  quiz    Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@id([quizId, chapterId])
+  @@index([chapterId])
+  @@map("quiz_chapters")
 }
 
 model QuizAttempt {
@@ -184,15 +204,17 @@ model SubjectStudent {
 model ChapterProgress {
   id        String   @id @default(uuid())
   studentId String
-  chapterId String
-  percent   Int      @default(0)
-  updatedAt DateTime @updatedAt
+  chapterId   String
+  percent     Int       @default(0) // reading position, only used to resume the lesson
+  completedAt DateTime? // set by "Mark as Complete"; this is what counts toward progress
+  updatedAt   DateTime  @updatedAt
 
   student Student @relation(fields: [studentId], references: [userId], onDelete: Cascade)
   chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   @@unique([studentId, chapterId])
   @@index([chapterId])
+  @@index([completedAt])
   @@map("chapter_progress")
 }
 

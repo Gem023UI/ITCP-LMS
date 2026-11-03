@@ -9,6 +9,7 @@ import manageRoutes from "./manage.routes";
 import adminRoutes from "./admin.routes";
 import progressRoutes from "./progress.routes";
 import articleRoutes from "./article.routes";
+import dashboardRoutes from "./dashboard.routes";
 
 const router = Router();
 
@@ -19,8 +20,9 @@ router.use("/subjects", ...guard, subjectRoutes);
 router.use("/chapters", ...guard, chapterRoutes);
 router.use("/quizzes", ...guard, quizRoutes);
 router.use("/progress", ...guard, requireRole("STUDENT"), progressRoutes);
+router.use("/articles", ...guard, articleRoutes);
+router.use("/dashboard", ...guard, requireRole("TEACHER"), dashboardRoutes);
 router.use("/manage", ...guard, requireRole("TEACHER", "ADMIN"), manageRoutes);
 router.use("/admin", ...guard, requireRole("ADMIN"), adminRoutes);
-router.use("/articles", ...guard, articleRoutes);
 
 export default router;

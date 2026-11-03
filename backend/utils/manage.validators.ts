@@ -9,6 +9,8 @@ const httpUrl = z
 const text = (label: string, max = 5000) =>
   z.string({ error: `${label} is required` }).trim().min(1, `${label} is required`).max(max);
 
+const isoDateTime = z.iso.datetime({ offset: true, error: "Enter a valid date and time" });
+
 export const subjectInputSchema = z.strictObject({
   title: text("Title", 120),
   description: text("Description", 1000),
@@ -63,10 +65,28 @@ const quizQuestionInput = z
     "Multiple choice needs 2+ unique choices, and the correct answer must be one of them",
   );
 
+/** create / full edit of a quiz (teacher only) */
 export const quizInputSchema = z.strictObject({
+  // omitted or blank -> "<Subject> Quiz <number>"
+  title: z
+    .string()
+    .trim()
+    .max(200)
+    .optional()
+    .transform((v) => v || undefined),
+  // the chapters this quiz covers; they must belong to the quiz's subject
+  chapterIds: z
+    .array(z.string().min(1).max(100))
+    .min(1, "Select at least one chapter")
+    .max(200),
   questions: z.array(quizQuestionInput).min(1, "Add at least one question").max(100),
-  deadline: z.iso.datetime().nullable().optional(), // null / omitted = no deadline
+  deadline: isoDateTime.nullable().optional(), // null / omitted = no deadline
   deadlineMode: z.enum(["STRICT", "LATE"]).default("STRICT"),
+});
+
+/** extend a deadline (the only edit allowed once students have taken the quiz) */
+export const quizDeadlineSchema = z.strictObject({
+  deadline: isoDateTime,
 });
 
 export const setStatusSchema = z.strictObject({
@@ -76,3 +96,4 @@ export const setStatusSchema = z.strictObject({
 export type SubjectInput = z.infer<typeof subjectInputSchema>;
 export type ChapterInput = z.infer<typeof chapterInputSchema>;
 export type QuizInput = z.infer<typeof quizInputSchema>;
+export type QuizDeadlineInput = z.infer<typeof quizDeadlineSchema>;

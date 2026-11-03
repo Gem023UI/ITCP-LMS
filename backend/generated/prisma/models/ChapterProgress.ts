@@ -39,6 +39,7 @@ export type ChapterProgressMinAggregateOutputType = {
   studentId: string | null
   chapterId: string | null
   percent: number | null
+  completedAt: Date | null
   updatedAt: Date | null
 }
 
@@ -47,6 +48,7 @@ export type ChapterProgressMaxAggregateOutputType = {
   studentId: string | null
   chapterId: string | null
   percent: number | null
+  completedAt: Date | null
   updatedAt: Date | null
 }
 
@@ -55,6 +57,7 @@ export type ChapterProgressCountAggregateOutputType = {
   studentId: number
   chapterId: number
   percent: number
+  completedAt: number
   updatedAt: number
   _all: number
 }
@@ -73,6 +76,7 @@ export type ChapterProgressMinAggregateInputType = {
   studentId?: true
   chapterId?: true
   percent?: true
+  completedAt?: true
   updatedAt?: true
 }
 
@@ -81,6 +85,7 @@ export type ChapterProgressMaxAggregateInputType = {
   studentId?: true
   chapterId?: true
   percent?: true
+  completedAt?: true
   updatedAt?: true
 }
 
@@ -89,6 +94,7 @@ export type ChapterProgressCountAggregateInputType = {
   studentId?: true
   chapterId?: true
   percent?: true
+  completedAt?: true
   updatedAt?: true
   _all?: true
 }
@@ -184,6 +190,7 @@ export type ChapterProgressGroupByOutputType = {
   studentId: string
   chapterId: string
   percent: number
+  completedAt: Date | null
   updatedAt: Date
   _count: ChapterProgressCountAggregateOutputType | null
   _avg: ChapterProgressAvgAggregateOutputType | null
@@ -215,6 +222,7 @@ export type ChapterProgressWhereInput = {
   studentId?: Prisma.StringFilter<"ChapterProgress"> | string
   chapterId?: Prisma.StringFilter<"ChapterProgress"> | string
   percent?: Prisma.IntFilter<"ChapterProgress"> | number
+  completedAt?: Prisma.DateTimeNullableFilter<"ChapterProgress"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"ChapterProgress"> | Date | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   chapter?: Prisma.XOR<Prisma.ChapterScalarRelationFilter, Prisma.ChapterWhereInput>
@@ -225,6 +233,7 @@ export type ChapterProgressOrderByWithRelationInput = {
   studentId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   percent?: Prisma.SortOrder
+  completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   student?: Prisma.StudentOrderByWithRelationInput
   chapter?: Prisma.ChapterOrderByWithRelationInput
@@ -239,6 +248,7 @@ export type ChapterProgressWhereUniqueInput = Prisma.AtLeast<{
   studentId?: Prisma.StringFilter<"ChapterProgress"> | string
   chapterId?: Prisma.StringFilter<"ChapterProgress"> | string
   percent?: Prisma.IntFilter<"ChapterProgress"> | number
+  completedAt?: Prisma.DateTimeNullableFilter<"ChapterProgress"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"ChapterProgress"> | Date | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   chapter?: Prisma.XOR<Prisma.ChapterScalarRelationFilter, Prisma.ChapterWhereInput>
@@ -249,6 +259,7 @@ export type ChapterProgressOrderByWithAggregationInput = {
   studentId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   percent?: Prisma.SortOrder
+  completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ChapterProgressCountOrderByAggregateInput
   _avg?: Prisma.ChapterProgressAvgOrderByAggregateInput
@@ -265,12 +276,14 @@ export type ChapterProgressScalarWhereWithAggregatesInput = {
   studentId?: Prisma.StringWithAggregatesFilter<"ChapterProgress"> | string
   chapterId?: Prisma.StringWithAggregatesFilter<"ChapterProgress"> | string
   percent?: Prisma.IntWithAggregatesFilter<"ChapterProgress"> | number
+  completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ChapterProgress"> | Date | string | null
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ChapterProgress"> | Date | string
 }
 
 export type ChapterProgressCreateInput = {
   id?: string
   percent?: number
+  completedAt?: Date | string | null
   updatedAt?: Date | string
   student: Prisma.StudentCreateNestedOneWithoutChapterProgressInput
   chapter: Prisma.ChapterCreateNestedOneWithoutProgressInput
@@ -281,12 +294,14 @@ export type ChapterProgressUncheckedCreateInput = {
   studentId: string
   chapterId: string
   percent?: number
+  completedAt?: Date | string | null
   updatedAt?: Date | string
 }
 
 export type ChapterProgressUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneRequiredWithoutChapterProgressNestedInput
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutProgressNestedInput
@@ -297,6 +312,7 @@ export type ChapterProgressUncheckedUpdateInput = {
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -305,12 +321,14 @@ export type ChapterProgressCreateManyInput = {
   studentId: string
   chapterId: string
   percent?: number
+  completedAt?: Date | string | null
   updatedAt?: Date | string
 }
 
 export type ChapterProgressUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -319,6 +337,7 @@ export type ChapterProgressUncheckedUpdateManyInput = {
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -342,6 +361,7 @@ export type ChapterProgressCountOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   percent?: Prisma.SortOrder
+  completedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -354,6 +374,7 @@ export type ChapterProgressMaxOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   percent?: Prisma.SortOrder
+  completedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -362,6 +383,7 @@ export type ChapterProgressMinOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   chapterId?: Prisma.SortOrder
   percent?: Prisma.SortOrder
+  completedAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -456,6 +478,7 @@ export type ChapterProgressUncheckedUpdateManyWithoutChapterNestedInput = {
 export type ChapterProgressCreateWithoutStudentInput = {
   id?: string
   percent?: number
+  completedAt?: Date | string | null
   updatedAt?: Date | string
   chapter: Prisma.ChapterCreateNestedOneWithoutProgressInput
 }
@@ -464,6 +487,7 @@ export type ChapterProgressUncheckedCreateWithoutStudentInput = {
   id?: string
   chapterId: string
   percent?: number
+  completedAt?: Date | string | null
   updatedAt?: Date | string
 }
 
@@ -501,12 +525,14 @@ export type ChapterProgressScalarWhereInput = {
   studentId?: Prisma.StringFilter<"ChapterProgress"> | string
   chapterId?: Prisma.StringFilter<"ChapterProgress"> | string
   percent?: Prisma.IntFilter<"ChapterProgress"> | number
+  completedAt?: Prisma.DateTimeNullableFilter<"ChapterProgress"> | Date | string | null
   updatedAt?: Prisma.DateTimeFilter<"ChapterProgress"> | Date | string
 }
 
 export type ChapterProgressCreateWithoutChapterInput = {
   id?: string
   percent?: number
+  completedAt?: Date | string | null
   updatedAt?: Date | string
   student: Prisma.StudentCreateNestedOneWithoutChapterProgressInput
 }
@@ -515,6 +541,7 @@ export type ChapterProgressUncheckedCreateWithoutChapterInput = {
   id?: string
   studentId: string
   percent?: number
+  completedAt?: Date | string | null
   updatedAt?: Date | string
 }
 
@@ -548,12 +575,14 @@ export type ChapterProgressCreateManyStudentInput = {
   id?: string
   chapterId: string
   percent?: number
+  completedAt?: Date | string | null
   updatedAt?: Date | string
 }
 
 export type ChapterProgressUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chapter?: Prisma.ChapterUpdateOneRequiredWithoutProgressNestedInput
 }
@@ -562,6 +591,7 @@ export type ChapterProgressUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -569,6 +599,7 @@ export type ChapterProgressUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   chapterId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -576,12 +607,14 @@ export type ChapterProgressCreateManyChapterInput = {
   id?: string
   studentId: string
   percent?: number
+  completedAt?: Date | string | null
   updatedAt?: Date | string
 }
 
 export type ChapterProgressUpdateWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneRequiredWithoutChapterProgressNestedInput
 }
@@ -590,6 +623,7 @@ export type ChapterProgressUncheckedUpdateWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -597,6 +631,7 @@ export type ChapterProgressUncheckedUpdateManyWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   percent?: Prisma.IntFieldUpdateOperationsInput | number
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -607,6 +642,7 @@ export type ChapterProgressSelect<ExtArgs extends runtime.Types.Extensions.Inter
   studentId?: boolean
   chapterId?: boolean
   percent?: boolean
+  completedAt?: boolean
   updatedAt?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
@@ -617,6 +653,7 @@ export type ChapterProgressSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   studentId?: boolean
   chapterId?: boolean
   percent?: boolean
+  completedAt?: boolean
   updatedAt?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
@@ -627,6 +664,7 @@ export type ChapterProgressSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   studentId?: boolean
   chapterId?: boolean
   percent?: boolean
+  completedAt?: boolean
   updatedAt?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
@@ -637,10 +675,11 @@ export type ChapterProgressSelectScalar = {
   studentId?: boolean
   chapterId?: boolean
   percent?: boolean
+  completedAt?: boolean
   updatedAt?: boolean
 }
 
-export type ChapterProgressOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "chapterId" | "percent" | "updatedAt", ExtArgs["result"]["chapterProgress"]>
+export type ChapterProgressOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "chapterId" | "percent" | "completedAt" | "updatedAt", ExtArgs["result"]["chapterProgress"]>
 export type ChapterProgressInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   chapter?: boolean | Prisma.ChapterDefaultArgs<ExtArgs>
@@ -665,6 +704,7 @@ export type $ChapterProgressPayload<ExtArgs extends runtime.Types.Extensions.Int
     studentId: string
     chapterId: string
     percent: number
+    completedAt: Date | null
     updatedAt: Date
   }, ExtArgs["result"]["chapterProgress"]>
   composites: {}
@@ -1095,6 +1135,7 @@ export interface ChapterProgressFieldRefs {
   readonly studentId: Prisma.FieldRef<"ChapterProgress", 'String'>
   readonly chapterId: Prisma.FieldRef<"ChapterProgress", 'String'>
   readonly percent: Prisma.FieldRef<"ChapterProgress", 'Int'>
+  readonly completedAt: Prisma.FieldRef<"ChapterProgress", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ChapterProgress", 'DateTime'>
 }
     

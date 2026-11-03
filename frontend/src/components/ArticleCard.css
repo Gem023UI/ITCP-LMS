@@ -63,3 +63,8 @@
   font-size: 0.7rem;
   opacity: 0.8;
 }
+
+.article-card__footer {
+  padding-top: 10px;
+  display: flex;
+}

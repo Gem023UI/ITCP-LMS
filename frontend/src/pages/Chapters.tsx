@@ -152,7 +152,7 @@ export default function Chapters() {
             onProceed={() =>
               navigate(`/chapters/${selected.id}`)
             }
-            onQuiz={() => navigate(`/quiz/${selected.id}`)}
+            onQuiz={() => navigate("/quizzes")}
           />
         </div>
       )}

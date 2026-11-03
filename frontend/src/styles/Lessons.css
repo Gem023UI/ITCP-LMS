@@ -186,3 +186,20 @@
 .lessons__cta-btn:hover {
   transform: scale(1.05);
 }
+/* mark as complete */
+.lessons__cta-btn:disabled,
+.lessons__cta-btn.is-done {
+  cursor: default;
+}
+.lessons__cta-btn:disabled:hover {
+  transform: none;
+}
+.lessons__cta-btn.is-done {
+  opacity: 0.85;
+}
+.lessons__cta-note {
+  margin: 12px 0 0;
+  text-align: center;
+  color: #ff8a8a;
+  font-size: 0.85rem;
+}
