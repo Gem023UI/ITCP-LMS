@@ -3,7 +3,7 @@ import type { CloudComputingChapter } from "../types/modules";
 import type { ChapterCardData } from "../data/chapters";
 
 const API_URL =
-  (import.meta.env.VITE_VITE_RENDER_URL as string | undefined) ?? "http://localhost:4000";
+  (import.meta.env.VITE_RENDER_URL as string | undefined) ?? "http://localhost:4000";
 
 export type DeadlineMode = "STRICT" | "LATE";
 
