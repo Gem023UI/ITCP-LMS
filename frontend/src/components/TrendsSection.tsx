@@ -9,10 +9,10 @@ const TEXT =
 
 // image: "/photos/xyz.jpg" (file in public/photos/) or an imported asset
 const ITEMS = [
-  { title: "Threat watch", image: "/chapters/01.png" },
-  { title: "Data breaches", image: "/chapters/02.png" },
-  { title: "Best practices", image: "/chapters/03.png" },
-  { title: "Tools & tech", image: "/chapters/04.png" },
+  { title: "Threat watch", image: "/section/swap1.png" },
+  { title: "Cloud Operations", image: "/section/swap2.png" },
+  { title: "Latest Updates", image: "/section/swap3.png" },
+  { title: "Trending Workshops", image: "/section/swap4.png" },
 ];
 /* ----------------------------------------------------------------------- */
 

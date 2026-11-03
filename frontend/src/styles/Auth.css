@@ -167,12 +167,11 @@
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: 46px;
+  height: min(48px, 100%);
   margin-bottom: 20px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.28);
   background: rgba(255, 255, 255, 0.08);
-  overflow: hidden;
 }
 
 .auth-toggle__thumb {
@@ -223,7 +222,7 @@
 .auth-field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 3px;
   min-width: 0;
 }
 
@@ -239,7 +238,7 @@
 .auth-input-wrap input {
   width: 100%;
   box-sizing: border-box;
-  height: 48px;
+  height: 40px;
   padding: 0 42px 0 14px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.28);
