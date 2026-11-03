@@ -31,6 +31,7 @@ import Home from "./pages/Home";
 import Article from "./pages/Articles";
 import ArticleDetails from "./pages/ArticleDetails";
 import Profile from "./pages/Profile";
+import TeacherDashboard from "./pages/TeacherDashboard";
 import TeacherProfile from "./pages/TeacherProfile";
 import { authApi, type User } from "./services/authApi";
 
@@ -98,7 +99,7 @@ function Shell() {
     ];
 
     const teacher = [
-      { icon: glyph(DashboardSquareEditIcon), label: "Dashboard", onClick: () => console.log("/teacher/dashboard") },
+      { icon: glyph(DashboardSquareEditIcon), label: "Dashboard", onClick: () => navigate("/teacher/dashboard") },
       { icon: glyph(NoteIcon), label: "Articles", onClick: () => navigate("/articles") },
       { icon: glyph(BookEditIcon), label: "Subjects", onClick: () => navigate("/teacher/subjects") },
       { icon: glyph(UserAccountIcon), label: "Profile", onClick: () => navigate("/teacher/profile") },
@@ -189,6 +190,7 @@ function Shell() {
           <Route path="/quiz/:quizId" element={<Quiz />} />
           <Route path="/quizzes" element={<Quizzes />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
           <Route path="/teacher/profile" element={<TeacherProfile />} />
           <Route path="/articles" element={<Article />} />
           <Route path="/articles/:articleId" element={<ArticleDetails />} />

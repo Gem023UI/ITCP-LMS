@@ -1,0 +1,79 @@
+.spark-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 18px 18px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  background: rgba(20, 20, 22, 0.72);
+  color: #fff;
+  user-select: none;
+}
+.spark-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.spark-card__label {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+}
+.spark-card__delta {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
+.spark-card__delta.is-up {
+  color: #6ee7a0;
+  background: rgba(110, 231, 160, 0.14);
+}
+.spark-card__delta.is-down {
+  color: #ff8a8a;
+  background: rgba(255, 138, 138, 0.14);
+}
+
+.spark-card__value {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 6px;
+}
+.spark-card__value strong {
+  font-family: "League Spartan", "Poppins", sans-serif;
+  font-size: clamp(2.2rem, 3.2vw, 3rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.spark-card__value small {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+.spark-card__day {
+  min-height: 1.2em;
+  margin-bottom: 6px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.spark-card__chart {
+  width: 100%;
+}
+.spark-card__chart svg {
+  display: block;
+  width: 100%;
+  touch-action: pan-y;
+  cursor: crosshair;
+}
+.spark-card__guide {
+  stroke: rgba(255, 255, 255, 0.45);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}

@@ -1,0 +1,79 @@
+.dash {
+  position: absolute;
+  inset: 0;
+  padding: 48px 56px 80px 120px; /* left space for the dock */
+  color: #fff;
+}
+.dash__heading {
+  margin: 0 0 28px;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.dash__section {
+  margin-bottom: 44px;
+}
+.dash__title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 16px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.dash__title small {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 0.55;
+}
+.dash__count {
+  min-width: 26px;
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: #0a84ff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+}
+.dash__empty {
+  margin: 0;
+  opacity: 0.7;
+}
+.dash__error {
+  margin: 6px 0;
+  color: #ff6b6b;
+  font-size: 0.85rem;
+}
+
+/* sparkline row: 3 cards */
+.dash__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 44px;
+}
+
+/* deadline today: same grid as the Quizzes page */
+.dash__quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.dash__quiz-grid .quiz-card {
+  width: 100%;
+}
+.dash__danger {
+  color: #ff8a8a;
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  .dash {
+    padding: 32px 20px 80px 96px;
+  }
+}
