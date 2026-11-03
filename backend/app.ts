@@ -12,7 +12,16 @@ export const app = express();
 
 app.disable("x-powered-by");
 app.use(helmet());
-app.use(cors({ origin: env.CLIENT_ORIGIN, credentials: true }));
+
+app.use(
+  cors({
+    origin: env.CLIENT_ORIGIN.split(",").map((origin) => origin.trim()),
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json({ limit: "10kb" }));
 app.use(cookieParser());
 if (env.NODE_ENV === "development") app.use(morgan("dev"));
