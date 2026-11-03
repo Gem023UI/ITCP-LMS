@@ -31,6 +31,7 @@ import Home from "./pages/Home";
 import Article from "./pages/Articles";
 import ArticleDetails from "./pages/ArticleDetails";
 import Profile from "./pages/Profile";
+import TeacherProfile from "./pages/TeacherProfile";
 import { authApi, type User } from "./services/authApi";
 
 const glyph = (icon: React.ComponentProps<typeof HugeiconsIcon>["icon"]) => (
@@ -100,7 +101,7 @@ function Shell() {
       { icon: glyph(DashboardSquareEditIcon), label: "Dashboard", onClick: () => console.log("/teacher/dashboard") },
       { icon: glyph(NoteIcon), label: "Articles", onClick: () => navigate("/articles") },
       { icon: glyph(BookEditIcon), label: "Subjects", onClick: () => navigate("/teacher/subjects") },
-      { icon: glyph(UserAccountIcon), label: "Profile", onClick: () => console.log("/teacher/profile") },
+      { icon: glyph(UserAccountIcon), label: "Profile", onClick: () => navigate("/teacher/profile") },
       { separator: true},
       { icon: glyph(ArrowLeftBigIcon), label: "Log Out", onClick: handleLogout },
     ];
@@ -188,6 +189,7 @@ function Shell() {
           <Route path="/quiz/:quizId" element={<Quiz />} />
           <Route path="/quizzes" element={<Quizzes />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/teacher/profile" element={<TeacherProfile />} />
           <Route path="/articles" element={<Article />} />
           <Route path="/articles/:articleId" element={<ArticleDetails />} />
         </Routes>

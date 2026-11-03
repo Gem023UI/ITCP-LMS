@@ -3,19 +3,15 @@ import { useNavigate } from "react-router-dom";
 import Lanyard from "../components/Lanyard";
 import ActivityYearHeatmap from "../components/ActivityHeatMap";
 import MetallicBlueButton from "../components/MetallicBlueButton";
-import LiquidGlass from "../components/LiquidGlass";
 import EditProfileModal from "../components/ProfileEditModal";
-import TrendingCarousel from "../components/TrendingCarousel";
-import ConfirmModal from "../components/ConfirmModal";
+import PublishedArticles from "../components/PublishedArticles";
 import StatRow from "../components/StatRow";
 import AreaChart from "../components/charts/AreaChart";
 import { ApiError } from "../services/authApi";
-import { articlesApi, type ArticleSummary } from "../services/articleApi";
 import { progressApi, type HomeData, type QuizStats } from "../services/progressApi";
 import { useAuth } from "../hooks/useAuth";
-import { patchLike, useToggleLike, type LikeResult } from "../hooks/useToggleLike";
 import { errText } from "../utils/errorText";
-import { homeFor } from "../utils/roleRoutes";
+import { profileFor } from "../utils/roleRoutes";
 import "../styles/Profile.css";
 
 const PLACEHOLDER = {
@@ -29,18 +25,12 @@ export default function Profile() {
   const { user, loading: authLoading, error: authError } = useAuth();
   const [data, setData] = React.useState<HomeData | null>(null);
   const [stats, setStats] = React.useState<QuizStats | null>(null);
-  const [articles, setArticles] = React.useState<ArticleSummary[] | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [avatarUrl, setAvatarUrl] = React.useState<string | null>(null);
   const [editing, setEditing] = React.useState(false);
-
-  // delete-article confirmation
-  const [toDelete, setToDelete] = React.useState<ArticleSummary | null>(null);
-  const [deleting, setDeleting] = React.useState(false);
-  const [deleteError, setDeleteError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (!user) return;
@@ -61,7 +51,7 @@ export default function Profile() {
       return;
     }
     if (user.role !== "STUDENT") {
-      navigate(homeFor(user.role), { replace: true });
+      navigate(profileFor(user.role), { replace: true }); // teachers -> /teacher/profile
       return;
     }
 
@@ -73,41 +63,10 @@ export default function Profile() {
     };
     progressApi.home().then((d) => !cancelled && setData(d)).catch(fail);
     progressApi.quizStats().then((s) => !cancelled && setStats(s)).catch(fail);
-    articlesApi
-      .list({ authorId: user.id, sort: "latest", limit: 50 })
-      .then((r) => !cancelled && setArticles(r.articles))
-      .catch(fail);
     return () => {
       cancelled = true;
     };
   }, [authLoading, user, authError, navigate]);
-
-  const confirmDelete = async () => {
-    if (!toDelete) return;
-    setDeleting(true);
-    setDeleteError(null);
-    try {
-      await articlesApi.remove(toDelete.id);
-      setArticles((list) => list?.filter((a) => a.id !== toDelete.id) ?? null);
-      setToDelete(null);
-    } catch (e) {
-      setDeleteError(errText(e));
-    } finally {
-      setDeleting(false);
-    }
-  };
-
-  const closeDelete = () => {
-    setToDelete(null);
-    setDeleteError(null);
-  };
-
-  const onLikeUpdate = React.useCallback(
-    (id: string, r: LikeResult) => setArticles((list) => (list ? patchLike(list, id, r) : list)),
-    [],
-  );
-  const onLikeError = React.useCallback((e: unknown) => setError(errText(e)), []);
-  const toggleLike = useToggleLike(onLikeUpdate, onLikeError);
 
   return (
     <div className="profile">
@@ -161,32 +120,8 @@ export default function Profile() {
         )}
       </section>
 
-      {/* published articles: draggable carousel, same as the trending section */}
-      <section className="profile__section profile__articles">
-        <h2 className="profile__heading">Published Articles</h2>
-        {articles === null ? (
-          !error && <p className="profile__message">Loading your articles…</p>
-        ) : articles.length ? (
-          <TrendingCarousel
-            articles={articles}
-            onOpen={(a) => navigate(`/articles/${a.id}`)}
-            canLike
-            onToggleLike={(a) => toggleLike(a.id)}
-            renderFooter={(a) => (
-              <LiquidGlass
-                as="button"
-                type="button"
-                className="profile__delete"
-                onClick={() => setToDelete(a)}
-              >
-                Delete Article
-              </LiquidGlass>
-            )}
-          />
-        ) : (
-          <p className="profile__message">You haven't published any articles yet.</p>
-        )}
-      </section>
+      {/* published articles: shared with the teacher profile */}
+      {user?.role === "STUDENT" && <PublishedArticles userId={user.id} />}
 
       {/* quiz stats: stat row, then the area graph */}
       <section className="profile__section profile__stats">
@@ -234,19 +169,6 @@ export default function Profile() {
             setAvatarUrl(v.avatarUrl);
             setEditing(false);
           }}
-        />
-      )}
-
-      {toDelete && (
-        <ConfirmModal
-          title="Delete this article?"
-          message={`"${toDelete.title}" and its likes will be permanently removed. This can't be undone.`}
-          confirmLabel="Delete"
-          danger
-          busy={deleting}
-          error={deleteError}
-          onConfirm={confirmDelete}
-          onCancel={closeDelete}
         />
       )}
     </div>
