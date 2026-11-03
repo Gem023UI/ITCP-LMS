@@ -45,6 +45,7 @@ export async function registerUser(
   password: string,
   firstName: string,
   lastName: string,
+  role: "STUDENT" | "TEACHER",
 ) {
   const existing = await prisma.user.findMany({
     where: { OR: [{ tuptId }, { email }] },
@@ -62,7 +63,16 @@ export async function registerUser(
   const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
   try {
     const user = await prisma.user.create({
-      data: { tuptId, email, passwordHash, firstName, lastName, role: "STUDENT", student: { create: {} } },
+      data: {
+        tuptId,
+        email,
+        passwordHash,
+        firstName,
+        lastName,
+        role,
+        status: "VERIFY",
+        ...(role === "TEACHER" ? { teacher: { create: {} } } : { student: { create: {} } }),
+      },
     });
     return toPublicUser(user);
   } catch (err) {
@@ -80,6 +90,11 @@ export async function loginUser(identifier: string, password: string) {
   });
   const ok = await bcrypt.compare(password, user?.passwordHash ?? DUMMY_HASH);
   if (!user || !ok) throw new AuthError(401, "Invalid TUPT ID/email or password");
+  if (user.status === "VERIFY")
+    throw new AuthError(
+      403,
+      "Your account is pending approval. You can log in once an administrator activates it.",
+    );
   if (user.status === "INACTIVE")
     throw new AuthError(403, "Your account is inactive. Please contact your administrator.");
   if (user.status === "DEACTIVATED")

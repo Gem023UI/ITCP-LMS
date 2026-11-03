@@ -4,9 +4,8 @@ import { signToken } from "../utils/jwt";
 import { COOKIE_NAME, cookieOptions } from "../utils/cookies";
 
 export const register: RequestHandler = async (req, res) => {
-  const { tuptId, email, password, firstName, lastName } = req.body;
-  const user = await authService.registerUser(tuptId, email, password, firstName, lastName);
-  res.cookie(COOKIE_NAME, signToken({ sub: user.id, role: user.role }), cookieOptions);
+  const { tuptId, email, password, firstName, lastName, role } = req.body;
+  const user = await authService.registerUser(tuptId, email, password, firstName, lastName, role);
   res.status(201).json({ user });
 };
 

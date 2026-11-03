@@ -9,7 +9,7 @@ export type User = {
   lastName: string;
   imageUrl: string | null;
   role: "STUDENT" | "TEACHER" | "ADMIN";
-  status: "ACTIVE" | "INACTIVE" | "DEACTIVATED";
+  status: "VERIFY" | "ACTIVE" | "INACTIVE" | "DEACTIVATED";
   createdAt: string;
 };
 
@@ -49,6 +49,7 @@ async function request<T>(
 
 export const authApi = {
   register: (body: {
+    role: "STUDENT" | "TEACHER";
     tuptId: string;
     email: string;
     firstName: string;

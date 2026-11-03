@@ -10,3 +10,11 @@ export const listUsers: RequestHandler = async (req, res) => {
 export const setStatus: RequestHandler = async (req, res) => {
 const user = await admin.setUserStatus(res.locals.userId, String(req.params.id), req.body.status);  res.json({ user });
 };
+
+export const listSubjects: RequestHandler = async (_req, res) => {
+  res.json({ subjects: await admin.listAllSubjects() });
+};
+
+export const listSubjectChapters: RequestHandler = async (req, res) => {
+  res.json({ chapters: await admin.listSubjectChapterCards(String(req.params.id)) });
+};

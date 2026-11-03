@@ -45,6 +45,7 @@ const name = (label: string) =>
 
 export const registerSchema = z
   .strictObject({
+    role: z.enum(["STUDENT", "TEACHER"], { error: "Select a role" }),
     tuptId,
     email,
     firstName: name("First name"),

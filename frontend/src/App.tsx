@@ -15,6 +15,7 @@ import {
   BookEditIcon,
   ArrowLeftBigIcon,
   Quiz01Icon,
+  UserGroupIcon,
 } from "@hugeicons/core-free-icons";
 import ShapeGrid from "./components/ShapeGrid";
 import Dock from "./components/Dock";
@@ -26,7 +27,9 @@ import Subjects from "./pages/Subjects";
 import Quiz from "./pages/Quiz";
 import Quizzes from "./pages/Quizzes";
 import SubjectTeacher from "./pages/Teacher";
-import UsersAdmin from "./pages/AdminStudents";
+import StudentsAdmin from "./pages/AdminStudents";
+import TeachersAdmin from "./pages/AdminTeachers";  
+import SubjectsAdmin from "./pages/AdminSubjects";
 import Home from "./pages/Home";
 import Article from "./pages/Articles";
 import ArticleDetails from "./pages/ArticleDetails";
@@ -111,9 +114,10 @@ function Shell() {
 
     const admin = [
       { icon: glyph(DashboardCircleEditIcon), label: "Dashboard", onClick: () => navigate("/admin/dashboard") },
-      { icon: glyph(EditUser02Icon), label: "Users", onClick: () => navigate("/admin/users") },
+      { icon: glyph(EditUser02Icon), label: "Students", onClick: () => navigate("/admin/students") },
+      { icon: glyph(UserGroupIcon), label: "Teachers", onClick: () => navigate("/admin/teachers") },
+      { icon: glyph(LicenseDraftIcon), label: "Subjects", onClick: () => navigate("/admin/subjects") },
       { icon: glyph(NoteIcon), label: "Articles", onClick: () => navigate("/articles") },
-      { icon: glyph(LicenseDraftIcon), label: "Subjects", onClick: () => console.log("admin/subjects") },
       { separator: true},
       { icon: glyph(ArrowLeftBigIcon), label: "Log Out", onClick: handleLogout },
     ];
@@ -186,7 +190,9 @@ function Shell() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/subjects" element={<Subjects />} />
           <Route path="/teacher/subjects" element={<SubjectTeacher />} />
-          <Route path="/admin/users" element={<UsersAdmin />} />
+          <Route path="/admin/students" element={<StudentsAdmin />} />
+          <Route path="/admin/teachers" element={<TeachersAdmin />} />
+          <Route path="/admin/subjects" element={<SubjectsAdmin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/chapters" element={<Chapters />} />
           <Route path="/chapters/:lessonId" element={<Lessons />} />

@@ -1,0 +1,25 @@
+.admin-subjects__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 24px;
+  padding: 16px 0;
+}
+.admin-subjects__item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.admin-subjects__meta {
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+.admin-subjects__carousel {
+  position: relative;
+  width: 100%;
+  margin-top: 16px;
+}
+/* view-only: the play button would open chapter contents */
+.admin-subjects .chapter-card__play {
+  display: none;
+}

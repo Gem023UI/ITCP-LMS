@@ -18,8 +18,13 @@ import "../styles/Auth.css";
 const PLACEHOLDER_IMG =
   "https://imgs.search.brave.com/hjSPuyXM7OmC_UwkgtdwRc8BjhOpcbtnYoCpngeiTG4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9lYXJ0/aGRhdGEubmFzYS5n/b3YvczNmcy1wdWJs/aWMvc3R5bGVzL2hk/c19nZW5lcmljX2Nh/cmQvcHVibGljLzIw/MjUtMTIvY2xvdWQt/Y29tcHV0aW5nLTIt/dGguanBnP1ZlcnNp/b25JZD12SGR4MWps/OHNHT3V5QTl5SFNs/R1plamNxYXNoMVVi/TSZpdG9rPV9FNUtn/cXNK";
 
+const BLURB =
+  "Tag along in learning the fundamentals of what makes the digital landscape the backbone of modern society.";
+
 type Mode = "register" | "login";
+type RegRole = "STUDENT" | "TEACHER";
 type FieldState = { status: "idle" | "valid" | "invalid"; hint: string };
+type Notice = { title: string; message: string; onClose?: () => void };
 
 const IDLE: FieldState = { status: "idle", hint: "" };
 const stateClass = (s: FieldState) => (s.status === "idle" ? "" : ` is-${s.status}`);
@@ -89,6 +94,31 @@ function Hint({
     >
       {state.hint}
     </p>
+  );
+}
+
+/* ---------- Student / Teacher toggle ---------- */
+function RoleToggle({ value, onChange }: { value: RegRole; onChange: (r: RegRole) => void }) {
+  return (
+    <div
+      className={`auth-toggle${value === "TEACHER" ? " is-teacher" : ""}`}
+      role="radiogroup"
+      aria-label="Register as"
+    >
+      <span className="auth-toggle__thumb" aria-hidden="true" />
+      {(["STUDENT", "TEACHER"] as const).map((r) => (
+        <button
+          key={r}
+          type="button"
+          role="radio"
+          aria-checked={value === r}
+          className={value === r ? "is-on" : ""}
+          onClick={() => onChange(r)}
+        >
+          {r === "STUDENT" ? "Student" : "Teacher"}
+        </button>
+      ))}
+    </div>
   );
 }
 
@@ -198,8 +228,10 @@ export default function Auth() {
   const [mode, setMode] = React.useState<Mode>("register");
   const isLogin = mode === "login";
   const [submitting, setSubmitting] = React.useState(false);
+  const [notice, setNotice] = React.useState<Notice | null>(null);
 
   // register
+  const [regRole, setRegRole] = React.useState<RegRole>("STUDENT");
   const [regFirst, setRegFirst] = React.useState("");
   const [regFirstTouched, setRegFirstTouched] = React.useState(false);
   const [regLast, setRegLast] = React.useState("");
@@ -297,6 +329,21 @@ export default function Auth() {
       ? { status: "invalid", hint: "Password is required" }
       : IDLE;
 
+  /* ----- notice modal ----- */
+  const closeNotice = React.useCallback(() => {
+    setNotice((n) => {
+      n?.onClose?.();
+      return null;
+    });
+  }, []);
+
+  React.useEffect(() => {
+    if (!notice) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeNotice();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [notice, closeNotice]);
+
   /* ----- actions ----- */
   const switchMode = (next: Mode) => {
     setRegFormError("");
@@ -307,6 +354,19 @@ export default function Auth() {
     setLoginPassword("");
     setLoginSubmitted(false);
     setMode(next);
+  };
+
+  const resetRegister = () => {
+    setRegFirst("");
+    setRegLast("");
+    setRegTupt("");
+    setRegEmail("");
+    setRegPassword("");
+    setRegConfirm("");
+    setRegFirstTouched(false);
+    setRegLastTouched(false);
+    setRegTuptTouched(false);
+    setRegEmailTouched(false);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -320,7 +380,8 @@ export default function Auth() {
     setSubmitting(true);
     setRegFormError("");
     try {
-      const { user } = await authApi.register({
+      await authApi.register({
+        role: regRole,
         tuptId: regTupt,
         email: regEmail.trim(),
         firstName: regFirst.trim(),
@@ -328,7 +389,17 @@ export default function Auth() {
         password: regPassword,
         confirmPassword: regConfirm,
       });
-      navigate(homeFor(user.role));
+      const tupt = regTupt;
+      resetRegister();
+      setNotice({
+        title: "Registration submitted",
+        message:
+          "Your account is pending approval. You can log in once an administrator activates it.",
+        onClose: () => {
+          setLoginTupt(tupt);
+          switchMode("login");
+        },
+      });
     } catch (err) {
       if (err instanceof ApiError) {
         setRegServerErrors(err.fieldErrors);
@@ -355,9 +426,14 @@ export default function Auth() {
       });
       navigate(homeFor(user.role));
     } catch (err) {
-      setLoginFormError(
-        err instanceof ApiError ? err.message : "Something went wrong. Please try again.",
-      );
+      if (err instanceof ApiError && err.status === 403) {
+        // pending approval / inactive / deactivated
+        setNotice({ title: "Can't log in yet", message: err.message });
+      } else {
+        setLoginFormError(
+          err instanceof ApiError ? err.message : "Something went wrong. Please try again.",
+        );
+      }
     } finally {
       setSubmitting(false);
     }
@@ -365,27 +441,26 @@ export default function Auth() {
 
   return (
     <main className="auth-page">
-      <LiquidGlass className={`auth-card${isLogin ? " is-login" : ""}`}>
+      <div className={`auth-card${isLogin ? " is-login" : ""}`}>
         <div className="auth-stage">
           {/* Sliding image panel */}
           <aside className="auth-visual" aria-hidden="true">
             <img src={PLACEHOLDER_IMG} alt="" />
             <div className="auth-visual__shade" />
-            <p className="auth-visual__caption">
-              <span className={`cap${!isLogin ? " on" : ""}`}>
-                Learn cloud computing, one chapter at a time.
-              </span>
-              <span className={`cap${isLogin ? " on" : ""}`}>
-                Welcome back. Pick up where you left off.
-              </span>
-            </p>
+            <div className={`auth-visual__copy auth-visual__copy--register${!isLogin ? " on" : ""}`}>
+              <h2>Join us!</h2>
+              <p>{BLURB}</p>
+            </div>
+            <div className={`auth-visual__copy auth-visual__copy--login${isLogin ? " on" : ""}`}>
+              <h2>Welcome back!</h2>
+              <p>{BLURB}</p>
+            </div>
           </aside>
 
           {/* Register */}
           <section className="auth-panel auth-panel--register" aria-hidden={isLogin}>
-            <h1>Get Started</h1>
-            <p className="auth-sub">Create your account to begin learning.</p>
-            <hr />
+            <h1 className="auth-title">Join us!</h1>
+            <RoleToggle value={regRole} onChange={setRegRole} />
             <form onSubmit={handleRegister} noValidate>
               <div className="auth-row">
                 <TextField
@@ -474,22 +549,21 @@ export default function Auth() {
               )}
 
               <MetallicBlueButton type="submit" className="auth-cta" disabled={submitting}>
-                {submitting && !isLogin ? "Creating account…" : "Create new account"}
+                {submitting && !isLogin ? "Creating account…" : "Register"}
               </MetallicBlueButton>
             </form>
             <p className="auth-switch">
-              Already have an account?{" "}
+              Have an account?{" "}
               <button type="button" onClick={() => switchMode("login")}>
-                Login
+                Log in
               </button>
             </p>
           </section>
 
           {/* Login */}
           <section className="auth-panel auth-panel--login" aria-hidden={!isLogin}>
-            <h1>Welcome Back</h1>
-            <p className="auth-sub">Log in with your TUPT ID or email to continue.</p>
-            <hr />
+            <img className="auth-logo" src="/logo.svg" alt="" />
+            <h1 className="auth-title">Welcome back!</h1>
             <form onSubmit={handleLogin} noValidate>
               <TextField
                 id="login-tupt"
@@ -526,7 +600,7 @@ export default function Auth() {
               )}
 
               <MetallicBlueButton type="submit" className="auth-cta" disabled={submitting}>
-                {submitting && isLogin ? "Logging in…" : "Login"}
+                {submitting && isLogin ? "Logging in…" : "Log in"}
               </MetallicBlueButton>
             </form>
             <p className="auth-switch">
@@ -537,7 +611,27 @@ export default function Auth() {
             </p>
           </section>
         </div>
-      </LiquidGlass>
+      </div>
+
+      {notice && (
+        <div className="auth-modal__overlay" onClick={closeNotice} role="presentation">
+          <LiquidGlass className="auth-modal" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="auth-modal__body"
+              role="alertdialog"
+              aria-modal="true"
+              aria-labelledby="auth-notice-title"
+              aria-describedby="auth-notice-msg"
+            >
+              <h3 id="auth-notice-title">{notice.title}</h3>
+              <p id="auth-notice-msg">{notice.message}</p>
+              <MetallicBlueButton type="button" className="auth-cta" onClick={closeNotice}>
+                Got it
+              </MetallicBlueButton>
+            </div>
+          </LiquidGlass>
+        </div>
+      )}
     </main>
   );
 }

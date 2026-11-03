@@ -90,7 +90,7 @@ export const quizDeadlineSchema = z.strictObject({
 });
 
 export const setStatusSchema = z.strictObject({
-  status: z.enum(["ACTIVE", "INACTIVE", "DEACTIVATED"]),
+  status: z.enum(["VERIFY", "ACTIVE", "INACTIVE", "DEACTIVATED"])
 });
 
 export type SubjectInput = z.infer<typeof subjectInputSchema>;

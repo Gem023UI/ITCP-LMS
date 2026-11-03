@@ -93,7 +93,7 @@ export type AdminUser = {
   lastName: string;
   imageUrl: string | null;
   role: "STUDENT" | "TEACHER" | "ADMIN";
-  status: "ACTIVE" | "INACTIVE" | "DEACTIVATED";
+  status: "VERIFY" | "ACTIVE" | "INACTIVE" | "DEACTIVATED";
   createdAt: string;
 };
 
@@ -146,9 +146,34 @@ export const manageApi = {
   quizRecords: (quizId: string) => request<QuizRecords>(`/manage/quizzes/${quizId}/records`),
 };
 
+export type AdminSubject = {
+  id: string;
+  title: string;
+  description: string;
+  mediaUrl: string;
+  visibility: "PUBLIC" | "PRIVATE";
+  code: string | null;
+  teacherName: string;
+  studentCount: number;
+  finishedCount: number;
+  chapterCount: number;
+};
+
+export type AdminChapterCard = {
+  id: string;
+  chapterNo: number;
+  title: string;
+  description: string;
+  cardImage: string;
+  durationMinutes: number;
+};
+
 export const adminApi = {
   users: (role: "TEACHER" | "STUDENT") =>
     request<{ users: AdminUser[] }>(`/admin/users?role=${role}`),
   setStatus: (id: string, status: AdminUser["status"]) =>
     request<{ user: AdminUser }>(`/admin/users/${id}/status`, { method: "PATCH", body: { status } }),
-};
+  subjects: () => request<{ subjects: AdminSubject[] }>("/admin/subjects"),
+  subjectChapters: (id: string) =>
+    request<{ chapters: AdminChapterCard[] }>(`/admin/subjects/${id}/chapters`),
+};

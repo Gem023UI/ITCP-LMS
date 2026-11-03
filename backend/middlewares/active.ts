@@ -2,6 +2,7 @@ import type { RequestHandler } from "express";
 import { prisma } from "../utils/prisma";
 
 const MESSAGES = {
+  VERIFY: "Your account is pending approval.",
   INACTIVE: "Your account is inactive. Please contact your administrator.",
   DEACTIVATED: "Your account has been deactivated.",
 } as const;

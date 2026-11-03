@@ -19,6 +19,7 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 
 export const UserStatus = {
+  VERIFY: 'VERIFY',
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
   DEACTIVATED: 'DEACTIVATED'
