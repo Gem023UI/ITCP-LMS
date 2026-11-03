@@ -10,7 +10,6 @@ import { ApiError } from "../services/authApi";
 import type { DeadlineMode } from "../services/learningApi";
 import {
   manageApi,
-  type ChapterInput,
   type ChapterListItem,
   type ManagedQuizCard,
   type ManagedSubject,
@@ -20,6 +19,16 @@ import {
   type SubjectInput,
 } from "../services/manageApi";
 import { errText } from "../utils/errorText";
+import {
+  blankChapter,
+  blankRef,
+  blankSection,
+  blankTerm,
+  buildChapter,
+  draftFromChapter,
+  type ChapterDraft,
+  type SectionDraft,
+} from "../utils/chapterForm";
 import { homeFor } from "../utils/roleRoutes";
 import "../styles/Manage.css";
 
@@ -122,55 +131,18 @@ function SubjectForm({
 
 /* ---------- chapter editor ---------- */
 
-type Draft = Record<
-  | "chapterNo"
-  | "title"
-  | "description"
-  | "durationMinutes"
-  | "cardImage"
-  | "videoUrl"
-  | "slideUrl"
-  | "objectives"
-  | "sections"
-  | "keyTerms"
-  | "references",
-  string
->;
+const setAt = <T,>(arr: T[], i: number, v: T) => arr.map((x, j) => (j === i ? v : x));
+const removeAt = <T,>(arr: T[], i: number) => arr.filter((_, j) => j !== i);
 
-const pretty = (v: unknown) => JSON.stringify(v, null, 2);
-
-const SIMPLE: { key: keyof Draft; label: string; kind?: "number" | "area" }[] = [
-  { key: "chapterNo", label: "Chapter number", kind: "number" },
-  { key: "title", label: "Title" },
-  { key: "description", label: "Description", kind: "area" },
-  { key: "durationMinutes", label: "Duration (minutes)", kind: "number" },
-  { key: "cardImage", label: "Card image (URL or /chapters/01.png)" },
-  { key: "videoUrl", label: "Video embed URL" },
-  { key: "slideUrl", label: "Slides embed URL" },
-];
-
-const JSON_FIELDS: { key: keyof Draft; label: string }[] = [
-  { key: "objectives", label: "Objectives (JSON)" },
-  { key: "sections", label: "Sections (JSON)" },
-  { key: "keyTerms", label: "Key terms (JSON)" },
-  { key: "references", label: "References (JSON)" },
-];
-
-const blankDraft = (nextNo: number): Draft => ({
-  chapterNo: String(nextNo),
-  title: "",
-  description: "",
-  durationMinutes: "30",
-  cardImage: "",
-  videoUrl: "",
-  slideUrl: "",
-  objectives: pretty([{ objective: "" }]),
-  sections: pretty([
-    { sectionNo: "section-1", header: "", imageUrl: [], imageSource: [], content: [{ paragraph: "" }] },
-  ]),
-  keyTerms: pretty([{ word: "", definition: "", source: "" }]),
-  references: pretty([{ author: "", link: "" }]),
-});
+function Group({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
+  return (
+    <fieldset className="manage__group">
+      <legend>{title}</legend>
+      {hint && <p className="manage__hint">{hint}</p>}
+      {children}
+    </fieldset>
+  );
+}
 
 function ChapterModal({
   subjectId,
@@ -185,7 +157,7 @@ function ChapterModal({
   onClose: () => void;
   onSaved: () => void;
 }) {
-  const [draft, setDraft] = React.useState<Draft | null>(chapterId ? null : blankDraft(nextNo));
+  const [draft, setDraft] = React.useState<ChapterDraft | null>(chapterId ? null : blankChapter(nextNo));
   const [error, setError] = React.useState<string | null>(null);
   const [busy, setBusy] = React.useState(false);
 
@@ -194,57 +166,30 @@ function ChapterModal({
     let cancelled = false;
     manageApi
       .getChapter(chapterId)
-      .then(({ chapter: c }) => {
-        if (cancelled) return;
-        setDraft({
-          chapterNo: String(c.chapterNo),
-          title: c.title,
-          description: c.description,
-          durationMinutes: String(c.durationMinutes),
-          cardImage: c.cardImage,
-          videoUrl: c.videoUrl,
-          slideUrl: c.slideUrl,
-          objectives: pretty(c.objectives),
-          sections: pretty(c.sections),
-          keyTerms: pretty(c.keyTerms),
-          references: pretty(c.references),
-        });
-      })
+      .then(({ chapter }) => !cancelled && setDraft(draftFromChapter(chapter)))
       .catch((e) => !cancelled && setError(errText(e)));
     return () => {
       cancelled = true;
     };
   }, [chapterId]);
 
-  const set = (key: keyof Draft, value: string) => setDraft((d) => d && { ...d, [key]: value });
+  const up = (p: Partial<ChapterDraft>) => setDraft((d) => d && { ...d, ...p });
+  const patchSection = (i: number, p: Partial<SectionDraft>) =>
+    setDraft((d) => d && { ...d, sections: setAt(d.sections, i, { ...d.sections[i], ...p }) });
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!draft) return;
-    let body: ChapterInput;
-    try {
-      body = {
-        chapterNo: Number(draft.chapterNo),
-        title: draft.title,
-        description: draft.description,
-        durationMinutes: Number(draft.durationMinutes),
-        cardImage: draft.cardImage,
-        videoUrl: draft.videoUrl,
-        slideUrl: draft.slideUrl,
-        objectives: JSON.parse(draft.objectives),
-        sections: JSON.parse(draft.sections),
-        keyTerms: JSON.parse(draft.keyTerms),
-        references: JSON.parse(draft.references),
-      };
-    } catch {
-      setError("One of the JSON fields is not valid JSON.");
+    const built = buildChapter(draft);
+    if (!built.ok) {
+      setError(built.error);
       return;
     }
     setBusy(true);
     setError(null);
     try {
-      if (chapterId) await manageApi.updateChapter(chapterId, body);
-      else await manageApi.createChapter(subjectId, body);
+      if (chapterId) await manageApi.updateChapter(chapterId, built.body);
+      else await manageApi.createChapter(subjectId, built.body);
       onSaved();
     } catch (err) {
       setError(errText(err));
@@ -259,32 +204,270 @@ function ChapterModal({
         <p>{error ?? "Loading…"}</p>
       ) : (
         <form className="manage__form" onSubmit={submit}>
-          {SIMPLE.map(({ key, label, kind }) => (
-            <label key={key}>
-              {label}
-              {kind === "area" ? (
-                <textarea rows={3} value={draft[key]} onChange={(e) => set(key, e.target.value)} />
-              ) : (
+          {/* basics */}
+          <Group title="Basics">
+            <div className="manage__two">
+              <label>
+                Chapter number
                 <input
-                  type={kind === "number" ? "number" : "text"}
-                  value={draft[key]}
-                  onChange={(e) => set(key, e.target.value)}
+                  type="number"
+                  min={1}
+                  value={draft.chapterNo}
+                  onChange={(e) => up({ chapterNo: e.target.value })}
                 />
-              )}
-            </label>
-          ))}
-          {JSON_FIELDS.map(({ key, label }) => (
-            <label key={key}>
-              {label}
-              <textarea
-                className="manage__json"
-                rows={8}
-                spellCheck={false}
-                value={draft[key]}
-                onChange={(e) => set(key, e.target.value)}
+              </label>
+              <label>
+                Duration (minutes)
+                <input
+                  type="number"
+                  min={1}
+                  value={draft.durationMinutes}
+                  onChange={(e) => up({ durationMinutes: e.target.value })}
+                />
+              </label>
+            </div>
+            <label>
+              Title
+              <input
+                value={draft.title}
+                maxLength={200}
+                placeholder="e.g. Introduction to Cloud Computing"
+                onChange={(e) => up({ title: e.target.value })}
               />
             </label>
-          ))}
+            <label>
+              Description
+              <textarea
+                rows={3}
+                value={draft.description}
+                placeholder="A short summary students see on the chapter card"
+                onChange={(e) => up({ description: e.target.value })}
+              />
+            </label>
+          </Group>
+
+          {/* media */}
+          <Group title="Media">
+            <label>
+              Card image
+              <input
+                value={draft.cardImage}
+                placeholder="https://… or /chapters/01.png"
+                onChange={(e) => up({ cardImage: e.target.value })}
+              />
+              <small className="manage__hint">The picture shown on the chapter card.</small>
+            </label>
+            <label>
+              Video link
+              <input
+                value={draft.videoUrl}
+                placeholder="https://www.youtube.com/embed/…"
+                onChange={(e) => up({ videoUrl: e.target.value })}
+              />
+              <small className="manage__hint">Use the embed link (for YouTube, the one that contains /embed/).</small>
+            </label>
+            <label>
+              Slides link
+              <input
+                value={draft.slideUrl}
+                placeholder="https://docs.google.com/presentation/…/embed"
+                onChange={(e) => up({ slideUrl: e.target.value })}
+              />
+              <small className="manage__hint">The embed link of your slide deck.</small>
+            </label>
+          </Group>
+
+          {/* objectives */}
+          <Group title="Learning objectives" hint="What students should be able to do after this chapter.">
+            {draft.objectives.map((o, i) => (
+              <div key={i} className="manage__row">
+                <input
+                  value={o}
+                  placeholder={`Objective ${i + 1}`}
+                  onChange={(e) => up({ objectives: setAt(draft.objectives, i, e.target.value) })}
+                />
+                {draft.objectives.length > 1 && (
+                  <button
+                    type="button"
+                    className="manage__link"
+                    aria-label={`Remove objective ${i + 1}`}
+                    onClick={() => up({ objectives: removeAt(draft.objectives, i) })}
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+            ))}
+            <button type="button" className="manage__link" onClick={() => up({ objectives: [...draft.objectives, ""] })}>
+              + Add objective
+            </button>
+          </Group>
+
+          {/* lesson content */}
+          <Group title="Lesson content" hint="Split the lesson into sections. Each has a heading, paragraphs and optional images.">
+            {draft.sections.map((s, i) => (
+              <div key={i} className="manage__question">
+                <div className="manage__question-head">
+                  <strong>Section {i + 1}</strong>
+                  {draft.sections.length > 1 && (
+                    <button
+                      type="button"
+                      className="manage__link"
+                      onClick={() => up({ sections: removeAt(draft.sections, i) })}
+                    >
+                      Remove section
+                    </button>
+                  )}
+                </div>
+
+                <label>
+                  Heading
+                  <input
+                    value={s.header}
+                    maxLength={300}
+                    placeholder="e.g. What is the cloud?"
+                    onChange={(e) => patchSection(i, { header: e.target.value })}
+                  />
+                </label>
+
+                <span className="manage__subhead">Paragraphs</span>
+                {s.paragraphs.map((p, pi) => (
+                  <div key={pi} className="manage__row">
+                    <textarea
+                      rows={3}
+                      value={p}
+                      placeholder={`Paragraph ${pi + 1}`}
+                      onChange={(e) => patchSection(i, { paragraphs: setAt(s.paragraphs, pi, e.target.value) })}
+                    />
+                    {s.paragraphs.length > 1 && (
+                      <button
+                        type="button"
+                        className="manage__link"
+                        aria-label={`Remove paragraph ${pi + 1}`}
+                        onClick={() => patchSection(i, { paragraphs: removeAt(s.paragraphs, pi) })}
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="manage__link"
+                  onClick={() => patchSection(i, { paragraphs: [...s.paragraphs, ""] })}
+                >
+                  + Add paragraph
+                </button>
+
+                <span className="manage__subhead">Images (optional)</span>
+                {s.images.map((im, ii) => (
+                  <div key={ii} className="manage__row">
+                    <input
+                      value={im.url}
+                      placeholder="Image link (https://…)"
+                      onChange={(e) =>
+                        patchSection(i, { images: setAt(s.images, ii, { ...im, url: e.target.value }) })
+                      }
+                    />
+                    <input
+                      value={im.source}
+                      placeholder="Credit / source (optional)"
+                      onChange={(e) =>
+                        patchSection(i, { images: setAt(s.images, ii, { ...im, source: e.target.value }) })
+                      }
+                    />
+                    <button
+                      type="button"
+                      className="manage__link"
+                      aria-label={`Remove image ${ii + 1}`}
+                      onClick={() => patchSection(i, { images: removeAt(s.images, ii) })}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="manage__link"
+                  onClick={() => patchSection(i, { images: [...s.images, { url: "", source: "" }] })}
+                >
+                  + Add image
+                </button>
+              </div>
+            ))}
+            <button type="button" className="manage__link" onClick={() => up({ sections: [...draft.sections, blankSection()] })}>
+              + Add section
+            </button>
+          </Group>
+
+          {/* key terms */}
+          <Group title="Key terms (optional)" hint="Words students should know, with their meaning.">
+            {draft.keyTerms.length === 0 && <p className="manage__note">No key terms yet.</p>}
+            {draft.keyTerms.map((t, i) => (
+              <div key={i} className="manage__question">
+                <div className="manage__question-head">
+                  <strong>Term {i + 1}</strong>
+                  <button
+                    type="button"
+                    className="manage__link"
+                    onClick={() => up({ keyTerms: removeAt(draft.keyTerms, i) })}
+                  >
+                    Remove
+                  </button>
+                </div>
+                <input
+                  value={t.word}
+                  placeholder="Word or phrase"
+                  onChange={(e) => up({ keyTerms: setAt(draft.keyTerms, i, { ...t, word: e.target.value }) })}
+                />
+                <textarea
+                  rows={2}
+                  value={t.definition}
+                  placeholder="Definition"
+                  onChange={(e) => up({ keyTerms: setAt(draft.keyTerms, i, { ...t, definition: e.target.value }) })}
+                />
+                <input
+                  value={t.source}
+                  placeholder="Source (optional)"
+                  onChange={(e) => up({ keyTerms: setAt(draft.keyTerms, i, { ...t, source: e.target.value }) })}
+                />
+              </div>
+            ))}
+            <button type="button" className="manage__link" onClick={() => up({ keyTerms: [...draft.keyTerms, blankTerm()] })}>
+              + Add key term
+            </button>
+          </Group>
+
+          {/* references */}
+          <Group title="References (optional)" hint="Books, articles or sites the chapter is based on.">
+            {draft.references.length === 0 && <p className="manage__note">No references yet.</p>}
+            {draft.references.map((r, i) => (
+              <div key={i} className="manage__row">
+                <input
+                  value={r.author}
+                  placeholder="Author or source name"
+                  onChange={(e) => up({ references: setAt(draft.references, i, { ...r, author: e.target.value }) })}
+                />
+                <input
+                  value={r.link}
+                  placeholder="Link (optional)"
+                  onChange={(e) => up({ references: setAt(draft.references, i, { ...r, link: e.target.value }) })}
+                />
+                <button
+                  type="button"
+                  className="manage__link"
+                  aria-label={`Remove reference ${i + 1}`}
+                  onClick={() => up({ references: removeAt(draft.references, i) })}
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+            <button type="button" className="manage__link" onClick={() => up({ references: [...draft.references, blankRef()] })}>
+              + Add reference
+            </button>
+          </Group>
+
           {error && <p className="manage__error">{error}</p>}
           <div className="manage__actions">
             <LiquidGlass as="button" type="button" onClick={onClose}>
@@ -1015,4 +1198,4 @@ export default function SubjectTeacher() {
       )}
     </div>
   );
-}
+}

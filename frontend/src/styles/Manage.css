@@ -285,3 +285,53 @@
   opacity: 0.6;
   font-size: 0.75rem;
 }
+
+/* chapter editor */
+.manage__group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+}
+.manage__group > legend {
+  padding: 0 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.manage__group > .manage__hint {
+  margin: -4px 0 0;
+}
+.manage__group input,
+.manage__group textarea {
+  font-size: 0.85rem;
+}
+.manage__two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.manage__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.manage__row > input,
+.manage__row > textarea {
+  flex: 1;
+  min-width: 0;
+}
+.manage__row > .manage__link {
+  padding-top: 10px;
+}
+.manage__subhead {
+  margin-top: 4px;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
