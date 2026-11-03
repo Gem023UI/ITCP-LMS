@@ -21,7 +21,7 @@ router.use("/chapters", ...guard, chapterRoutes);
 router.use("/quizzes", ...guard, quizRoutes);
 router.use("/progress", ...guard, requireRole("STUDENT"), progressRoutes);
 router.use("/articles", ...guard, articleRoutes);
-router.use("/dashboard", ...guard, requireRole("TEACHER"), dashboardRoutes);
+router.use("/dashboard", ...guard, requireRole("TEACHER", "ADMIN"), dashboardRoutes);
 router.use("/manage", ...guard, requireRole("TEACHER", "ADMIN"), manageRoutes);
 router.use("/admin", ...guard, requireRole("ADMIN"), adminRoutes);
 

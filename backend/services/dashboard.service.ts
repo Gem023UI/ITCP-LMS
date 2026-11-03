@@ -75,3 +75,55 @@ export async function teacherDashboard(teacherId: string) {
     deadlineToday: dueToday.map(({ _count, ...q }) => ({ ...toQuizCard(q), attemptCount: _count.attempts })),
   };
 }
+
+/** platform-wide numbers for the admin dashboard (every teacher, every subject) */
+export async function adminDashboard() {
+  const today = toDay(new Date());
+  const days = Array.from({ length: WINDOW_DAYS }, (_, i) => shiftDay(today, i - (WINDOW_DAYS - 1)));
+  const from = dayStart(days[0]);
+
+  const [studentJoins, teacherJoins, completions, studentTotal, teacherTotal, completionTotal, subjects] =
+    await Promise.all([
+      // accounts registered per day, by role
+      prisma.user.findMany({
+        where: { role: "STUDENT", createdAt: { gte: from } },
+        select: { createdAt: true },
+      }),
+      prisma.user.findMany({
+        where: { role: "TEACHER", createdAt: { gte: from } },
+        select: { createdAt: true },
+      }),
+      // chapters completed in any subject
+      prisma.chapterProgress.findMany({
+        where: { completedAt: { gte: from } },
+        select: { completedAt: true },
+      }),
+      prisma.user.count({ where: { role: "STUDENT" } }),
+      prisma.user.count({ where: { role: "TEACHER" } }),
+      prisma.chapterProgress.count({ where: { completedAt: { not: null } } }),
+      // students enrolled in every subject
+      prisma.subject.findMany({
+        orderBy: { createdAt: "asc" },
+        select: { id: true, title: true, _count: { select: { students: true } } },
+      }),
+    ]);
+
+  const perSubject = subjects.map((s) => ({ id: s.id, title: s.title, students: s._count.students }));
+  const totalStudents = perSubject.reduce((n, s) => n + s.students, 0); // enrollments, same rule as the teacher dashboard
+
+  return {
+    today,
+    days,
+    students: { ...bucket(days, studentJoins.map((u) => u.createdAt)), total: studentTotal }, // registered
+    chapters: {
+      ...bucket(
+        days,
+        completions.flatMap((c) => (c.completedAt ? [c.completedAt] : [])),
+      ),
+      total: completionTotal,
+    },
+    teachers: { ...bucket(days, teacherJoins.map((u) => u.createdAt)), total: teacherTotal }, // registered
+    subjects: perSubject,
+    totalStudents,
+  };
+}

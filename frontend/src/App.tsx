@@ -26,12 +26,13 @@ import Subjects from "./pages/Subjects";
 import Quiz from "./pages/Quiz";
 import Quizzes from "./pages/Quizzes";
 import SubjectTeacher from "./pages/Teacher";
-import UsersAdmin from "./pages/Admin";
+import UsersAdmin from "./pages/AdminStudents";
 import Home from "./pages/Home";
 import Article from "./pages/Articles";
 import ArticleDetails from "./pages/ArticleDetails";
 import Profile from "./pages/Profile";
 import TeacherDashboard from "./pages/TeacherDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import TeacherProfile from "./pages/TeacherProfile";
 import QuizList from "./pages/QuizList";
 import { authApi, type User } from "./services/authApi";
@@ -109,7 +110,7 @@ function Shell() {
     ];
 
     const admin = [
-      { icon: glyph(DashboardCircleEditIcon), label: "Dashboard", onClick: () => console.log("admin/dashboard") },
+      { icon: glyph(DashboardCircleEditIcon), label: "Dashboard", onClick: () => navigate("/admin/dashboard") },
       { icon: glyph(EditUser02Icon), label: "Users", onClick: () => navigate("/admin/users") },
       { icon: glyph(NoteIcon), label: "Articles", onClick: () => navigate("/articles") },
       { icon: glyph(LicenseDraftIcon), label: "Subjects", onClick: () => console.log("admin/subjects") },
@@ -186,6 +187,7 @@ function Shell() {
           <Route path="/subjects" element={<Subjects />} />
           <Route path="/teacher/subjects" element={<SubjectTeacher />} />
           <Route path="/admin/users" element={<UsersAdmin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/chapters" element={<Chapters />} />
           <Route path="/chapters/:lessonId" element={<Lessons />} />
           <Route path="/quiz/:quizId" element={<Quiz />} />
