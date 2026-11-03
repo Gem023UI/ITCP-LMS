@@ -1,5 +1,5 @@
 const API_URL =
-  (import.meta.env.RENDER_URL as string | undefined) ?? "http://localhost:4000";
+  (import.meta.env.RENDER_URL as string | undefined) ?? "https://itcp-lms.onrender.com";
 
 export type User = {
   id: string;
