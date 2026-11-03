@@ -1,7 +1,11 @@
 import { request, type SubjectSummary } from "./learningApi";
-import type { DeadlineMode } from "./learningApi";
+import type { DeadlineMode, QuizCardData } from "./learningApi";
 
-export type ManagedSubject = SubjectSummary & { code: string | null; chapterCount: number };
+export type ManagedSubject = SubjectSummary & {
+  code: string | null;
+  chapterCount: number;
+  quizCount: number;
+};
 export type SubjectInput = Pick<SubjectSummary, "title" | "description" | "mediaUrl" | "visibility">;
 
 export type ChapterListItem = {
@@ -9,7 +13,6 @@ export type ChapterListItem = {
   chapterNo: number;
   title: string;
   durationMinutes: number;
-  hasQuiz: boolean;
 };
 export type ManagedSubjectDetail = ManagedSubject & { chapters: ChapterListItem[] };
 
@@ -28,17 +31,34 @@ export type ChapterInput = {
 };
 export type ChapterFull = ChapterInput & { id: string; subjectId: string };
 
+/* ---------- quizzes (subject level) ---------- */
+
 export type QuizQuestionPayload = {
   type: "multiple_choice" | "identification";
   question: string;
   choices: string[];
   correctAnswer: string;
 };
-export type ManagedQuiz = {
+
+/** a quiz card as the teacher sees it: the shared card data + how many students took it */
+export type ManagedQuizCard = QuizCardData & { attemptCount: number };
+
+/** what the "new quiz" form needs */
+export type QuizDefaults = { quizNo: number; title: string };
+
+/** everything the editor needs to edit one quiz */
+export type QuizEditData = ManagedQuizCard & {
+  chapterIds: string[];
   questions: (QuizQuestionPayload & { questionNo: number })[];
-  deadline: string | null; // null = no deadline
+};
+
+export type QuizInput = {
+  /** leave out for the default title ("<Subject> Quiz n") */
+  title?: string;
+  chapterIds: string[];
+  questions: QuizQuestionPayload[];
+  deadline?: string | null; // null / undefined = no deadline
   deadlineMode: DeadlineMode;
-  attemptCount: number;
 };
 
 export type AdminUser = {
@@ -52,6 +72,12 @@ export type AdminUser = {
   status: "ACTIVE" | "INACTIVE" | "DEACTIVATED";
   createdAt: string;
 };
+
+/** accepts either `{ [key]: value }` or the bare value, so a controller that wraps (or doesn't) both work */
+const pick = <T>(r: unknown, key: string): T =>
+  r && typeof r === "object" && !Array.isArray(r) && key in r
+    ? ((r as Record<string, unknown>)[key] as T)
+    : (r as T);
 
 export const manageApi = {
   listSubjects: () => request<{ subjects: ManagedSubject[] }>("/manage/subjects"),
@@ -72,15 +98,27 @@ export const manageApi = {
     request<{ chapter: { id: string } }>(`/manage/chapters/${id}`, { method: "PUT", body }),
   deleteChapter: (id: string) => request<void>(`/manage/chapters/${id}`, { method: "DELETE" }),
 
-  getQuiz: (chapterId: string) =>
-    request<{ quiz: ManagedQuiz | null }>(`/manage/chapters/${chapterId}/quiz`),
-  saveQuiz: (
-    chapterId: string,
-    body: { questions: QuizQuestionPayload[]; deadline?: string | null; deadlineMode?: DeadlineMode },
-  ) =>
-    request<void>(`/manage/chapters/${chapterId}/quiz`, { method: "PUT", body }),
-  deleteQuiz: (chapterId: string) =>
-    request<void>(`/manage/chapters/${chapterId}/quiz`, { method: "DELETE" }),
+  /* quizzes: teacher-only, owned through the subject */
+  listQuizzes: (subjectId: string) =>
+    request<unknown>(`/manage/subjects/${subjectId}/quizzes`).then((r) =>
+      pick<ManagedQuizCard[]>(r, "quizzes"),
+    ),
+  quizDefaults: (subjectId: string) =>
+    request<unknown>(`/manage/subjects/${subjectId}/quiz-defaults`).then((r) =>
+      pick<QuizDefaults>(r, "defaults"),
+    ),
+  createQuiz: (subjectId: string, body: QuizInput) =>
+    request<unknown>(`/manage/subjects/${subjectId}/quizzes`, { method: "POST", body }).then((r) =>
+      pick<{ id: string; quizNo: number; title: string }>(r, "quiz"),
+    ),
+  getQuiz: (quizId: string) =>
+    request<unknown>(`/manage/quizzes/${quizId}`).then((r) => pick<QuizEditData>(r, "quiz")),
+  updateQuiz: (quizId: string, body: QuizInput) =>
+    request<void>(`/manage/quizzes/${quizId}`, { method: "PUT", body }),
+  /** extend only: not earlier than the current deadline, not in the past */
+  updateDeadline: (quizId: string, deadline: string) =>
+    request<unknown>(`/manage/quizzes/${quizId}/deadline`, { method: "PATCH", body: { deadline } }),
+  deleteQuiz: (quizId: string) => request<void>(`/manage/quizzes/${quizId}`, { method: "DELETE" }),
 };
 
 export const adminApi = {

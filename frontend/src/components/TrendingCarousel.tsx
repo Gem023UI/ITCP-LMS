@@ -8,6 +8,8 @@ interface Props {
   onOpen: (article: ArticleSummary) => void;
   /** content shown at the bottom of every card (e.g. a delete button) */
   renderFooter?: (article: ArticleSummary) => React.ReactNode;
+  canLike?: boolean;
+  onToggleLike?: (article: ArticleSummary) => void;
 }
 
 const DRAG_THRESHOLD = 5; // px of movement before a press becomes a drag
@@ -26,7 +28,7 @@ type DragState = {
   velocity: number; // px/ms, pointer direction
 };
 
-export default function TrendingCarousel({ articles, onOpen, renderFooter }: Props) {
+export default function TrendingCarousel({ articles, onOpen, renderFooter, canLike, onToggleLike }: Props) {
   const trackRef = React.useRef<HTMLDivElement>(null);
   const raf = React.useRef(0);
   const drag = React.useRef<DragState>({
@@ -161,6 +163,9 @@ export default function TrendingCarousel({ articles, onOpen, renderFooter }: Pro
             coverUrl={a.coverImageUrl}
             author={authorName(a.author)}
             likes={a.likesCount}
+            liked={a.likedByMe}
+            canLike={canLike}
+            onToggleLike={() => onToggleLike?.(a)}
             onOpen={() => onOpen(a)}
             footer={renderFooter?.(a)}
           />

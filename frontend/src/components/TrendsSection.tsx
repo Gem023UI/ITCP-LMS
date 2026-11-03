@@ -5,7 +5,7 @@ import "./TrendsSection.css";
 /* EDIT THESE ------------------------------------------------------------ */
 const TITLE = "Stay up to date with the latest trend and news.";
 const TEXT =
-  "Stay up to date with the latest trend and news. View our curated articles to catch up and familiarize oneself about the current events in the field of cybersecurity.";
+  "View our curated articles to catch up and familiarize oneself about the current events in the field of cloud computing.";
 
 // image: "/photos/xyz.jpg" (file in public/photos/) or an imported asset
 const ITEMS = [

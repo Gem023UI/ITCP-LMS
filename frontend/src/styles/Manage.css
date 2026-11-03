@@ -238,3 +238,50 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+.manage__quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 16px 0;
+}
+.manage__quiz-grid .quiz-card {
+  width: 100%;
+}
+ 
+.manage__coverage {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.manage__form .manage__check {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+.manage__check b {
+  margin-right: 4px;
+  color: #6cb6ff;
+}
+.manage__modal input[type="checkbox"] {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+}
+.manage__modal input[type="datetime-local"] {
+  color-scheme: dark;
+}
+.manage__modal input:disabled,
+.manage__modal textarea:disabled,
+.manage__modal select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.manage__hint {
+  opacity: 0.6;
+  font-size: 0.75rem;
+}

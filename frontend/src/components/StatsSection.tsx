@@ -7,9 +7,9 @@ type Stat = { value: number; suffix?: string; label: string };
 
 /* EDIT THESE: values and labels ("\n" = line break) */
 const STATS: Stat[] = [
-  { value: 10, label: "Units to\nLearn From" },
-  { value: 25, label: "Modules to\nPractice" },
-  { value: 100, label: "Students\nEducated" },
+  { value: 10, label: "Subjects \n to Learn" },
+  { value: 30, label: "Articles \n and More" },
+  { value: 100, label: "Members \n and Counting" },
 ];
 
 const NUMBER_STYLE: React.CSSProperties = {

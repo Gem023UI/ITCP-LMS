@@ -147,7 +147,7 @@ export default function ArticlePage() {
               <LiquidGlass
                 as="button"
                 type="button"
-                className="article-page__like"
+                 className={`article-page__like${article.likedByMe ? " is-liked" : ""}`}
                 disabled={liking}
                 aria-pressed={article.likedByMe}
                 onClick={toggleLike}

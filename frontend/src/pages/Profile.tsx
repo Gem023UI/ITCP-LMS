@@ -13,6 +13,7 @@ import { ApiError } from "../services/authApi";
 import { articlesApi, type ArticleSummary } from "../services/articleApi";
 import { progressApi, type HomeData, type QuizStats } from "../services/progressApi";
 import { useAuth } from "../hooks/useAuth";
+import { patchLike, useToggleLike, type LikeResult } from "../hooks/useToggleLike";
 import { errText } from "../utils/errorText";
 import { homeFor } from "../utils/roleRoutes";
 import "../styles/Profile.css";
@@ -101,6 +102,13 @@ export default function Profile() {
     setDeleteError(null);
   };
 
+  const onLikeUpdate = React.useCallback(
+    (id: string, r: LikeResult) => setArticles((list) => (list ? patchLike(list, id, r) : list)),
+    [],
+  );
+  const onLikeError = React.useCallback((e: unknown) => setError(errText(e)), []);
+  const toggleLike = useToggleLike(onLikeUpdate, onLikeError);
+
   return (
     <div className="profile">
       {error && <p className="profile__message">{error}</p>}
@@ -162,6 +170,8 @@ export default function Profile() {
           <TrendingCarousel
             articles={articles}
             onOpen={(a) => navigate(`/articles/${a.id}`)}
+            canLike
+            onToggleLike={(a) => toggleLike(a.id)}
             renderFooter={(a) => (
               <LiquidGlass
                 as="button"

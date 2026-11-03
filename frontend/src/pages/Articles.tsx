@@ -6,6 +6,7 @@ import TrendingCarousel from "../components/TrendingCarousel";
 import MetallicBlueButton from "../components/MetallicBlueButton";
 import LiquidGlass from "../components/LiquidGlass";
 import { useAuth } from "../hooks/useAuth";
+import { patchLike, useToggleLike, type LikeResult } from "../hooks/useToggleLike";
 import { ApiError } from "../services/authApi";
 import {
   articlesApi,
@@ -34,6 +35,8 @@ export default function Articles() {
 
   // teachers and students publish; admins can only read
   const canWrite = user?.role === "STUDENT" || user?.role === "TEACHER";
+  // same roles can like; an admin sees the hearts but can't click them
+  const canLike = canWrite;
 
   const fail = React.useCallback(
     (e: unknown) => {
@@ -42,6 +45,13 @@ export default function Articles() {
     },
     [navigate],
   );
+
+  // one like updates the article in EVERY list it appears in, so trending and the main list stay in sync
+  const onLikeUpdate = React.useCallback((id: string, r: LikeResult) => {
+    setTrending((list) => patchLike(list, id, r));
+    setArticles((list) => patchLike(list, id, r));
+  }, []);
+  const toggleLike = useToggleLike(onLikeUpdate, fail);
 
   React.useEffect(() => {
     if (authLoading) return;
@@ -107,7 +117,12 @@ export default function Articles() {
       <section className="articles__trending">
         <h2 className="articles__heading">Trending Articles</h2>
         {trending.length ? (
-          <TrendingCarousel articles={trending} onOpen={(a) => navigate(`/articles/${a.id}`)} />
+          <TrendingCarousel
+            articles={trending}
+            onOpen={(a) => navigate(`/articles/${a.id}`)}
+            canLike={canLike}
+            onToggleLike={(a) => toggleLike(a.id)}
+          />
         ) : (
           <p className="articles__hint">{loading ? "Loading…" : "No trending articles yet."}</p>
         )}
@@ -140,6 +155,9 @@ export default function Articles() {
                 coverUrl={a.coverImageUrl}
                 author={authorName(a.author)}
                 likes={a.likesCount}
+                liked={a.likedByMe}
+                canLike={canLike}
+                onToggleLike={() => toggleLike(a.id)}
                 onOpen={() => navigate(`/articles/${a.id}`)}
               />
             ))}
